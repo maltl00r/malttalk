@@ -12,7 +12,9 @@ erDiagram
     tags ||--o{ lesson_tags : "asigna enfoque a"
     lessons ||--o{ lesson_tags : "contiene múltiples"
     topics ||--o{ lessons : "agrupa"
+    courses ||--o{ topics : "contiene"
     lessons ||--|| video_contents : "tiene detalle"
+    lessons ||--o{ flashcard_contents : "incluye"
 
     users {
         int id PK "SERIAL"
@@ -30,6 +32,13 @@ erDiagram
         int id PK "SERIAL"
         string slug "VARCHAR (UNIQUE)"
         string name "VARCHAR"
+    }
+
+    courses {
+        int id PK "SERIAL"
+        string slug "VARCHAR (UNIQUE)"
+        string title "VARCHAR"
+        string description "TEXT"
     }
 
     topics {
@@ -58,6 +67,15 @@ erDiagram
         int lesson_id FK "REFERENCES lessons(id) [UNIQUE]"
         string url "VARCHAR"
         string description "TEXT"
+    }
+
+    flashcard_contents {
+        int id PK "SERIAL"
+        int lesson_id FK "REFERENCES lessons(id)"
+        string front_image "VARCHAR"
+        string back_title "VARCHAR"
+        string back_pronunciation "VARCHAR"
+        string lang "VARCHAR"
     }
 ```
 
