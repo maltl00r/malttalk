@@ -1,12 +1,11 @@
-import Hero from "./components/landing-page/Hero.jsx";
-import Card from "./components/landing-page/Card.jsx";
-import Features from "./components/landing-page/Features.jsx";
-import Level from "./components/landing-page/Level.jsx"
-import Start from "./components/landing-page/Start.jsx";
+import type { ReactElement } from "react";
+import Hero from "./components/landing-page/Hero";
+import Card from "./components/landing-page/Card";
+import Features from "./components/landing-page/Features";
+import Level from "./components/landing-page/Level";
+import Start from "./components/landing-page/Start";
 
-
-export default function Home() {
-  
+export default function Home(): ReactElement {
   return (
     <>
       <Hero />
