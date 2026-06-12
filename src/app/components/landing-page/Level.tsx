@@ -77,8 +77,8 @@ export default function Level(): ReactElement {
                         className={`w-full flex flex-col ${nivel.colorFondoHeader} rounded-2xl border-2 ${nivel.colorBorde} shadow-sm transition-transform duration-300 hover:scale-105 overflow-hidden`}
                     >
                         <div className={`p-6 text-center ${nivel.colorFondoHeader} border-b ${nivel.colorBorde}`}>
-                            <h3 className="text-2xl font-bold text-background">{nivel.titulo}</h3>
-                            <span className="text-sm font-semibold text-background block mt-1">{nivel.rango}</span>
+                            <h3 className="text-2xl font-bold text-[#0a0a0f]">{nivel.titulo}</h3>
+                            <span className="text-sm font-semibold text-[#0a0a0f] block mt-1">{nivel.rango}</span>
 
                             <div className="flex items-center justify-center space-x-3 mt-4">
                                 <span className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold ${nivel.colorBgBadge}`}>
@@ -87,7 +87,7 @@ export default function Level(): ReactElement {
                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-xs ${nivel.colorBgBadge}`}>
                                     🌐
                                 </div>
-                                <span className="text-xs font-medium text-background truncate max-w-[120px]">
+                                <span className="text-xs font-medium text-[#0a0a0f] truncate max-w-[120px]">
                                     {nivel.descripcionCorta}
                                 </span>
                             </div>
@@ -102,7 +102,7 @@ export default function Level(): ReactElement {
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                             </svg>
                                         </span>
-                                        <span className="text-red-50">{beneficio}</span>
+                                        <span className="text-foreground">{beneficio}</span>
                                     </li>
                                 ))}
                             </ul>

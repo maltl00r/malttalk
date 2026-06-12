@@ -18,22 +18,22 @@ export default function Footer() {
               height={70} 
               className="object-contain"
             />
-            <h2 className="font-sans text-3xl font-extrabold pl-5 text-white">Malt</h2>
+            <h2 className="font-sans text-3xl font-extrabold pl-5 text-foreground">Malt</h2>
             <h2 className="font-sans text-3xl font-extrabold bg-gradient-to-r from-primary-start to-secondary-start bg-clip-text text-transparent">
               Talk
             </h2>
           </div>
-          <p className="text-sm text-zinc-400 leading-relaxed max-w-xs mt-2">
+          <p className="text-sm text-foreground leading-relaxed max-w-xs mt-2">
             Aprende idiomas. A tu manera. Sin límites.
           </p>
         </div>
 
         {/* Navegación */}
         <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-zinc-200">
+          <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-foreground">
             Navegación
           </h3>
-          <ul className="space-y-3 text-sm text-zinc-400">
+          <ul className="space-y-3 text-sm text-[var(--foreground)]/80">
             <li><a href="/" className="hover:text-[var(--color-primary-start)] transition-colors duration-200">Inicio</a></li>
             <li><a href="/cursos" className="hover:text-[var(--color-primary-start)] transition-colors duration-200">Cursos</a></li>
             <li><a href="/nosotros" className="hover:text-[var(--color-primary-start)] transition-colors duration-200">Nosotros</a></li>
@@ -43,10 +43,10 @@ export default function Footer() {
 
         {/* Recursos */}
         <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-zinc-200">
+          <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-foreground">
             Recursos
           </h3>
-          <ul className="space-y-3 text-sm text-zinc-400">
+          <ul className="space-y-3 text-sm text-[var(--foreground)]/80">
             <li><a href="/faq" className="hover:text-[var(--color-primary-start)] transition-colors duration-200">FAQ</a></li>
             <li><a href="/soporte" className="hover:text-[var(--color-primary-start)] transition-colors duration-200">Soporte</a></li>
           </ul>
@@ -54,10 +54,10 @@ export default function Footer() {
 
         {/* Legal */}
         <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-zinc-200">
+          <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-foreground">
             Legal
           </h3>
-          <ul className="space-y-3 text-sm text-zinc-400">
+          <ul className="space-y-3 text-sm text-[var(--foreground)]/80">
             <li><a href="/terminos" className="hover:text-[var(--color-primary-start)] transition-colors duration-200">Términos de Servicio</a></li>
             <li><a href="/privacidad" className="hover:text-[var(--color-primary-start)] transition-colors duration-200">Política de Privacidad</a></li>
             <li><a href="/cookies" className="hover:text-[var(--color-primary-start)] transition-colors duration-200">Política de Cookies</a></li>
@@ -65,12 +65,10 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* 🌟 LA SOLUCIÓN ESTÁ AQUÍ: Este div ahora ocupa el 100% del ancho y lleva la línea gris (border-t) */}
       <div className="border-t border-zinc-800">
         
-        {/* Y este div interno mantiene el contenido alineado con el resto de las columnas (max-w-7xl) */}
         <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-zinc-400 text-center md:text-left">
+          <p className="text-xs text-[var(--foreground)]/90 text-center md:text-left">
             © {new Date().getFullYear()} MaltTalk · Todos los derechos reservados
           </p>
           

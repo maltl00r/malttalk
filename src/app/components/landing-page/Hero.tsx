@@ -23,7 +23,7 @@ export default function Hero(): ReactElement {
                     Solo inglés disponible &mdash; más idiomas próximamente
                 </span>
 
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.08] text-balance mb-6 animate-fade-in-up">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-foreground tracking-tight leading-[1.08] text-balance mb-6 animate-fade-in-up">
                     Aprende nuevos idiomas{' '}
                     <span className="text-primary-start bg-gradient-to-r from-primary-start to-primary-end bg-clip-text text-transparent">a tu ritmo</span>,{' '}
                     con lo que te{' '}
@@ -33,7 +33,7 @@ export default function Hero(): ReactElement {
                 <p className="text-lg text-slate-400 max-w-2xl mb-10 leading-relaxed text-pretty animate-fade-in-up delay-100">
                     La plataforma que adapta el aprendizaje de idiomas a tus intereses, tu estilo y tus
                     capacidades. Escucha, habla, lectura y escritura en un solo lugar.{' '}
-                    <strong className="text-white font-semibold">100% gratuito.</strong>
+                    <strong className="text-foreground font-semibold">100% gratuito.</strong>
                 </p>
             </div>
         </section>
