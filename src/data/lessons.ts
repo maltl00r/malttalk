@@ -51,7 +51,7 @@ export interface LessonSchema {
   uuid: string;
   topic_id: number;    // Relación con el Tema/Mosaico (Muchos a Uno)
   tag_ids: number[];   // Soporta múltiples IDs de pasiones
-  tipo: 'video' | 'flashcards' | 'reading';
+  tipo: 'video' | 'flashcards' | 'reading' | 'drag-drop';
   title: string;
 }
 
@@ -59,6 +59,14 @@ export interface VideoContentSchema {
   lesson_id: number; 
   url: string;
   description: string;
+}
+
+export interface DragDropContentSchema {
+  id: number;                 // ID único del ejercicio
+  lesson_id: number;          // Relación con LessonSchema
+  text: string;               // La frase o palabra a clasificar
+  category: string;           // La categoría para las cajas
+  feedback_message_wrong?: string; 
 }
 
 // ==========================================
@@ -220,23 +228,26 @@ export const lessonsTable: LessonSchema[] = [
   { id: 12, uuid: "W4vN8cH5zR3y", topic_id: 5, tag_ids: [1], tipo: "video", title: "Linking words" },
   { id: 13, uuid: "vH9nB2mK4sL8", topic_id: 5, tag_ids: [1], tipo: "flashcards", title: "Places in the City"},
 
-  { id: 14, uuid: "m7H4qZ1nK8vR", topic_id: 6, tag_ids: [1], tipo: "video", title: "Present simple" },
-  { id: 15, uuid: "f1Q6mP9cW2sB", topic_id: 6, tag_ids: [1], tipo: "video", title: "Adverbios de frecuencia" },
-  { id: 16, uuid: "c6F2rX8wJ5vK", topic_id: 6, tag_ids: [1], tipo: "video", title: "Time expressions" },
+  { id: 15, uuid: "m7H4qZ1nK8vR", topic_id: 6, tag_ids: [1], tipo: "video", title: "Present simple" },
+  { id: 16, uuid: "f1Q6mP9cW2sB", topic_id: 6, tag_ids: [1], tipo: "video", title: "Adverbios de frecuencia" },
+  { id: 17, uuid: "c6F2rX8wJ5vK", topic_id: 6, tag_ids: [1], tipo: "video", title: "Time expressions" },
   
-  { id: 17, uuid: "t4Y9jM1sN7wP", topic_id: 7, tag_ids: [1], tipo: "video", title: "Would like"},
-  { id: 18, uuid: "z3K7vL5tB9xQ", topic_id: 7, tag_ids: [1], tipo: "video", title: "Sustantivos contables"},
-  { id: 19, uuid: "f8W2pD6mK3vR", topic_id: 7, tag_ids: [1], tipo: "video", title: "Expresión de cantidades (much, many, a lot of, a few, a little)"},
-  { id: 20, uuid: "xR4vN8wL2qJb", topic_id: 7, tag_ids: [1], tipo: "flashcards", title: "Fruits"},
-  { id: 21, uuid: "mF9zW2kL7vH5", topic_id: 7, tag_ids: [1], tipo: "flashcards", title: "Drinks"},
+  { id: 18, uuid: "t4Y9jM1sN7wP", topic_id: 7, tag_ids: [1], tipo: "video", title: "Would like"},
+  { id: 19, uuid: "z3K7vL5tB9xQ", topic_id: 7, tag_ids: [1], tipo: "video", title: "Sustantivos contables"},
+  { id: 20, uuid: "f8W2pD6mK3vR", topic_id: 7, tag_ids: [1], tipo: "video", title: "Expresión de cantidades (much, many, a lot of, a few, a little)"},
+  { id: 21, uuid: "xR4vN8wL2qJb", topic_id: 7, tag_ids: [1], tipo: "flashcards", title: "Fruits"},
+  { id: 22, uuid: "mF9zW2kL7vH5", topic_id: 7, tag_ids: [1], tipo: "flashcards", title: "Drinks"},
+  { id: 23, uuid: "mf6cW2Cl5bH3", topic_id: 7, tag_ids: [1], tipo: "drag-drop", title: "Clasificación de Frutas y Bebidas" },
 
-  { id: 22, uuid: "q2B8mF4vK6tY", topic_id: 8, tag_ids: [1], tipo: "video", title: "Adjetivos comparativos y superlativos" },
-  { id: 23, uuid: "r8N3vL7kH4zQ", topic_id: 8, tag_ids: [1], tipo: "video", title: "Fórmulas para expresar preferencias" },
-  { id: 24, uuid: "kL3pQ9mR4tW7", topic_id: 8, tag_ids: [1], tipo: "flashcards", title: "Clothes and Accessories"},
+  { id: 24, uuid: "q2B8mF4vK6tY", topic_id: 8, tag_ids: [1], tipo: "video", title: "Adjetivos comparativos y superlativos" },
+  { id: 25, uuid: "r8N3vL7kH4zQ", topic_id: 8, tag_ids: [1], tipo: "video", title: "Fórmulas para expresar preferencias" },
+  { id: 26, uuid: "kL3pQ9mR4tW7", topic_id: 8, tag_ids: [1], tipo: "flashcards", title: "Clothes and Accessories"},
   
-  { id: 25, uuid: "h5X1qV9jK7wB", topic_id: 9, tag_ids: [1], tipo: "video", title: "Present Continuous" },
-  { id: 26, uuid: "t9K2bH7zM4pC", topic_id: 9, tag_ids: [1], tipo: "video", title: "Present Continuous vs. Present Simple" }
+  { id: 27, uuid: "h5X1qV9jK7wB", topic_id: 9, tag_ids: [1], tipo: "video", title: "Present Continuous" },
+  { id: 28, uuid: "t9K2bH7zM4pC", topic_id: 9, tag_ids: [1], tipo: "video", title: "Present Continuous vs. Present Simple" },
 
+  { id: 30, uuid: "v3B9nL2kQ8xR", topic_id: 1, tag_ids: [1], tipo: "drag-drop", title: "Conjugación del Verbo To Be" },
+  { id: 31, uuid: "q7M4sJ2vW5zT", topic_id: 1, tag_ids: [1], tipo: "drag-drop", title: "Formal vs. Informal English" },
   
   
 ];
@@ -322,3 +333,44 @@ export const tablaFlashcardsContent: FlashcardContentSchema[] = [
   { id_flashcard: 59, lesson_id: 13, front_image: "/flashcards/airport.png", back_title: "Airport", back_pronunciation: "/ˈeə.pɔːt/", lang: "en-US" },
   { id_flashcard: 60, lesson_id: 13, front_image: "/flashcards/restaurant.png", back_title: "Restaurant", back_pronunciation: "/ˈres.tər.ɒnt/", lang: "en-US" }
 ];
+
+export const tablaDragDropContent: DragDropContentSchema[] = [
+  // Frutas (Categoría: fruits)
+  { id: 1, lesson_id: 23, text: "Apple", category: "fruits", feedback_message_wrong: "Analiza el ciclo biológico: ¿es un producto de una infusión o el contenedor de semillas de una planta?" },
+  { id: 2, lesson_id: 23, text: "Orange", category: "fruits", feedback_message_wrong: "Considera su rol botánico: su función principal es proteger el germen de la especie, no saciar la sed directamente." },
+  { id: 3, lesson_id: 23, text: "Lemon", category: "fruits", feedback_message_wrong: "Su acidez es un mecanismo de defensa natural, no una propiedad del procesamiento de un líquido industrial." },
+  { id: 4, lesson_id: 23, text: "Strawberry", category: "fruits", feedback_message_wrong: "Distingue entre el recipiente (fruta) y el contenido extraído (bebida). ¿Qué estás manipulando realmente?" },
+  { id: 5, lesson_id: 23, text: "Cherry", category: "fruits", feedback_message_wrong: "Observa su estructura: contiene un endocarpio leñoso. ¿Es coherente con la naturaleza de una bebida?" },
+  { id: 6, lesson_id: 23, text: "Blueberry", category: "fruits", feedback_message_wrong: "Es un fruto pequeño y denso. Su propósito evolutivo es la dispersión, no la hidratación fluida." },
+  { id: 7, lesson_id: 23, text: "Banana", category: "fruits", feedback_message_wrong: "Es una baya botánica (aunque no lo parezca). ¿Requiere un recipiente para ser consumida?" },
+  { id: 8, lesson_id: 23, text: "Mango", category: "fruits", feedback_message_wrong: "Requiere un proceso mecánico de masticación para su digestión. ¿Eso encaja en tu lógica de líquidos?" },
+  { id: 9, lesson_id: 23, text: "Pineapple", category: "fruits", feedback_message_wrong: "Su arquitectura es compleja y fibrosa. ¿Cómo se transforma en el estado líquido que buscas?" },
+  { id: 10, lesson_id: 23, text: "Watermelon", category: "fruits", feedback_message_wrong: "Su alto contenido hídrico no altera su estado físico fundamental. Es materia sólida." },
+
+  // Bebidas (Categoría: drinks)
+  { id: 11, lesson_id: 23, text: "Water", category: "drinks", feedback_message_wrong: "Es la forma más simple de materia líquida. ¿Dónde ubicarías un fluido esencial?" },
+  { id: 12, lesson_id: 23, text: "Coffee", category: "drinks", feedback_message_wrong: "Es el resultado de una extracción en caliente. Su estado físico es post-sólido." },
+  { id: 13, lesson_id: 23, text: "Tea", category: "drinks", feedback_message_wrong: "Es una solución acuosa. ¿Es su naturaleza la de un cuerpo sólido?" },
+  { id: 14, lesson_id: 23, text: "Juice", category: "drinks", feedback_message_wrong: "El estado original cambió. ¿Es esto el fruto o la esencia líquida extraída?" },
+  { id: 15, lesson_id: 23, text: "Milk", category: "drinks", feedback_message_wrong: "Es una secreción biológica líquida. ¿Cumple con la definición de fruto?" },
+  { id: 16, lesson_id: 23, text: "Soda", category: "drinks", feedback_message_wrong: "Es una mezcla gaseosa y líquida. ¿Existe algún sólido que masticar aquí?" },
+  { id: 17, lesson_id: 23, text: "Lemonade", category: "drinks", feedback_message_wrong: "Es una disolución. ¿Es esta mezcla el fruto original o una preparación posterior?" },
+  { id: 18, lesson_id: 23, text: "Beer", category: "drinks", feedback_message_wrong: "Es un producto fermentado. ¿Es una entidad vegetal que crece en un tallo?" },
+  { id: 19, lesson_id: 23, text: "Wine", category: "drinks", feedback_message_wrong: "Es un destilado o fermentado. Analiza su estado de agregación molecular." },
+  { id: 20, lesson_id: 23, text: "Smoothie", category: "drinks", feedback_message_wrong: "Aunque contiene fragmentos, su estado funcional es un fluido viscoso. ¿Qué define a una bebida?" },
+
+  // Lección ID: 30 (Nueva) - Título: "Conjugación del Verbo To Be"
+  { id: 21, lesson_id: 30, text: "I", category: "am", feedback_message_wrong: "Recuerda que 'I' es la primera persona del singular y tiene su forma exclusiva." },
+  { id: 22, lesson_id: 30, text: "You", category: "are", feedback_message_wrong: "El pronombre 'you' siempre utiliza la forma 'are', tanto en singular como en plural." },
+  { id: 23, lesson_id: 30, text: "He", category: "is", feedback_message_wrong: "Para las terceras personas del singular (he, she, it) usamos 'is'." },
+  { id: 24, lesson_id: 30, text: "She", category: "is", feedback_message_wrong: "Recuerda: 'she' requiere el auxiliar 'is'." },
+  { id: 25, lesson_id: 30, text: "We", category: "are", feedback_message_wrong: "Al ser un pronombre plural, le corresponde la forma 'are'." },
+  { id: 26, lesson_id: 30, text: "They", category: "are", feedback_message_wrong: "El plural de la tercera persona utiliza 'are'." },
+
+  { id: 27, lesson_id: 31, text: "How are you?", category: "formal", feedback_message_wrong: "Esta es una forma estándar y educada de saludar en entornos profesionales." },
+  { id: 28, lesson_id: 31, text: "What's up?", category: "informal", feedback_message_wrong: "Esta es una expresión coloquial usada solo con amigos o gente de confianza." },
+  { id: 29, lesson_id: 31, text: "Could you please help me?", category: "formal", feedback_message_wrong: "El uso de 'could' y 'please' denota un nivel de cortesía elevado." },
+  { id: 30, lesson_id: 31, text: "Can you help?", category: "informal", feedback_message_wrong: "Aunque es correcto, suena directo y casual." },
+  { id: 31, lesson_id: 31, text: "I would like to...", category: "formal", feedback_message_wrong: "Esta estructura es la preferida para hacer peticiones educadas." },
+  { id: 32, lesson_id: 31, text: "I wanna...", category: "informal", feedback_message_wrong: "Esta es una contracción de 'want to' utilizada en el lenguaje hablado casual." },
+];  

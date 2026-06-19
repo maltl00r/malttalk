@@ -8,6 +8,7 @@ import {
 } from "@/data/lessons";
 import VideoDiv from "../../../components/video/VideoDiv";
 import FlashcardsDiv from "../../../components/flashcards/FlashcardsDiv";
+import DragDropDiv from "../../../components/drag-drop/DragDropDiv";
 import SidebarModuleToggle from "../../../components/ui/SidebarModuleToggle";
 import ModuleList from "../../../components/ui/ModuleList";
 import { notFound } from "next/navigation";
@@ -87,6 +88,10 @@ export default function ModulePage({ params, searchParams }: PageProps) {
 
       {lesson === "flashcards" && (
         <FlashcardsDiv lessonId={lessonBase.id}/>
+      )}
+
+      {lesson === "drag-drop" && (
+        <DragDropDiv lessonId={lessonBase.id}/>
       )}
 
       </div>
