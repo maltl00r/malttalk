@@ -1,33 +1,34 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { tablaFlashcardsContent, lessonsTable } from "@/data/lessons";
+import { fetchLessonWithFlashcardContent } from "@/app/actions/modules";
+import type { lessons, flashcard_contents } from "@/generated/prisma/models";
 
 interface FlashcardsDivProps {
   lessonId: number;
 }
 
 export default function FlashcardsDiv({ lessonId }: FlashcardsDivProps) {
-  const cards = tablaFlashcardsContent.filter((c) => c.lesson_id === lessonId);
-  const infoGeneral = lessonsTable.find((l) => l.id === lessonId);
+  const [lesson, setLesson] = useState<(lessons & { flashcard_contents: flashcard_contents[] }) | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [flippedStates, setFlippedStates] = useState<boolean[]>([]);
 
-  const [flippedStates, setFlippedStates] = useState<boolean[]>(
-    Array(cards.length).fill(false)
-  );
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const data = await fetchLessonWithFlashcardContent(lessonId);
+        setLesson(data);
+        setFlippedStates(Array((data?.flashcard_contents?.length || 0)).fill(false));
+      } catch (error) {
+        console.error("Error loading flashcard content:", error);
+        setLesson(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  if (!infoGeneral || cards.length === 0) {
-    return (
-      <div className="p-4 bg-red-900/50 text-red-200 border border-red-800 rounded-md">
-        No hay flashcards para esta lección.
-      </div>
-    );
-  }
-
-  const toggleFlip = (index: number) => {
-    setFlippedStates((prev) =>
-      prev.map((f, i) => (i === index ? !f : f))
-    );
-  };
+    loadData();
+  }, [lessonId]);
 
   const voicesRef = useRef<SpeechSynthesisVoice[]>([]);
   useEffect(() => {
@@ -35,37 +36,38 @@ export default function FlashcardsDiv({ lessonId }: FlashcardsDivProps) {
       voicesRef.current = window.speechSynthesis.getVoices();
     };
 
-    // Carga inicial
+    // Initial load
     updateVoices();
 
-    // Listener para cuando el navegador termine de cargar las voces
+    // Listener for when browser finishes loading voices
     if (window.speechSynthesis.onvoiceschanged !== undefined) {
       window.speechSynthesis.onvoiceschanged = updateVoices;
     }
   }, []);
+
   const playTTS = (text: string, lang: string) => {
     if (typeof window === "undefined" || !window.speechSynthesis) return;
 
-    // 1. Cancelar cualquier audio anterior
+    // 1. Cancel any previous audio
     window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
     
-    // 2. Lógica de selección "Smart Match"
+    // 2. "Smart Match" selection logic
     const langCode = lang.split('-')[0].toLowerCase();
     
     const voices = voicesRef.current;
     
     const selectedVoice = 
-      voices.find(v => v.lang === lang) || // Coincidencia exacta (ej: fr-FR)
-      voices.find(v => v.lang.toLowerCase().startsWith(langCode)) || // Coincidencia de idioma (ej: fr)
-      voices.find(v => v.name.toLowerCase().includes(langCode)); // Coincidencia por nombre (ej: "Google Français")
+      voices.find(v => v.lang === lang) || // Exact match (e.g. fr-FR)
+      voices.find(v => v.lang.toLowerCase().startsWith(langCode)) || // Language match (e.g. fr)
+      voices.find(v => v.name.toLowerCase().includes(langCode)); // Name match (e.g. "Google Français")
 
     if (selectedVoice) {
       utterance.voice = selectedVoice;
       utterance.lang = selectedVoice.lang;
     } else {
-      // Fallback: si no hay voz, dejamos que el navegador intente el lang por defecto
+      // Fallback: if no voice, let the browser try the lang by default
       utterance.lang = lang;
     }
 
@@ -75,15 +77,39 @@ export default function FlashcardsDiv({ lessonId }: FlashcardsDivProps) {
     window.speechSynthesis.speak(utterance);
   };
 
-  return (
-    <div className="flex flex-col items-center gap-6 w-full px-4"> {/* Añadido w-full y px-4 */}
-      <h2 className="text-xl font-bold">{infoGeneral.title}</h2>
+  const toggleFlip = (index: number) => {
+    setFlippedStates((prev) =>
+      prev.map((f, i) => (i === index ? !f : f))
+    );
+  };
 
-      {/* Grid: Ajustado para usar max-w-full */}
+  if (isLoading) {
+    return (
+      <div className="p-4 bg-blue-900/50 text-blue-200 border border-blue-800 rounded-md">
+        Cargando flashcards...
+      </div>
+    );
+  }
+
+  if (!lesson || !lesson.flashcard_contents || lesson.flashcard_contents.length === 0) {
+    return (
+      <div className="p-4 bg-red-900/50 text-red-200 border border-red-800 rounded-md">
+        No hay flashcards para esta lección.
+      </div>
+    );
+  }
+
+  const cards = lesson.flashcard_contents;
+
+  return (
+    <div className="flex flex-col items-center gap-6 w-full px-4">
+      <h2 className="text-xl font-bold">{lesson.title}</h2>
+
+      {/* Grid: Adjusted to use max-w-full */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 w-full max-w-6xl">
       {cards.map((card, index) => (
         <div
-          key={index}
+          key={card.id}
           className="w-full max-w-[500px] aspect-[2/3] [perspective:500px] cursor-pointer mx-auto"
           onClick={() => toggleFlip(index)}
         >
@@ -92,7 +118,7 @@ export default function FlashcardsDiv({ lessonId }: FlashcardsDivProps) {
               flippedStates[index] ? "[transform:rotateY(180deg)]" : ""
             }`}
           >
-            {/* Front estilo naipe */}
+            {/* Front card style */}
             <div className="absolute w-full h-full [backface-visibility:hidden] bg-red-400 rounded-lg shadow-md border-2 border-red-600 flex flex-col items-center justify-between p-2">
               <div className="w-full flex justify-between text-red-600 font-bold text-sm">
                 <span>♥</span>
@@ -100,11 +126,13 @@ export default function FlashcardsDiv({ lessonId }: FlashcardsDivProps) {
               </div>
 
               <div className="flex-grow flex items-center justify-center">
-                <img
-                  src={card.front_image}
-                  alt={card.back_title}
-                  className="max-w-full max-h-16 object-contain"
-                />
+                {card.front_image && (
+                  <img
+                    src={card.front_image}
+                    alt={card.back_title}
+                    className="max-w-full max-h-16 object-contain"
+                  />
+                )}
               </div>
 
               <div className="w-full flex justify-between text-red-600 font-bold text-sm rotate-180">
@@ -116,7 +144,9 @@ export default function FlashcardsDiv({ lessonId }: FlashcardsDivProps) {
             {/* Back */}
             <div className="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] bg-red-500 text-white rounded-lg shadow-md flex flex-col items-center justify-center gap-2 p-2 border-2 border-red-500">
               <h3 className="text-sm font-semibold text-center">{card.back_title}</h3>
-              <p className="text-xs text-red-100">{card.back_pronunciation}</p>
+              {card.back_pronunciation && (
+                <p className="text-xs text-red-100">{card.back_pronunciation}</p>
+              )}
               <button
                 onClick={(e) => {
                   e.stopPropagation();

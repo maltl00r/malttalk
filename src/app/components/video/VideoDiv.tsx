@@ -1,20 +1,52 @@
 "use client";
-import { tablaVideosContent, lessonsTable } from '@/data/lessons';
+import { useEffect, useState } from "react";
+import { fetchLessonWithVideoContent } from "@/app/actions/modules";
 import ReactMarkdown from 'react-markdown';
+import type { lessons, video_contents } from "@/generated/prisma/models";
 
 interface VideoDivProps {
-  lessonId: number; // Recibe el ID numérico interno (1, 2, 3...) desde la página padre
+  lessonId: number;
+}
+
+interface LessonData {
+  lesson: (lessons & { video_contents: video_contents[] }) | null;
+  isLoading: boolean;
+  error: string | null;
 }
 
 export default function VideoDiv({ lessonId }: VideoDivProps) {
-  // 1. Buscamos los datos específicos del video (URL y descripción)
-  const videoContenido = tablaVideosContent.find((v) => v.lesson_id === lessonId);
-  
-  // 2. Buscamos el título en la tabla principal de lecciones
-  const infoGeneral = lessonsTable.find((l) => l.id === lessonId);
+  const [data, setData] = useState<LessonData>({
+    lesson: null,
+    isLoading: true,
+    error: null,
+  });
 
-  // Si no encuentra el video o la lección, evitamos que la app rompa
-  if (!videoContenido || !infoGeneral) {
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const lesson = await fetchLessonWithVideoContent(lessonId);
+        setData({ lesson, isLoading: false, error: null });
+      } catch (error) {
+        setData({
+          lesson: null,
+          isLoading: false,
+          error: "Error loading video content",
+        });
+      }
+    };
+
+    loadData();
+  }, [lessonId]);
+
+  if (data.isLoading) {
+    return (
+      <div className="p-4 bg-blue-900/50 text-blue-200 border border-blue-800 rounded-md">
+        Cargando video...
+      </div>
+    );
+  }
+
+  if (data.error || !data.lesson || !data.lesson.video_contents?.[0]) {
     return (
       <div className="p-4 bg-red-900/50 text-red-200 border border-red-800 rounded-md">
         Video no encontrado o ID no válido.
@@ -22,11 +54,11 @@ export default function VideoDiv({ lessonId }: VideoDivProps) {
     );
   }
 
-  // Creamos un objeto que combine ambos datos para mantener tu código idéntico
+  const videoContent = data.lesson.video_contents[0];
   const currentVideo = {
-    url: videoContenido.url,
-    title: infoGeneral.title,
-    description: videoContenido.description
+    url: videoContent.url,
+    title: data.lesson.title,
+    description: videoContent.description || "",
   };
   
   return (

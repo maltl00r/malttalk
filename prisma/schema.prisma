@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model courses {
+  slug        String   @id @db.VarChar(255)
+  id          Int      @default(autoincrement())
+  title       String   @db.VarChar(255)
+  description String?
+  topics      topics[]
+}
+
+model drag_drop_contents {
+  id                     Int     @id @default(autoincrement())
+  lesson_id              Int
+  text                   String  @db.VarChar(255)
+  category               String  @db.VarChar(255)
+  feedback_message_wrong String?
+  lessons                lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_drag_drop")
+}
+
+model flashcard_contents {
+  id                 Int     @id @default(autoincrement())
+  lesson_id          Int
+  front_image        String? @db.VarChar(255)
+  back_title         String  @db.VarChar(255)
+  back_pronunciation String? @db.VarChar(255)
+  lang               String  @db.VarChar(10)
+  lessons            lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_flashcard")
+}
+
+model lesson_tag {
+  lesson_id Int
+  tag_id    Int
+  lessons   lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_tag_lesson")
+  tags      tags    @relation(fields: [tag_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_tag_tag")
+
+  @@id([lesson_id, tag_id])
+}
+
+model lessons {
+  id                 Int                  @id @default(autoincrement())
+  uuid               String?              @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  topic_id           Int
+  type               lesson_type
+  title              String               @db.VarChar(255)
+  drag_drop_contents drag_drop_contents[]
+  flashcard_contents flashcard_contents[]
+  lesson_tag         lesson_tag[]
+  topics             topics               @relation(fields: [topic_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_topic")
+  video_contents     video_contents[]
+}
+
+model tags {
+  id         Int          @id @default(autoincrement())
+  slug       String       @unique @db.VarChar(255)
+  name       String       @db.VarChar(255)
+  lesson_tag lesson_tag[]
+}
+
+model topics {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique @db.VarChar(255)
+  title       String    @db.VarChar(255)
+  course_slug String    @db.VarChar(255)
+  lessons     lessons[]
+  courses     courses   @relation(fields: [course_slug], references: [slug], onDelete: Cascade, onUpdate: NoAction, map: "fk_course")
+}
+
+model video_contents {
+  id          Int     @id @default(autoincrement())
+  lesson_id   Int
+  url         String  @db.VarChar(255)
+  description String?
+  lessons     lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_video")
+}
+
+enum lesson_type {
+  video
+  flashcards
+  drag_drop  @map("drag-drop")
+}

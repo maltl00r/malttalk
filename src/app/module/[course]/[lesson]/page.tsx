@@ -1,11 +1,5 @@
 "use client";
 import { use, useState, useEffect } from "react";
-import { 
-  lessonsTable, 
-  topicsTable, 
-  tagsTable, 
-  mockUserPreferences, 
-} from "@/data/lessons";
 import VideoDiv from "../../../components/video/VideoDiv";
 import FlashcardsDiv from "../../../components/flashcards/FlashcardsDiv";
 import DragDropDiv from "../../../components/drag-drop/DragDropDiv";
@@ -18,42 +12,55 @@ interface PageProps {
   searchParams: Promise<{ id?: string }>;
 }
 
+interface LessonData {
+  id: number;
+  uuid: string;
+  title: string;
+  type: string;
+  topic_id: number;
+  topics: {
+    course_slug: string;
+    title: string;
+  };
+}
 
 export default function ModulePage({ params, searchParams }: PageProps) {
   const { course, lesson } = use(params);
   const { id: urlUuid } = use(searchParams);
-    
-  // 1. Buscamos la lección usando únicamente su identificador único (UUID)
-  const lessonBase = lessonsTable.find((l) => l.uuid === urlUuid);
-  
-  // 2. Traemos el tema (Topic) al que pertenece esta lección para validar el idioma (course_slug)
-  const topicBase = lessonBase 
-    ? topicsTable.find((t) => t.id === lessonBase.topic_id) 
-    : null;
+  const [lessonData, setLessonData] = useState<LessonData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasAccess, setHasAccess] = useState(false);
 
-  // 3. Obtenemos los slugs reales de todas las pasiones asignadas a esta lección
-  // Filtramos la tagsTable para quedarnos solo con los tags cuyos IDs estén dentro de lessonBase.tag_ids
-  const slugsDeLaLeccion = lessonBase
-    ? tagsTable.filter((tag) => lessonBase.tag_ids.includes(tag.id)).map((tag) => tag.slug)
-    : [];
+  useEffect(() => {
+    const fetchLesson = async () => {
+      if (!urlUuid) {
+        setIsLoading(false);
+        return;
+      }
 
-  // 4. Verificamos si al menos una de las pasiones de la lección coincide con las del alumno
-  const tieneAccesoPorPasion = slugsDeLaLeccion.some((slug) =>
-    mockUserPreferences.chosen_tags.includes(slug)
-  );
+      try {
+        const response = await fetch(`/api/lessons/${urlUuid}`);
+        if (!response.ok) {
+          setIsLoading(false);
+          return;
+        }
+        
+        const data = await response.json();
+        
+        // Validate the lesson belongs to the correct course
+        if (data.topics?.course_slug === course) {
+          setLessonData(data);
+          setHasAccess(true);
+        }
+      } catch (error) {
+        console.error("Error fetching lesson:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const isEnrolled = mockUserPreferences.enrolled_courses.includes(course);
-
-  // 5. Guardia de seguridad
-  if (
-    !lessonBase || 
-    !topicBase || 
-    topicBase.course_slug !== course || 
-    !tieneAccesoPorPasion || 
-    !isEnrolled // 👈 Si no está en el array de enrolled_courses, lo mandamos al 404
-  ) {
-    notFound();
-  }
+    fetchLesson();
+  }, [urlUuid, course]);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 
@@ -69,6 +76,19 @@ export default function ModulePage({ params, searchParams }: PageProps) {
     setIsSidebarOpen(newState);
     localStorage.setItem("sidebar_toggled", String(newState));
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background p-5 flex items-center justify-center">
+        <p className="text-zinc-400">Cargando lección...</p>
+      </div>
+    );
+  }
+
+  if (!hasAccess || !lessonData) {
+    notFound();
+  }
+
   return (
     // main container
     <div className="min-h-screen bg-background p-5 flex items-start">
@@ -79,28 +99,23 @@ export default function ModulePage({ params, searchParams }: PageProps) {
 
       {/* module container  */}
       <div className={`transition-all duration-500 ${isSidebarOpen ? "w-[70%]" : "w-full"}`}>
+        {lesson === "video" && (
+          <VideoDiv lessonId={lessonData.id}/>
+        )}
 
+        {lesson === "flashcards" && (
+          <FlashcardsDiv lessonId={lessonData.id}/>
+        )}
 
-              
-      {lesson === "video" && (
-        <VideoDiv lessonId={lessonBase.id}/>
-      )}
-
-      {lesson === "flashcards" && (
-        <FlashcardsDiv lessonId={lessonBase.id}/>
-      )}
-
-      {lesson === "drag-drop" && (
-        <DragDropDiv lessonId={lessonBase.id}/>
-      )}
-
+        {lesson === "drag-drop" && (
+          <DragDropDiv lessonId={lessonData.id}/>
+        )}
       </div>
 
       {isSidebarOpen ? <ModuleList 
-                          courseSlug={course}              // 'english'
+                          courseSlug={course}
                           currentLessonUuid={urlUuid ?? ""}
               /> : null}
-
     </div>
   );
 }

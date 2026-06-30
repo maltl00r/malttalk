@@ -1,12 +1,13 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
+import { fetchLessonWithDragDropContent } from "@/app/actions/modules";
 import { 
   DndContext, PointerSensor, useSensor, useSensors, 
   useDroppable, rectIntersection 
 } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { tablaDragDropContent } from "@/data/lessons";
+import type { drag_drop_contents } from "@/generated/prisma/models";
 
 // 1. Componente de seguridad para evitar Hydration Mismatch
 function ClientOnly({ children }: { children: React.ReactNode }) {
@@ -17,14 +18,30 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
 }
 
 export default function DragDropDiv({ lessonId }: { lessonId: number }) {
-  const baseItems = useMemo(() => {
-    return tablaDragDropContent.filter((i) => i.lesson_id === lessonId);
+  const [dragDropItems, setDragDropItems] = useState<drag_drop_contents[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const lesson = await fetchLessonWithDragDropContent(lessonId);
+        setDragDropItems(lesson?.drag_drop_contents || []);
+      } catch (error) {
+        console.error("Error loading drag-drop content:", error);
+        setDragDropItems([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadData();
   }, [lessonId]);
 
+  const baseItems = useMemo(() => dragDropItems, [dragDropItems]);
   const categories = useMemo(() => Array.from(new Set(baseItems.map((i) => i.category))), [baseItems]);
 
   const [pool, setPool] = useState(baseItems);
-  const [bins, setBins] = useState<Record<string, any[]>>(() =>
+  const [bins, setBins] = useState<Record<string, drag_drop_contents[]>>(() =>
     categories.reduce((acc, cat) => ({ ...acc, [cat]: [] }), {})
   );
 
@@ -69,6 +86,22 @@ export default function DragDropDiv({ lessonId }: { lessonId: number }) {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="p-4 bg-blue-900/50 text-blue-200 border border-blue-800 rounded-md">
+        Cargando ejercicio...
+      </div>
+    );
+  }
+
+  if (dragDropItems.length === 0) {
+    return (
+      <div className="p-4 bg-red-900/50 text-red-200 border border-red-800 rounded-md">
+        No hay ejercicios drag-drop para esta lección.
+      </div>
+    );
+  }
+
   const isComplete = pool.length === 0 && Object.values(bins).flat().length === baseItems.length;
   const isAllCorrect = Object.entries(bins).every(([cat, items]) => items.every(i => i.category === cat));
 
@@ -100,7 +133,7 @@ export default function DragDropDiv({ lessonId }: { lessonId: number }) {
   );
 }
 
-function DroppableBox({ id, title, items }: { id: string, title: string, items: any[] }) {
+function DroppableBox({ id, title, items }: { id: string, title: string, items: drag_drop_contents[] }) {
   const { setNodeRef, isOver } = useDroppable({ id });
   return (
     <div ref={setNodeRef} className={`min-h-[250px] p-4 rounded-lg border-2 transition-colors flex flex-col ${isOver ? 'border-blue-500 bg-slate-900/50' : 'border-slate-700 bg-slate-900'}`}>
@@ -114,7 +147,7 @@ function DroppableBox({ id, title, items }: { id: string, title: string, items: 
   );
 }
 
-function DraggableItem({ item, currentCategory }: { item: any, currentCategory?: string }) {
+function DraggableItem({ item, currentCategory }: { item: drag_drop_contents, currentCategory?: string }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id.toString() });
   const style = { transform: CSS.Translate.toString(transform), transition, zIndex: isDragging ? 100 : 'auto', opacity: isDragging ? 0.5 : 1 };
   const isWrong = currentCategory && item.category !== currentCategory;

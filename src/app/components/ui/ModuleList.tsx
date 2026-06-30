@@ -1,19 +1,19 @@
 "use client";
 
 import { useMemo, useState, useEffect, useRef } from "react";
-import { 
-  ModulosAgrupados, 
-  topicsTable, 
-  lessonsTable, 
-  tagsTable, 
-  mockUserPreferences,
-  tablaVideosContent
-} from "@/data/lessons";
+import { fetchModulesForCourse } from "@/app/actions/modules";
+import type { topics, lessons, video_contents } from "@/generated/prisma/models";
 
 interface SidebarContainerProps {
   courseSlug: string;
   currentLessonUuid: string;
 }
+
+interface ModuleData {
+  topics: (topics & { lessons: (lessons & { video_contents: video_contents[] })[] })[];
+}
+
+type ModulosAgrupados = Record<string, (lessons & { video_contents: video_contents[] })[]>;
 
 const getThumbnailUrl = (url: string): string => {
   const videoId = url.split('/').pop()?.replace('watch?v=', '').split('&')[0];
@@ -22,9 +22,11 @@ const getThumbnailUrl = (url: string): string => {
 
 export default function ModuleList({ courseSlug, currentLessonUuid }: SidebarContainerProps) {
   const [openModules, setOpenModules] = useState<Record<string, boolean>>({});
+  const [modulos, setModulos] = useState<ModulosAgrupados>({});
+  const [isLoading, setIsLoading] = useState(true);
   const currentModuleRef = useRef<HTMLDivElement | null>(null);
 
-  // Cargar estado desde localStorage
+  // Load state from localStorage
   useEffect(() => {
     const saved = localStorage.getItem("openModules");
     if (saved) {
@@ -32,37 +34,41 @@ export default function ModuleList({ courseSlug, currentLessonUuid }: SidebarCon
     }
   }, []);
 
-  // Guardar estado en localStorage
+  // Save state to localStorage
   useEffect(() => {
     localStorage.setItem("openModules", JSON.stringify(openModules));
   }, [openModules]);
 
+  // Fetch data from database
+  useEffect(() => {
+    const loadModules = async () => {
+      setIsLoading(true);
+      try {
+        const data = await fetchModulesForCourse(courseSlug);
+        
+        // Group lessons by topic slug
+        const grouped: ModulosAgrupados = {};
+        data.topics.forEach(topic => {
+          grouped[topic.slug] = topic.lessons || [];
+        });
+        
+        setModulos(grouped);
+      } catch (error) {
+        console.error("Failed to load modules:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadModules();
+  }, [courseSlug]);
+
   const toggleModule = (slug: string, isCurrentModule: boolean) => {
-    if (isCurrentModule) return; // el módulo actual nunca se cierra
+    if (isCurrentModule) return; // current module never closes
     setOpenModules(prev => ({ ...prev, [slug]: !prev[slug] }));
   };
 
-  const modulos: ModulosAgrupados = useMemo(() => {
-    const idsPasionesUsuario = tagsTable
-      .filter(tag => mockUserPreferences.chosen_tags.includes(tag.slug))
-      .map(tag => tag.id);
-
-    const leccionesPermitidas = lessonsTable.filter((l) => {
-      const topic = topicsTable.find(t => t.id === l.topic_id);
-      return topic?.course_slug === courseSlug && 
-             l.tag_ids.some(id => idsPasionesUsuario.includes(id));
-    });
-
-    return leccionesPermitidas.reduce((acc, leccion) => {
-      const topic = topicsTable.find(t => t.id === leccion.topic_id);
-      const key = topic?.slug || "general";
-      if (!acc[key]) acc[key] = [];
-      acc[key].push(leccion);
-      return acc;
-    }, {} as ModulosAgrupados);
-  }, [courseSlug]);
-
-  // Abrir módulos por defecto y asegurar que el actual esté abierto + scroll interno
+  // Auto-open modules and scroll to current
   useEffect(() => {
     Object.entries(modulos).forEach(([slug, lecciones]) => {
       const isCurrentModule = lecciones.some(l => l.uuid === currentLessonUuid);
@@ -86,12 +92,14 @@ export default function ModuleList({ courseSlug, currentLessonUuid }: SidebarCon
       <div className="min-w-[280px] flex flex-col h-auto">
         <h3 className="text-lg font-bold mb-4">Lista de módulos</h3>
         
-        {/* Scroll solo en escritorio */}
+        {isLoading && <p className="text-zinc-400">Cargando módulos...</p>}
+        
+        {/* Scroll only on desktop */}
         <div className="space-y-6 max-h-[calc(100vh-150px)] overflow-y-auto md:pr-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#272727] [&::-webkit-scrollbar-thumb]:bg-zinc-600 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-zinc-500">
           {Object.entries(modulos).map(([topicSlug, lecciones]) => {
-            const topicInfo = topicsTable.find(t => t.slug === topicSlug);
             const isCurrentModule = lecciones.some(l => l.uuid === currentLessonUuid);
             const isOpen = isCurrentModule ? true : (openModules[topicSlug] ?? true);
+            const topicTitle = lecciones[0]?.topics?.title || topicSlug; // Get title from first lesson's topic relation
 
             return (
               <div
@@ -107,20 +115,21 @@ export default function ModuleList({ courseSlug, currentLessonUuid }: SidebarCon
                       : "bg-zinc-700 text-secondary-start"
                   }`}
                 >
-                  {topicInfo?.title}
+                  {topicTitle}
                   {!isCurrentModule && <span>{isOpen ? "▲" : "▼"}</span>}
                 </button>
 
                 {isOpen && (
                   <div className="space-y-2">
                     {lecciones.map((leccion) => {
-                      const contenido = tablaVideosContent.find(c => c.lesson_id === leccion.id);
-                      const thumbnail = contenido ? getThumbnailUrl(contenido.url) : null;
+                      const videoContent = leccion.video_contents?.[0];
+                      const thumbnail = videoContent ? getThumbnailUrl(videoContent.url) : null;
+                      const lessonType = leccion.type === "drag_drop" ? "drag-drop" : leccion.type;
 
                       return (
                         <a 
                           key={leccion.uuid}
-                          href={`/module/${courseSlug}/${leccion.tipo}?id=${leccion.uuid}`}
+                          href={`/module/${courseSlug}/${lessonType}?id=${leccion.uuid}`}
                           className={`flex gap-3 p-2 rounded-lg transition-all duration-200 ${
                             leccion.uuid === currentLessonUuid 
                               ? "bg-zinc-800 border-l-4 border-purple-500" 
@@ -136,10 +145,10 @@ export default function ModuleList({ courseSlug, currentLessonUuid }: SidebarCon
                               />
                             ) : (
                               <div className="absolute inset-0 flex items-center justify-center text-zinc-500">
-                                {leccion.tipo === "video" ? "📺" : "📖"}
+                                {leccion.type === "video" ? "📺" : "📖"}
                               </div>
                             )}
-                            {leccion.tipo === "video" && (
+                            {leccion.type === "video" && (
                               <span className="absolute bottom-1 right-1 bg-black/80 text-[10px] px-1 rounded text-white">
                                 10:00
                               </span>
@@ -151,7 +160,7 @@ export default function ModuleList({ courseSlug, currentLessonUuid }: SidebarCon
                               {leccion.title}
                             </h5>
                             <p className="text-[11px] text-zinc-500 mt-0.5">
-                              {leccion.tipo.toUpperCase()}
+                              {leccion.type.toUpperCase()}
                             </p>
                           </div>
                         </a>
