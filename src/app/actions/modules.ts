@@ -2,6 +2,41 @@
 
 import { prisma } from "@/lib/prisma";
 
+export async function fetchCourses() {
+  try {
+    const courses = await prisma.courses.findMany({
+      include: {
+        topics: {
+          include: {
+            lessons: true,
+          },
+        },
+      },
+      orderBy: {
+        id: "asc",
+      },
+    });
+
+    return courses;
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    throw error;
+  }
+}
+
+export async function fetchCourseBySlug(courseSlug: string) {
+  try {
+    return prisma.courses.findUnique({
+      where: {
+        slug: courseSlug,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching course:", error);
+    throw error;
+  }
+}
+
 export async function fetchModulesForCourse(courseSlug: string) {
   try {
     const topics = await prisma.topics.findMany({
@@ -11,6 +46,7 @@ export async function fetchModulesForCourse(courseSlug: string) {
       include: {
         lessons: {
           include: {
+            topics: true,
             video_contents: true,
             drag_drop_contents: true,
             flashcard_contents: true,

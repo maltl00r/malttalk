@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 
 type Tab = "courses" | "topics" | "lessons" | "video" | "flashcards" | "dragdrop";
+type LessonType = "video" | "flashcards" | "drag_drop";
 
 interface Course {
   slug: string;
@@ -22,9 +23,15 @@ interface Lesson {
   id: number;
   uuid?: string;
   topic_id: number;
-  type: string;
+  type: LessonType;
   title: string;
 }
+
+const lessonTypeOptions: Array<{ value: LessonType; label: string }> = [
+  { value: "video", label: "Video" },
+  { value: "flashcards", label: "Flashcards" },
+  { value: "drag_drop", label: "Drag & Drop" },
+];
 
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<Tab>("courses");
@@ -69,6 +76,13 @@ export default function AdminPage() {
     loadTopics();
     loadLessons();
   }, []);
+
+  const getLessonsForContentType = (contentType: "video" | "flashcards" | "dragdrop") => {
+    const expectedType: LessonType =
+      contentType === "dragdrop" ? "drag_drop" : contentType === "flashcards" ? "flashcards" : "video";
+
+    return lessons.filter((lesson) => lesson.type === expectedType);
+  };
 
   const loadCourses = async () => {
     try {
@@ -162,19 +176,20 @@ export default function AdminPage() {
     e.preventDefault();
     setLoading(true);
     try {
+      const topicId = lessonForm.topic_id.trim();
       const res = await fetch("/api/admin/lessons", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          topic_id: parseInt(lessonForm.topic_id),
+          topic_id: Number(topicId),
           type: lessonForm.type,
-          title: lessonForm.title,
+          title: lessonForm.title.trim(),
         }),
       });
       if (res.ok) {
         showMessage("Lección creada exitosamente");
         setLessonForm({ topic_id: "", type: "video", title: "" });
-        loadLessons(lessonForm.topic_id);
+        loadLessons(topicId);
       } else {
         const error = await res.json();
         showMessage(error.error, "error");
@@ -512,13 +527,15 @@ export default function AdminPage() {
                   <label className="block text-sm font-medium text-slate-300 mb-2">Tipo</label>
                   <select
                     value={lessonForm.type}
-                    onChange={(e) => setLessonForm({ ...lessonForm, type: e.target.value })}
+                    onChange={(e) => setLessonForm({ ...lessonForm, type: e.target.value as LessonType })}
                     className="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-slate-100 focus:border-primary-start focus:outline-none transition-colors"
                     required
                   >
-                    <option value="video">Video</option>
-                    <option value="flashcards">Flashcards</option>
-                    <option value="drag_drop">Drag-Drop</option>
+                    {lessonTypeOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div>
@@ -577,7 +594,7 @@ export default function AdminPage() {
                     required
                   >
                     <option value="">Selecciona una lección</option>
-                    {lessons.map((lesson) => (
+                    {getLessonsForContentType("video").map((lesson) => (
                       <option key={lesson.id} value={lesson.id}>
                         {lesson.title} (ID: {lesson.id})
                       </option>
@@ -642,7 +659,7 @@ export default function AdminPage() {
                     required
                   >
                     <option value="">Selecciona una lección</option>
-                    {lessons.map((lesson) => (
+                    {getLessonsForContentType("flashcards").map((lesson) => (
                       <option key={lesson.id} value={lesson.id}>
                         {lesson.title} (ID: {lesson.id})
                       </option>
@@ -739,7 +756,7 @@ export default function AdminPage() {
                     required
                   >
                     <option value="">Selecciona una lección</option>
-                    {lessons.map((lesson) => (
+                    {getLessonsForContentType("dragdrop").map((lesson) => (
                       <option key={lesson.id} value={lesson.id}>
                         {lesson.title} (ID: {lesson.id})
                       </option>

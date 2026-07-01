@@ -2,18 +2,26 @@
 
 import { useMemo, useState, useEffect, useRef } from "react";
 import { fetchModulesForCourse } from "@/app/actions/modules";
-import type { topics, lessons, video_contents } from "@/generated/prisma/models";
+import type { topics, lessons, video_contents } from "@/generated/prisma/client";
 
 interface SidebarContainerProps {
   courseSlug: string;
   currentLessonUuid: string;
 }
 
-interface ModuleData {
-  topics: (topics & { lessons: (lessons & { video_contents: video_contents[] })[] })[];
+interface LessonWithRelations extends lessons {
+  video_contents: video_contents[];
+  topics?: {
+    title?: string | null;
+    slug?: string | null;
+  } | null;
 }
 
-type ModulosAgrupados = Record<string, (lessons & { video_contents: video_contents[] })[]>;
+interface ModuleData {
+  topics: (topics & { lessons: LessonWithRelations[] })[];
+}
+
+type ModulosAgrupados = Record<string, LessonWithRelations[]>;
 
 const getThumbnailUrl = (url: string): string => {
   const videoId = url.split('/').pop()?.replace('watch?v=', '').split('&')[0];

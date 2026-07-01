@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { fetchLessonWithFlashcardContent } from "@/app/actions/modules";
-import type { lessons, flashcard_contents } from "@/generated/prisma/models";
+import type { lessons, flashcard_contents } from "@/generated/prisma/client";
 
 interface FlashcardsDivProps {
   lessonId: number;

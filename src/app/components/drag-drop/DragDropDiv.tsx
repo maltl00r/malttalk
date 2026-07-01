@@ -7,7 +7,7 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import type { drag_drop_contents } from "@/generated/prisma/models";
+import type { drag_drop_contents } from "@/generated/prisma/client";
 
 // 1. Componente de seguridad para evitar Hydration Mismatch
 function ClientOnly({ children }: { children: React.ReactNode }) {

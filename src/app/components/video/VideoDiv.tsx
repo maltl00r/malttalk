@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { fetchLessonWithVideoContent } from "@/app/actions/modules";
 import ReactMarkdown from 'react-markdown';
-import type { lessons, video_contents } from "@/generated/prisma/models";
+import type { lessons, video_contents } from "@/generated/prisma/client";
 
 interface VideoDivProps {
   lessonId: number;

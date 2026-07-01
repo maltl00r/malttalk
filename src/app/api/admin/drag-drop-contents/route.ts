@@ -5,17 +5,28 @@ export async function POST(request: NextRequest) {
   try {
     const { lesson_id, text, category, feedback_message_wrong } =
       await request.json();
+    const lessonId = Number(lesson_id);
 
-    if (!lesson_id || !text || !category) {
+    if (!Number.isInteger(lessonId) || lessonId <= 0 || !text || !category) {
       return NextResponse.json(
-        { error: "lesson_id, text, and category are required" },
+        { error: "lesson_id must be a valid integer, text, and category are required" },
         { status: 400 }
       );
     }
 
+    const lesson = await prisma.lessons.findUnique({ where: { id: lessonId } });
+
+    if (!lesson) {
+      return NextResponse.json({ error: "Lesson not found" }, { status: 404 });
+    }
+
+    if (lesson.type !== "drag_drop") {
+      return NextResponse.json({ error: "Selected lesson is not a drag-drop lesson" }, { status: 400 });
+    }
+
     const dragDropContent = await prisma.drag_drop_contents.create({
       data: {
-        lesson_id,
+        lesson_id: lessonId,
         text,
         category,
         feedback_message_wrong,

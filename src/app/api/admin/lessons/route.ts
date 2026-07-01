@@ -4,19 +4,21 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const { topic_id, type, title } = await request.json();
+    const topicId = Number(topic_id);
+    const normalizedTitle = typeof title === "string" ? title.trim() : "";
 
-    if (!topic_id || !type || !title) {
+    if (!Number.isInteger(topicId) || topicId <= 0 || !["video", "flashcards", "drag_drop"].includes(type) || !normalizedTitle) {
       return NextResponse.json(
-        { error: "topic_id, type, and title are required" },
+        { error: "topic_id must be a valid integer, type must be one of video/flashcards/drag_drop, and title is required" },
         { status: 400 }
       );
     }
 
     const lesson = await prisma.lessons.create({
       data: {
-        topic_id,
+        topic_id: topicId,
         type,
-        title,
+        title: normalizedTitle,
       },
       include: {
         topics: true,
@@ -37,9 +39,16 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const topicId = searchParams.get("topicId");
+    const type = searchParams.get("type");
 
     const lessons = await prisma.lessons.findMany({
-      where: topicId ? { topic_id: parseInt(topicId) } : undefined,
+      where:
+        topicId || type
+          ? {
+              ...(topicId ? { topic_id: Number(topicId) } : {}),
+              ...(type ? { type: type as "video" | "flashcards" | "drag_drop" } : {}),
+            }
+          : undefined,
       include: {
         topics: true,
         video_contents: true,
