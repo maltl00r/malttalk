@@ -44,3 +44,59 @@ export async function GET() {
     );
   }
 }
+
+export async function PUT(request: NextRequest) {
+  try {
+    const { slug, title, description, newSlug } = await request.json();
+
+    if (!slug || !title) {
+      return NextResponse.json(
+        { error: "slug and title are required" },
+        { status: 400 }
+      );
+    }
+
+    const course = await prisma.courses.update({
+      where: { slug },
+      data: {
+        slug: newSlug || slug,
+        title,
+        description,
+      },
+    });
+
+    return NextResponse.json(course);
+  } catch (error) {
+    console.error("Error updating course:", error);
+    return NextResponse.json(
+      { error: "Failed to update course" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const slug = searchParams.get("slug");
+
+    if (!slug) {
+      return NextResponse.json(
+        { error: "slug is required" },
+        { status: 400 }
+      );
+    }
+
+    await prisma.courses.delete({
+      where: { slug },
+    });
+
+    return NextResponse.json({ message: "Course deleted" });
+  } catch (error) {
+    console.error("Error deleting course:", error);
+    return NextResponse.json(
+      { error: "Failed to delete course" },
+      { status: 500 }
+    );
+  }
+}

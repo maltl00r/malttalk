@@ -42,10 +42,19 @@ export default async function CourseDashboardPage({ params }: DashboardPageProps
 
               <div className="grid gap-4 md:grid-cols-2">
                 {topic.lessons.map((lesson) => {
+                  const lessonRoute =
+                    lesson.type === "drag_drop"
+                      ? "drag-drop"
+                      : lesson.type === "flashcards"
+                        ? "flashcards"
+                        : lesson.type === "reading"
+                          ? "reading"
+                          : "video";
+
                   return (
                     <Link
                       key={lesson.id}
-                      href={`/module/${course}/video?id=${lesson.uuid}`}
+                      href={`/module/${course}/${lessonRoute}?id=${lesson.uuid}`}
                       className="rounded-xl border border-white/10 bg-[#1f1f3f] p-4 transition hover:border-cyan-400/50 hover:bg-[#25254a]"
                     >
                       <div className="flex items-start justify-between gap-3">

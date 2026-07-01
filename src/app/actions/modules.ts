@@ -50,6 +50,7 @@ export async function fetchModulesForCourse(courseSlug: string) {
             video_contents: true,
             drag_drop_contents: true,
             flashcard_contents: true,
+            reading_contents: true,
           },
           orderBy: {
             id: "asc",
@@ -112,6 +113,26 @@ export async function fetchLessonWithFlashcardContent(lessonId: number) {
     return lesson;
   } catch (error) {
     console.error("Error fetching flashcard content:", error);
+    throw error;
+  }
+}
+
+export async function fetchLessonWithReadingContent(lessonId: number) {
+  try {
+    const lesson = await prisma.lessons.findUnique({
+      where: { id: lessonId },
+      include: {
+        reading_contents: {
+          include: {
+            glossary_items: true,
+          },
+        },
+      },
+    });
+
+    return lesson;
+  } catch (error) {
+    console.error("Error fetching reading content:", error);
     throw error;
   }
 }

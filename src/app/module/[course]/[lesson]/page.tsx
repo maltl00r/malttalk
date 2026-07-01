@@ -3,6 +3,7 @@ import { use, useState, useEffect } from "react";
 import VideoDiv from "../../../components/video/VideoDiv";
 import FlashcardsDiv from "../../../components/flashcards/FlashcardsDiv";
 import DragDropDiv from "../../../components/drag-drop/DragDropDiv";
+import ReadingDiv from "../../../components/reading/ReadingDiv";
 import SidebarModuleToggle from "../../../components/ui/SidebarModuleToggle";
 import ModuleList from "../../../components/ui/ModuleList";
 import { notFound } from "next/navigation";
@@ -109,6 +110,10 @@ export default function ModulePage({ params, searchParams }: PageProps) {
 
         {lesson === "drag-drop" && (
           <DragDropDiv lessonId={lessonData.id}/>
+        )}
+
+        {lesson === "reading" && (
+          <ReadingDiv lessonId={lessonData.id}/>
         )}
       </div>
 

@@ -22,6 +22,11 @@ export async function GET(
         video_contents: true,
         flashcard_contents: true,
         drag_drop_contents: true,
+        reading_contents: {
+          include: {
+            glossary_items: true,
+          },
+        },
       },
     });
 

@@ -40,13 +40,20 @@ export default function DragDropDiv({ lessonId }: { lessonId: number }) {
   const baseItems = useMemo(() => dragDropItems, [dragDropItems]);
   const categories = useMemo(() => Array.from(new Set(baseItems.map((i) => i.category))), [baseItems]);
 
-  const [pool, setPool] = useState(baseItems);
-  const [bins, setBins] = useState<Record<string, drag_drop_contents[]>>(() =>
-    categories.reduce((acc, cat) => ({ ...acc, [cat]: [] }), {})
-  );
+  const [pool, setPool] = useState<drag_drop_contents[]>([]);
+  const [bins, setBins] = useState<Record<string, drag_drop_contents[]>>({});
 
-  // 2. Shuffle seguro ejecutado solo en el cliente tras el montaje
   useEffect(() => {
+    const nextCategories = Array.from(new Set(baseItems.map((item) => item.category)));
+
+    setBins((prev) => {
+      const nextBins: Record<string, drag_drop_contents[]> = {};
+      nextCategories.forEach((category) => {
+        nextBins[category] = prev[category] ?? [];
+      });
+      return nextBins;
+    });
+
     setPool([...baseItems].sort(() => Math.random() - 0.5));
   }, [baseItems]);
 
