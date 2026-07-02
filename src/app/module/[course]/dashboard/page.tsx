@@ -13,6 +13,9 @@ const LESSON_ICONS = {
   drag_drop: "🎯",
   reading: "📖",
   visio_acoustic: "🎵",
+  writing_challenges: "✍️",
+  mental_agility: "🧠",
+  closing_exam: "📊",
 };
 
 // Colores por tipo de lección
@@ -46,6 +49,24 @@ const LESSON_COLORS = {
     light: "from-pink-100 to-rose-200",
     text: "text-pink-700",
     badge: "bg-pink-100 text-pink-700",
+  },
+  writing_challenges: {
+    bg: "from-indigo-600 to-indigo-700",
+    light: "from-indigo-100 to-indigo-200",
+    text: "text-indigo-700",
+    badge: "bg-indigo-100 text-indigo-700",
+  },
+  mental_agility: {
+    bg: "from-orange-600 to-yellow-700",
+    light: "from-orange-100 to-yellow-200",
+    text: "text-orange-700",
+    badge: "bg-orange-100 text-orange-700",
+  },
+  closing_exam: {
+    bg: "from-purple-600 to-blue-700",
+    light: "from-purple-100 to-blue-200",
+    text: "text-purple-700",
+    badge: "bg-purple-100 text-purple-700",
   },
 };
 
@@ -163,7 +184,13 @@ export default async function CourseDashboardPage({ params }: DashboardPageProps
                           ? "reading"
                           : lesson.type === "visio_acoustic"
                             ? "visio-acoustic"
-                            : "video";
+                            : lesson.type === "writing_challenges"
+                              ? "writing-challenges"
+                              : lesson.type === "mental_agility"
+                                ? "mental-agility"
+                                : lesson.type === "closing_exam"
+                                  ? "closing-exam"
+                                  : "video";
 
                   const colors = LESSON_COLORS[lesson.type as keyof typeof LESSON_COLORS] || LESSON_COLORS.video;
                   const icon = LESSON_ICONS[lesson.type as keyof typeof LESSON_ICONS] || "📚";
@@ -174,6 +201,9 @@ export default async function CourseDashboardPage({ params }: DashboardPageProps
                     : lesson.type === "flashcards" ? "Tarjetas"
                     : lesson.type === "reading" ? "Lectura"
                     : lesson.type === "visio_acoustic" ? "Quiz Audio"
+                    : lesson.type === "writing_challenges" ? "Escritura"
+                    : lesson.type === "mental_agility" ? "Agilidad"
+                    : lesson.type === "closing_exam" ? "Examen"
                     : "Contenido";
 
                   return (

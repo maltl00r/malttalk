@@ -35,9 +35,9 @@ export async function POST(request: NextRequest) {
     const topicId = Number(topic_id);
     const normalizedTitle = typeof title === "string" ? title.trim() : "";
 
-    if (!Number.isInteger(topicId) || topicId <= 0 || !["video", "flashcards", "drag_drop", "reading", "visio_acoustic"].includes(type) || !normalizedTitle) {
+    if (!Number.isInteger(topicId) || topicId <= 0 || !["video", "flashcards", "drag_drop", "reading", "visio_acoustic", "writing_challenges", "mental_agility", "closing_exam"].includes(type) || !normalizedTitle) {
       return NextResponse.json(
-        { error: "topic_id must be a valid integer, type must be one of video/flashcards/drag_drop/reading/visio_acoustic, and title is required" },
+        { error: "topic_id must be a valid integer, type must be one of video/flashcards/drag_drop/reading/visio_acoustic/writing_challenges/mental_agility/closing_exam, and title is required" },
         { status: 400 }
       );
     }
@@ -131,9 +131,9 @@ export async function PUT(request: NextRequest) {
     const topicId = Number(topic_id);
     const normalizedTitle = typeof title === "string" ? title.trim() : "";
 
-    if (!Number.isInteger(lessonId) || lessonId <= 0 || !Number.isInteger(topicId) || topicId <= 0 || !["video", "flashcards", "drag_drop", "reading", "visio_acoustic"].includes(type) || !normalizedTitle) {
+    if (!Number.isInteger(lessonId) || lessonId <= 0 || !Number.isInteger(topicId) || topicId <= 0 || !["video", "flashcards", "drag_drop", "reading", "visio_acoustic", "writing_challenges", "mental_agility", "closing_exam"].includes(type) || !normalizedTitle) {
       return NextResponse.json(
-        { error: "id and topic_id must be valid integers, type must be one of video/flashcards/drag_drop/reading/visio_acoustic, and title is required" },
+        { error: "id and topic_id must be valid integers, type must be one of video/flashcards/drag_drop/reading/visio_acoustic/writing_challenges/mental_agility/closing_exam, and title is required" },
         { status: 400 }
       );
     }

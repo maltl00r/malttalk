@@ -7,10 +7,16 @@
 // Database: PostgreSQL with UUID generation for lessons.
 // ============================================================================
 
-// Prisma Client Generator - Outputs to src/generated/prisma
+// Prisma Client Generator - Outputs to src/generated/prisma (for app development)
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
+}
+
+// Prisma Client Generator - Default output for seed script compatibility
+generator client_default {
+  provider = "prisma-client"
+  output   = "../.prisma/client"
 }
 
 // PostgreSQL datasource configuration
@@ -21,13 +27,16 @@ datasource db {
 // ============================================================================
 // ENUM: Lesson Type
 // ============================================================================
-/// Defines the five content types available for language learning lessons.
+/// Defines the eight content types available for language learning lessons.
 enum lesson_type {
   video              // Video content with duration tracking
   flashcards         // Spaced repetition flashcard system
   drag_drop          @map("drag-drop") // Drag and drop interactive exercises
   reading            // Reading comprehension with glossary support
   visio_acoustic     @map("visio-acoustic") // Visio-acoustic diagnostic quiz system
+  writing_challenges @map("writing-challenges") // Writing expression challenges with vocabulary validation
+  mental_agility     @map("mental-agility") // Timed mental agility challenges
+  closing_exam       @map("closing-exam") // Unit closing assessment tests
 }
 
 // ============================================================================
@@ -82,6 +91,9 @@ model lessons {
   flashcard_contents flashcard_contents[]
   drag_drop_contents drag_drop_contents[]
   visio_acoustic_contents visio_acoustic_contents[]
+  writing_challenge_contents writing_challenge_contents[]
+  mental_agility_contents mental_agility_contents[]
+  closing_exam_contents closing_exam_contents[]
   
   // Tag relationship
   lesson_tag         lesson_tag[]
@@ -221,4 +233,155 @@ model visio_acoustic_contents {
   
   // Foreign key relationship
   lessons                lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_visio_acoustic")
+}
+
+// ============================================================================
+// MODEL: writing_challenge_contents
+// ============================================================================
+/// Stores writing expression challenges where students compose texts using
+/// learned vocabulary. Includes prompts, word count requirements, vocabulary
+/// validation, difficulty levels, and evaluation criteria.
+model writing_challenge_contents {
+  id                    Int     @id @default(autoincrement()) // Primary key
+  lesson_id             Int     // Foreign key to lessons
+  
+  /// Challenge title (e.g., "Write a greeting email")
+  title                 String  @db.VarChar(255) // Display title of the writing challenge
+  
+  /// Detailed prompt/instructions for the writing task
+  prompt                String  @db.Text // Full prompt text describing the writing task
+  
+  /// Minimum word count requirement
+  min_words             Int     @default(50) // Minimum number of words required
+  
+  /// Maximum word count limit
+  max_words             Int     @default(300) // Maximum number of words allowed
+  
+  /// Comma-separated list of required vocabulary words to include
+  required_vocabulary   String? @db.Text // Comma-separated list of required vocabulary
+  
+  /// Example answer or model text
+  example_answer        String? @db.Text // Model answer for reference
+  
+  /// Difficulty level: beginner, intermediate, advanced
+  difficulty_level      String  @db.VarChar(50) @default("beginner") // Difficulty: beginner|intermediate|advanced
+  
+  /// Order of challenges within the lesson
+  challenge_order       Int     @default(0) // Order of challenge within the lesson
+  
+  /// Evaluation criteria as JSON (e.g., grammar, vocabulary, structure)
+  evaluation_criteria   String? @db.Text // JSON evaluation rubric criteria
+  
+  /// Hint or guidance for the student
+  hint                  String? @db.Text // Optional hint for the student
+  
+  // Foreign key relationship
+  lessons               lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_writing_challenge")
+}
+
+// ============================================================================
+// MODEL: mental_agility_contents
+// ============================================================================
+/// Stores timed mental agility challenges for identifying correct terms in sequences.
+/// Students race against time to select the correct answer that completes a pattern.
+model mental_agility_contents {
+  id                    Int     @id @default(autoincrement()) // Primary key
+  lesson_id             Int     // Foreign key to lessons
+  
+  /// Challenge title (e.g., "Complete the sequence")
+  title                 String  @db.VarChar(255) // Display title of the challenge
+  
+  /// Prompt with pattern or sequence
+  prompt                String  @db.Text // Full prompt describing the pattern
+  
+  /// Time limit in seconds
+  time_limit            Int     @default(30) // Time limit in seconds (default: 30)
+  
+  /// Correct answer
+  correct_answer        String  @db.VarChar(255) // The correct completion
+  
+  /// Alternative answer B
+  option_b              String  @db.VarChar(255) // Second option
+  
+  /// Alternative answer C
+  option_c              String  @db.VarChar(255) // Third option
+  
+  /// Optional alternative answer D
+  option_d              String? @db.VarChar(255) // Fourth optional option
+  
+  /// Reference image or visual for the challenge
+  image_url             String? @db.VarChar(255) // Optional visual reference
+  
+  /// Feedback for correct answer
+  feedback_correct      String? @db.Text // Positive feedback message
+  
+  /// Feedback for incorrect answers
+  feedback_incorrect    String? @db.Text // Negative feedback message
+  
+  /// Difficulty level: beginner, intermediate, advanced
+  difficulty_level      String  @db.VarChar(50) @default("beginner") // Difficulty level
+  
+  /// Order of challenges within the lesson
+  challenge_order       Int     @default(0) // Order of challenge within the lesson
+  
+  /// Category/type of mental challenge
+  challenge_type        String? @db.VarChar(100) // e.g., "sequence", "pattern", "word_association"
+  
+  // Foreign key relationship
+  lessons               lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_mental_agility")
+}
+
+// ============================================================================
+// MODEL: closing_exam_contents
+// ============================================================================
+/// Stores timed unit closing assessment tests to measure overall comprehension.
+/// Tests are chronometer-based evaluations given at the end of learning units.
+model closing_exam_contents {
+  id                    Int     @id @default(autoincrement()) // Primary key
+  lesson_id             Int     // Foreign key to lessons
+  
+  /// Exam title
+  title                 String  @db.VarChar(255) // Display title of the exam
+  
+  /// Exam description
+  description           String? @db.Text // Details about what the exam covers
+  
+  /// Time limit in seconds for entire exam
+  time_limit            Int     @default(600) // Time limit in seconds (default: 10 min)
+  
+  /// Question or prompt
+  question              String  @db.Text // Question or task prompt
+  
+  /// Correct answer option
+  correct_answer        String  @db.VarChar(255) // The correct answer
+  
+  /// Alternative answer B
+  option_b              String  @db.VarChar(255) // Second option
+  
+  /// Alternative answer C
+  option_c              String  @db.VarChar(255) // Third option
+  
+  /// Optional alternative answer D
+  option_d              String? @db.VarChar(255) // Fourth optional option
+  
+  /// Passing score percentage
+  passing_score         Int     @default(70) // Minimum percentage to pass (0-100)
+  
+  /// Difficulty level: beginner, intermediate, advanced
+  difficulty_level      String  @db.VarChar(50) @default("beginner") // Difficulty level
+  
+  /// Question order in exam
+  question_order        Int     @default(0) // Order of question within the exam
+  
+  /// Points value for this question
+  points_value          Int     @default(1) // Points awarded for correct answer
+  
+  /// Feedback for correct answer
+  feedback_correct      String? @db.Text // Positive feedback message
+  
+  /// Feedback for incorrect answers
+  feedback_incorrect    String? @db.Text // Negative feedback message
+  
+  // Foreign key relationship
+  lessons               lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_closing_exam")
 }

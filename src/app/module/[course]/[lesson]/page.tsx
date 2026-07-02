@@ -5,6 +5,9 @@ import FlashcardsDiv from "../../../components/flashcards/FlashcardsDiv";
 import DragDropDiv from "../../../components/drag-drop/DragDropDiv";
 import ReadingDiv from "../../../components/reading/ReadingDiv";
 import VisioAcousticDiv from "../../../components/visio-acoustic/VisioAcousticDiv";
+import WritingChallengesDiv from "../../../components/writing-challenges/WritingChallengesDiv";
+import MentalAgilityDiv from "../../../components/mental-agility/MentalAgilityDiv";
+import ClosingExamDiv from "../../../components/closing-exam/ClosingExamDiv";
 import SidebarModuleToggle from "../../../components/ui/SidebarModuleToggle";
 import ModuleList from "../../../components/ui/ModuleList";
 import { notFound } from "next/navigation";
@@ -119,6 +122,18 @@ export default function ModulePage({ params, searchParams }: PageProps) {
 
         {lesson === "visio-acoustic" && (
           <VisioAcousticDiv lessonId={lessonData.id}/>
+        )}
+
+        {lesson === "writing-challenges" && (
+          <WritingChallengesDiv lessonId={lessonData.id}/>
+        )}
+
+        {lesson === "mental-agility" && (
+          <MentalAgilityDiv lessonId={lessonData.id}/>
+        )}
+
+        {lesson === "closing-exam" && (
+          <ClosingExamDiv lessonId={lessonData.id}/>
         )}
       </div>
 

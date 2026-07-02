@@ -269,3 +269,93 @@ export async function fetchLessonWithVisioAcousticContent(lessonId: number) {
     handleFetchError("fetchLessonWithVisioAcousticContent", error as Error);
   }
 }
+
+/**
+ * Fetches a lesson with its associated writing challenge content.
+ * Retrieves all writing exercises sorted by challenge order.
+ *
+ * @async
+ * @param {number} lessonId - The lesson ID to fetch
+ * @returns {Promise<Object|null>} Lesson object with writing_challenge_contents array
+ * @throws {Error} Database query error
+ *
+ * @example
+ * const lesson = await fetchLessonWithWritingChallenges(6);
+ * console.log(lesson.writing_challenge_contents); // Array of writing challenges
+ */
+export async function fetchLessonWithWritingChallenges(lessonId: number) {
+  try {
+    const lesson = await prisma.lessons.findUnique({
+      where: { id: lessonId },
+      include: {
+        writing_challenge_contents: {
+          orderBy: { challenge_order: "asc" },
+        },
+      },
+    });
+
+    return lesson;
+  } catch (error) {
+    handleFetchError("fetchLessonWithWritingChallenges", error as Error);
+  }
+}
+
+/**
+ * Fetches a lesson with its associated mental agility content (timed challenges).
+ * Retrieves all mental agility challenges sorted by challenge order.
+ *
+ * @async
+ * @param {number} lessonId - The lesson ID to fetch
+ * @returns {Promise<Object|null>} Lesson object with mental_agility_contents array
+ * @throws {Error} Database query error
+ *
+ * @example
+ * const lesson = await fetchLessonWithMentalAgility(7);
+ * console.log(lesson.mental_agility_contents); // Array of challenges
+ */
+export async function fetchLessonWithMentalAgility(lessonId: number) {
+  try {
+    const lesson = await prisma.lessons.findUnique({
+      where: { id: lessonId },
+      include: {
+        mental_agility_contents: {
+          orderBy: { challenge_order: "asc" },
+        },
+      },
+    });
+
+    return lesson;
+  } catch (error) {
+    handleFetchError("fetchLessonWithMentalAgility", error as Error);
+  }
+}
+
+/**
+ * Fetches a lesson with its associated closing exam content.
+ * Retrieves all closing exam questions sorted by question order.
+ *
+ * @async
+ * @param {number} lessonId - The lesson ID to fetch
+ * @returns {Promise<Object|null>} Lesson object with closing_exam_contents array
+ * @throws {Error} Database query error
+ *
+ * @example
+ * const lesson = await fetchLessonWithClosingExam(8);
+ * console.log(lesson.closing_exam_contents); // Array of exam questions
+ */
+export async function fetchLessonWithClosingExam(lessonId: number) {
+  try {
+    const lesson = await prisma.lessons.findUnique({
+      where: { id: lessonId },
+      include: {
+        closing_exam_contents: {
+          orderBy: { question_order: "asc" },
+        },
+      },
+    });
+
+    return lesson;
+  } catch (error) {
+    handleFetchError("fetchLessonWithClosingExam", error as Error);
+  }
+}
