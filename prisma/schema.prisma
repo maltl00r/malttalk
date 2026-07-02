@@ -21,12 +21,13 @@ datasource db {
 // ============================================================================
 // ENUM: Lesson Type
 // ============================================================================
-/// Defines the four content types available for language learning lessons.
+/// Defines the five content types available for language learning lessons.
 enum lesson_type {
-  video     // Video content with duration tracking
-  flashcards // Spaced repetition flashcard system
-  drag_drop  @map("drag-drop") // Drag and drop interactive exercises
-  reading   // Reading comprehension with glossary support
+  video              // Video content with duration tracking
+  flashcards         // Spaced repetition flashcard system
+  drag_drop          @map("drag-drop") // Drag and drop interactive exercises
+  reading            // Reading comprehension with glossary support
+  visio_acoustic     @map("visio-acoustic") // Visio-acoustic diagnostic quiz system
 }
 
 // ============================================================================
@@ -80,6 +81,7 @@ model lessons {
   reading_contents   reading_contents[]
   flashcard_contents flashcard_contents[]
   drag_drop_contents drag_drop_contents[]
+  visio_acoustic_contents visio_acoustic_contents[]
   
   // Tag relationship
   lesson_tag         lesson_tag[]
@@ -194,4 +196,29 @@ model lesson_tag {
 
   // Composite primary key ensures one tag per lesson
   @@id([lesson_id, tag_id])
+}
+
+// ============================================================================
+// MODEL: visio_acoustic_contents
+// ============================================================================
+/// Implements visio-acoustic diagnostic quiz system for associating sounds
+/// with visual elements (gestures, images). Questions test comprehension by
+/// matching audio cues with visual representations.
+model visio_acoustic_contents {
+  id                     Int     @id @default(autoincrement()) // Primary key
+  lesson_id              Int     // Foreign key to lessons
+  question_text          String  @db.VarChar(255) // Question prompt (e.g., "Choose the gesture for...")
+  sound_url              String  @db.VarChar(255) // URL to audio file (sound/pronunciation)
+  image_url              String  @db.VarChar(255) // URL to gesture or image for visual reference
+  correct_answer         String  @db.VarChar(255) // Text of the correct answer option
+  option_b               String  @db.VarChar(255) // Second incorrect answer option
+  option_c               String  @db.VarChar(255) // Third incorrect answer option
+  option_d               String? @db.VarChar(255) // Fourth optional answer option
+  feedback_correct       String? @db.Text // Positive feedback message for correct answer
+  feedback_incorrect     String? @db.Text // Feedback message for incorrect answers
+  question_order         Int     @default(0) // Order of question within the lesson
+  difficulty_level       String  @db.VarChar(50) @default("beginner") // Difficulty: beginner|intermediate|advanced
+  
+  // Foreign key relationship
+  lessons                lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_visio_acoustic")
 }

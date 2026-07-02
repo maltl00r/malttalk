@@ -12,6 +12,7 @@ const LESSON_ICONS = {
   flashcards: "🎴",
   drag_drop: "🎯",
   reading: "📖",
+  visio_acoustic: "🎵",
 };
 
 // Colores por tipo de lección
@@ -39,6 +40,12 @@ const LESSON_COLORS = {
     light: "from-blue-100 to-blue-200",
     text: "text-blue-700",
     badge: "bg-blue-100 text-blue-700",
+  },
+  visio_acoustic: {
+    bg: "from-pink-600 to-rose-700",
+    light: "from-pink-100 to-rose-200",
+    text: "text-pink-700",
+    badge: "bg-pink-100 text-pink-700",
   },
 };
 
@@ -154,10 +161,20 @@ export default async function CourseDashboardPage({ params }: DashboardPageProps
                         ? "flashcards"
                         : lesson.type === "reading"
                           ? "reading"
-                          : "video";
+                          : lesson.type === "visio_acoustic"
+                            ? "visio-acoustic"
+                            : "video";
 
                   const colors = LESSON_COLORS[lesson.type as keyof typeof LESSON_COLORS] || LESSON_COLORS.video;
                   const icon = LESSON_ICONS[lesson.type as keyof typeof LESSON_ICONS] || "📚";
+
+                  const lessonTypeLabel = 
+                    lesson.type === "drag_drop" ? "Interactivo"
+                    : lesson.type === "video" ? "Video"
+                    : lesson.type === "flashcards" ? "Tarjetas"
+                    : lesson.type === "reading" ? "Lectura"
+                    : lesson.type === "visio_acoustic" ? "Quiz Audio"
+                    : "Contenido";
 
                   return (
                     <Link
@@ -180,7 +197,7 @@ export default async function CourseDashboardPage({ params }: DashboardPageProps
                           <div className="flex items-center justify-between mb-4">
                             <span className="text-4xl">{icon}</span>
                             <span className={`px-3 py-1 rounded-full text-xs font-bold ${colors.badge} backdrop-blur-sm bg-opacity-80`}>
-                              {lesson.type === "drag_drop" ? "Interactivo" : lesson.type === "video" ? "Video" : lesson.type === "flashcards" ? "Tarjetas" : "Lectura"}
+                              {lessonTypeLabel}
                             </span>
                           </div>
                           

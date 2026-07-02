@@ -239,3 +239,33 @@ export async function fetchLessonWithReadingContent(lessonId: number) {
     handleFetchError("fetchLessonWithReadingContent", error as Error);
   }
 }
+
+/**
+ * Fetches a lesson with its visio-acoustic quiz content.
+ * Used for diagnostic audio-visual association exercises.
+ *
+ * @async
+ * @param {number} lessonId - Database ID of the lesson
+ * @returns {Promise<Object|null>} Lesson with visio_acoustic_contents array sorted by question order
+ * @throws {Error} Database query error
+ *
+ * @example
+ * const lesson = await fetchLessonWithVisioAcousticContent(5);
+ * console.log(lesson.visio_acoustic_contents); // Array of quiz questions
+ */
+export async function fetchLessonWithVisioAcousticContent(lessonId: number) {
+  try {
+    const lesson = await prisma.lessons.findUnique({
+      where: { id: lessonId },
+      include: {
+        visio_acoustic_contents: {
+          orderBy: { question_order: "asc" },
+        },
+      },
+    });
+
+    return lesson;
+  } catch (error) {
+    handleFetchError("fetchLessonWithVisioAcousticContent", error as Error);
+  }
+}
