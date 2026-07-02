@@ -57,6 +57,10 @@ export async function GET(
             glossary_items: true,
           },
         },
+        visio_acoustic_contents: true,
+        writing_challenge_contents: true,
+        mental_agility_contents: true,
+        closing_exam_contents: true,
       },
     });
 

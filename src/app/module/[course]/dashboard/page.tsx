@@ -18,6 +18,11 @@ const LESSON_ICONS = {
   closing_exam: "📊",
 };
 
+// Convertir tipo de lección de DB format (underscore) a URL format (hyphen)
+const convertLessonTypeToUrl = (type: string): string => {
+  return type.replace(/_/g, '-');
+};
+
 // Colores por tipo de lección
 const LESSON_COLORS = {
   video: {
@@ -175,22 +180,7 @@ export default async function CourseDashboardPage({ params }: DashboardPageProps
               {/* Grilla de lecciones */}
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {topic.lessons.map((lesson) => {
-                  const lessonRoute =
-                    lesson.type === "drag_drop"
-                      ? "drag-drop"
-                      : lesson.type === "flashcards"
-                        ? "flashcards"
-                        : lesson.type === "reading"
-                          ? "reading"
-                          : lesson.type === "visio_acoustic"
-                            ? "visio-acoustic"
-                            : lesson.type === "writing_challenges"
-                              ? "writing-challenges"
-                              : lesson.type === "mental_agility"
-                                ? "mental-agility"
-                                : lesson.type === "closing_exam"
-                                  ? "closing-exam"
-                                  : "video";
+                  const lessonRoute = convertLessonTypeToUrl(lesson.type);
 
                   const colors = LESSON_COLORS[lesson.type as keyof typeof LESSON_COLORS] || LESSON_COLORS.video;
                   const icon = LESSON_ICONS[lesson.type as keyof typeof LESSON_ICONS] || "📚";

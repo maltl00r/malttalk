@@ -123,6 +123,10 @@ export async function fetchModulesForCourse(courseSlug: string) {
             drag_drop_contents: true,
             flashcard_contents: true,
             reading_contents: true,
+            visio_acoustic_contents: true,
+            writing_challenge_contents: true,
+            mental_agility_contents: true,
+            closing_exam_contents: true,
           },
           orderBy: {
             id: "asc",

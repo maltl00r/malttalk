@@ -23,6 +23,23 @@ interface ModuleData {
 
 type ModulosAgrupados = Record<string, LessonWithRelations[]>;
 
+// Convertir tipo de lección de DB format (underscore) a URL format (hyphen)
+const convertLessonTypeToUrl = (type: string): string => {
+  return type.replace(/_/g, '-');
+};
+
+// Iconos por tipo de lección
+const LESSON_ICONS: Record<string, string> = {
+  video: "🎬",
+  flashcards: "🎴",
+  drag_drop: "🎯",
+  reading: "📖",
+  visio_acoustic: "🎵",
+  writing_challenges: "✍️",
+  mental_agility: "🧠",
+  closing_exam: "📊",
+};
+
 const getThumbnailUrl = (url: string): string => {
   const videoId = url.split('/').pop()?.replace('watch?v=', '').split('&')[0];
   return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
@@ -142,7 +159,7 @@ export default function ModuleList({ courseSlug, currentLessonUuid }: SidebarCon
                     {lecciones.map((leccion) => {
                       const videoContent = leccion.video_contents?.[0];
                       const thumbnail = videoContent ? getThumbnailUrl(videoContent.url) : null;
-                      const lessonType = leccion.type === "drag_drop" ? "drag-drop" : leccion.type;
+                      const lessonType = convertLessonTypeToUrl(leccion.type);
 
                       return (
                         <a 
@@ -162,8 +179,8 @@ export default function ModuleList({ courseSlug, currentLessonUuid }: SidebarCon
                                 className="w-full h-full object-cover"
                               />
                             ) : (
-                              <div className="absolute inset-0 flex items-center justify-center text-zinc-500">
-                                {leccion.type === "video" ? "📺" : "📖"}
+                              <div className="absolute inset-0 flex items-center justify-center text-zinc-500 text-xl">
+                                {LESSON_ICONS[leccion.type] || "📚"}
                               </div>
                             )}
                             {leccion.type === "video" && (
