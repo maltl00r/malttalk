@@ -28,6 +28,14 @@ const getThumbnailUrl = (url: string): string => {
   return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
 };
 
+// Convertir segundos a formato MM:SS
+const formatDuration = (seconds: number | null | undefined): string => {
+  if (!seconds) return "10:00"; // Default if not set
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+};
+
 export default function ModuleList({ courseSlug, currentLessonUuid }: SidebarContainerProps) {
   const [openModules, setOpenModules] = useState<Record<string, boolean>>({});
   const [modulos, setModulos] = useState<ModulosAgrupados>({});
@@ -158,7 +166,7 @@ export default function ModuleList({ courseSlug, currentLessonUuid }: SidebarCon
                             )}
                             {leccion.type === "video" && (
                               <span className="absolute bottom-1 right-1 bg-black/80 text-[10px] px-1 rounded text-white">
-                                10:00
+                                {formatDuration(videoContent?.duration)}
                               </span>
                             )}
                           </div>

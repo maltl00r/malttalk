@@ -68,17 +68,17 @@ export default function Level(): ReactElement {
 
     return (
         <div className="text-center mb-12 px-4">
-            <BorderedTitle text="Nuestros niveles" bg="bg-violet-500/10" txtColor="text-indigo-500" />
+            <BorderedTitle text="Nuestros niveles" bg="dark:bg-violet-500/10 bg-violet-100" txtColor="dark:text-indigo-500 text-indigo-600" />
 
             <div className="mx-auto max-w-6xl px-5 grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch pb-20 mt-4">
                 {niveles.map((nivel, index) => (
                     <div
                         key={index}
-                        className={`w-full flex flex-col ${nivel.colorFondoHeader} rounded-2xl border-2 ${nivel.colorBorde} shadow-sm transition-transform duration-300 hover:scale-105 overflow-hidden`}
+                        className={`w-full flex flex-col ${nivel.colorFondoHeader} dark:${nivel.colorFondoHeader} rounded-2xl border-2 ${nivel.colorBorde} dark:${nivel.colorBorde} shadow-sm transition-transform duration-300 hover:scale-105 overflow-hidden`}
                     >
-                        <div className={`p-6 text-center ${nivel.colorFondoHeader} border-b ${nivel.colorBorde}`}>
-                            <h3 className="text-2xl font-bold text-[#0a0a0f]">{nivel.titulo}</h3>
-                            <span className="text-sm font-semibold text-[#0a0a0f] block mt-1">{nivel.rango}</span>
+                        <div className={`p-6 text-center ${nivel.colorFondoHeader} dark:${nivel.colorFondoHeader} border-b ${nivel.colorBorde} dark:${nivel.colorBorde}`}>
+                            <h3 className="text-2xl font-bold text-gray-900 dark:text-[#0a0a0f]">{nivel.titulo}</h3>
+                            <span className="text-sm font-semibold text-gray-800 dark:text-[#0a0a0f] block mt-1">{nivel.rango}</span>
 
                             <div className="flex items-center justify-center space-x-3 mt-4">
                                 <span className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold ${nivel.colorBgBadge}`}>
@@ -87,22 +87,22 @@ export default function Level(): ReactElement {
                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-xs ${nivel.colorBgBadge}`}>
                                     🌐
                                 </div>
-                                <span className="text-xs font-medium text-[#0a0a0f] truncate max-w-[120px]">
+                                <span className="text-xs font-medium text-gray-800 dark:text-[#0a0a0f] truncate max-w-[120px]">
                                     {nivel.descripcionCorta}
                                 </span>
                             </div>
                         </div>
 
-                        <div className="p-6 flex-grow flex flex-col justify-between">
+                        <div className="p-6 flex-grow flex flex-col justify-between bg-white dark:bg-transparent">
                             <ul className="space-y-4">
                                 {nivel.beneficios.map((beneficio, bIndex) => (
-                                    <li key={bIndex} className="flex items-start text-sm text-black text-left">
+                                    <li key={bIndex} className="flex items-start text-sm text-gray-900 dark:text-black text-left">
                                         <span className={`flex-shrink-0 mr-3 mt-0.5 ${nivel.colorTextoIcono}`}>
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                             </svg>
                                         </span>
-                                        <span className="text-foreground">{beneficio}</span>
+                                        <span className="text-gray-900 dark:text-foreground">{beneficio}</span>
                                     </li>
                                 ))}
                             </ul>

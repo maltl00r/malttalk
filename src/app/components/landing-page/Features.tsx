@@ -8,14 +8,14 @@ export default function Features(): ReactElement {
     return (
         <section id="features" className="max-w-6xl mx-auto pt-24 px-6">
             <div className="text-center mb-16">
-                <BorderedTitle text="Funcionalidades" bg="bg-primary-start/10" txtColor="text-primary-end"/>
-                <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4 text-balance">
+                <BorderedTitle text="Funcionalidades" bg="dark:bg-primary-start/10 bg-blue-100" txtColor="dark:text-primary-end text-blue-600"/>
+                <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4 text-balance text-gray-900 dark:text-white">
                     Todo lo que necesitas para dominar un nuevo idioma
                 </h2>
-                <p className="text-muted-foreground max-w-xl mx-auto text-pretty">
+                <p className="text-gray-600 dark:text-muted-foreground max-w-xl mx-auto text-pretty">
                     Una plataforma pensada para cada persona, cada ritmo y cada pasión.
                     Por ahora disponible en{' '}
-                    <strong className="text-foreground">inglés</strong>,{' '}
+                    <strong className="text-gray-900 dark:text-foreground">inglés</strong>,{' '}
                     con más idiomas en camino.
                 </p>
                 <div className="grid md:grid-cols-2 gap-5 mb-5 pt-10">
@@ -37,9 +37,9 @@ export default function Features(): ReactElement {
                 </div>
                 
                 <div className="flex items-center gap-3 mb-6">
-                        <div className="h-px flex-1 bg-zinc-600"></div>
-                        <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest whitespace-nowrap">Las 4 habilidades del idioma</span>
-                        <div className="h-px flex-1 bg-zinc-600"></div>
+                        <div className="h-px flex-1 bg-gray-300 dark:bg-zinc-600"></div>
+                        <span className="text-xs font-semibold text-gray-600 dark:text-muted-foreground uppercase tracking-widest whitespace-nowrap">Las 4 habilidades del idioma</span>
+                        <div className="h-px flex-1 bg-gray-300 dark:bg-zinc-600"></div>
                 </div>
 
                 <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 mb-5 text-left">
@@ -74,9 +74,9 @@ export default function Features(): ReactElement {
                 </div>
 
                 <div className="flex items-center gap-3">
-                        <div className="h-px flex-1 bg-zinc-600"></div>
-                        <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest whitespace-nowrap">Otras características</span>
-                        <div className="h-px flex-1 bg-zinc-600"></div>
+                        <div className="h-px flex-1 bg-gray-300 dark:bg-zinc-600"></div>
+                        <span className="text-xs font-semibold text-gray-600 dark:text-muted-foreground uppercase tracking-widest whitespace-nowrap">Otras características</span>
+                        <div className="h-px flex-1 bg-gray-300 dark:bg-zinc-600"></div>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-5 pt-5">
