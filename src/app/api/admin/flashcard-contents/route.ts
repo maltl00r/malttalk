@@ -1,6 +1,36 @@
+/**
+ * FLASHCARD CONTENTS API ROUTE
+ * 
+ * Handles creation and management of flashcard lesson content.
+ * Flashcards support spaced repetition learning with image, text, and pronunciation.
+ * Validates that lessons are of type "flashcards" before content creation.
+ * 
+ * Endpoints:
+ * - POST /api/admin/flashcard-contents - Create flashcard for a lesson
+ * - GET /api/admin/flashcard-contents - Retrieve flashcards (optional: filtered by lesson)
+ * - PUT /api/admin/flashcard-contents - Update flashcard content
+ * - DELETE /api/admin/flashcard-contents?id=... - Delete flashcard
+ * 
+ * @module api/admin/flashcard-contents
+ */
+
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
+/**
+ * POST handler - Create flashcard content for a lesson
+ * 
+ * @param {NextRequest} request - HTTP request with JSON body containing:
+ *   - lesson_id (number, required): ID of the parent flashcards lesson
+ *   - front_image (string, optional): URL to card front image
+ *   - back_title (string, required): Text/word on card back (vocabulary to learn)
+ *   - back_pronunciation (string, optional): Phonetic pronunciation guide
+ *   - lang (string, required): Language code (e.g., "es", "fr", "ja")
+ * 
+ * @returns {NextResponse} Created flashcard object with 201 status, or error with 400/404/500 status
+ *   - 404: Lesson not found
+ *   - 400: Lesson is not a flashcards type
+ */
 export async function POST(request: NextRequest) {
   try {
     const {
@@ -41,7 +71,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(flashcardContent, { status: 201 });
   } catch (error) {
-    console.error("Error creating flashcard content:", error);
+    console.error("[Error] POST /api/admin/flashcard-contents:", {
+      error: error instanceof Error ? error.message : String(error),
+      timestamp: new Date().toISOString(),
+    });
     return NextResponse.json(
       { error: "Failed to create flashcard content" },
       { status: 500 }

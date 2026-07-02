@@ -53,8 +53,8 @@ export default async function CourseDashboardPage({ params }: DashboardPageProps
   const modules = await fetchModulesForCourse(course);
   
   // Calcular estadísticas
-  const totalLessons = modules.topics.reduce((sum, topic) => sum + topic.lessons.length, 0);
-  const totalTopics = modules.topics.length;
+  const totalLessons = modules && modules.topics ? modules.topics.reduce((sum, topic) => sum + topic.lessons.length, 0) : 0;
+  const totalTopics = modules && modules.topics ? modules.topics.length : 0;
   const progressPercentage = 0; // En el futuro se puede tracking de progreso real
 
   return (
@@ -119,7 +119,7 @@ export default async function CourseDashboardPage({ params }: DashboardPageProps
 
         {/* SECCIÓN DE TEMAS Y LECCIONES */}
         <div className="space-y-8">
-          {modules.topics.map((topic, topicIndex) => (
+          {modules && modules.topics && modules.topics.map((topic, topicIndex) => (
             <section key={topic.id} className="space-y-4">
               {/* Encabezado del tema con badge */}
               <div className="flex items-center gap-4">

@@ -64,9 +64,11 @@ export default function ModuleList({ courseSlug, currentLessonUuid }: SidebarCon
         
         // Group lessons by topic slug
         const grouped: ModulosAgrupados = {};
-        data.topics.forEach(topic => {
-          grouped[topic.slug] = topic.lessons || [];
-        });
+        if (data && data.topics) {
+          data.topics.forEach(topic => {
+            grouped[topic.slug] = topic.lessons || [];
+          });
+        }
         
         setModulos(grouped);
       } catch (error) {

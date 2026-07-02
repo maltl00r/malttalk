@@ -18,7 +18,7 @@ export default async function CoursesPage() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {courses.map((course) => {
+          {courses && courses.map((course) => {
             const lessonCount = course.topics.reduce(
               (total, topic) => total + topic.lessons.length,
               0

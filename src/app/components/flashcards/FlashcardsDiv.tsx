@@ -17,7 +17,7 @@ export default function FlashcardsDiv({ lessonId }: FlashcardsDivProps) {
     const loadData = async () => {
       try {
         const data = await fetchLessonWithFlashcardContent(lessonId);
-        setLesson(data);
+        setLesson(data || null);
         setFlippedStates(Array((data?.flashcard_contents?.length || 0)).fill(false));
       } catch (error) {
         console.error("Error loading flashcard content:", error);

@@ -25,7 +25,7 @@ export default function VideoDiv({ lessonId }: VideoDivProps) {
     const loadData = async () => {
       try {
         const lesson = await fetchLessonWithVideoContent(lessonId);
-        setData({ lesson, isLoading: false, error: null });
+        setData({ lesson: lesson || null, isLoading: false, error: null });
       } catch (error) {
         setData({
           lesson: null,

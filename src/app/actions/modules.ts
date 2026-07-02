@@ -1,7 +1,51 @@
+/**
+ * SERVER ACTIONS - MODULE DATA FETCHING
+ *
+ * Centralized server-side data fetching functions for course, topic, and lesson data.
+ * These functions execute on the server and provide optimized queries to the client.
+ * 
+ * All functions:
+ * - Use Prisma ORM with PostgreSQL
+ * - Include proper error handling and logging
+ * - Support nested data fetching with include clauses
+ * - Return strongly-typed data
+ *
+ * @module modules
+ */
+
 "use server";
 
 import { prisma } from "@/lib/prisma";
 
+/**
+ * Generic error handler for data fetching operations.
+ * Logs error details and safely re-throws for client-side handling.
+ *
+ * @param {string} operationName - Name of the failed operation for logging
+ * @param {Error} error - The error object
+ * @throws {Error} Re-throws the original error after logging
+ */
+const handleFetchError = (operationName: string, error: Error): never => {
+  console.error(`[Error] ${operationName}:`, {
+    message: error.message,
+    stack: error.stack,
+    timestamp: new Date().toISOString(),
+  });
+  throw error;
+};
+
+/**
+ * Fetches all courses with their associated topics and lessons.
+ * Ordered by course ID for consistent presentation.
+ *
+ * @async
+ * @returns {Promise<Object[]>} Array of courses with nested topics and lessons
+ * @throws {Error} Database connection or query error
+ *
+ * @example
+ * const courses = await fetchCourses();
+ * console.log(courses[0].topics[0].lessons);
+ */
 export async function fetchCourses() {
   try {
     const courses = await prisma.courses.findMany({
@@ -19,11 +63,22 @@ export async function fetchCourses() {
 
     return courses;
   } catch (error) {
-    console.error("Error fetching courses:", error);
-    throw error;
+    handleFetchError("fetchCourses", error as Error);
   }
 }
 
+/**
+ * Fetches a single course by its URL slug.
+ * Used for course detail pages and course-specific navigation.
+ *
+ * @async
+ * @param {string} courseSlug - URL-friendly course identifier
+ * @returns {Promise<Object|null>} Course object or null if not found
+ * @throws {Error} Database query error
+ *
+ * @example
+ * const course = await fetchCourseBySlug("english");
+ */
 export async function fetchCourseBySlug(courseSlug: string) {
   try {
     return prisma.courses.findUnique({
@@ -32,11 +87,28 @@ export async function fetchCourseBySlug(courseSlug: string) {
       },
     });
   } catch (error) {
-    console.error("Error fetching course:", error);
-    throw error;
+    handleFetchError("fetchCourseBySlug", error as Error);
   }
 }
 
+/**
+ * Fetches all topics and lessons for a specific course.
+ * Returns complete lesson data with all content types (video, reading, etc.).
+ * This is the primary data source for course dashboards.
+ *
+ * @async
+ * @param {string} courseSlug - URL-friendly course identifier
+ * @returns {Promise<{topics: Object[]}>} Topics with nested lessons and content
+ * @throws {Error} Database query error
+ *
+ * @example
+ * const { topics } = await fetchModulesForCourse("english");
+ * topics.forEach(topic => {
+ *   topic.lessons.forEach(lesson => {
+ *     console.log(lesson.type); // "video", "flashcards", etc.
+ *   });
+ * });
+ */
 export async function fetchModulesForCourse(courseSlug: string) {
   try {
     const topics = await prisma.topics.findMany({
@@ -64,11 +136,19 @@ export async function fetchModulesForCourse(courseSlug: string) {
 
     return { topics };
   } catch (error) {
-    console.error("Error fetching modules for course:", error);
-    throw error;
+    handleFetchError("fetchModulesForCourse", error as Error);
   }
 }
 
+/**
+ * Fetches a lesson with its video content.
+ * Optimized for video lessons to prevent unnecessary data loading.
+ *
+ * @async
+ * @param {number} lessonId - Database ID of the lesson
+ * @returns {Promise<Object|null>} Lesson with video_contents array
+ * @throws {Error} Database query error
+ */
 export async function fetchLessonWithVideoContent(lessonId: number) {
   try {
     const lesson = await prisma.lessons.findUnique({
@@ -80,11 +160,19 @@ export async function fetchLessonWithVideoContent(lessonId: number) {
 
     return lesson;
   } catch (error) {
-    console.error("Error fetching video content:", error);
-    throw error;
+    handleFetchError("fetchLessonWithVideoContent", error as Error);
   }
 }
 
+/**
+ * Fetches a lesson with its drag-drop exercise content.
+ * Used for interactive drag-and-drop grammar exercises.
+ *
+ * @async
+ * @param {number} lessonId - Database ID of the lesson
+ * @returns {Promise<Object|null>} Lesson with drag_drop_contents array
+ * @throws {Error} Database query error
+ */
 export async function fetchLessonWithDragDropContent(lessonId: number) {
   try {
     const lesson = await prisma.lessons.findUnique({
@@ -96,11 +184,19 @@ export async function fetchLessonWithDragDropContent(lessonId: number) {
 
     return lesson;
   } catch (error) {
-    console.error("Error fetching drag-drop content:", error);
-    throw error;
+    handleFetchError("fetchLessonWithDragDropContent", error as Error);
   }
 }
 
+/**
+ * Fetches a lesson with its flashcard content.
+ * Used for spaced repetition vocabulary practice.
+ *
+ * @async
+ * @param {number} lessonId - Database ID of the lesson
+ * @returns {Promise<Object|null>} Lesson with flashcard_contents array
+ * @throws {Error} Database query error
+ */
 export async function fetchLessonWithFlashcardContent(lessonId: number) {
   try {
     const lesson = await prisma.lessons.findUnique({
@@ -112,11 +208,19 @@ export async function fetchLessonWithFlashcardContent(lessonId: number) {
 
     return lesson;
   } catch (error) {
-    console.error("Error fetching flashcard content:", error);
-    throw error;
+    handleFetchError("fetchLessonWithFlashcardContent", error as Error);
   }
 }
 
+/**
+ * Fetches a lesson with its reading content and glossary items.
+ * Used for reading comprehension exercises with interactive vocabulary.
+ *
+ * @async
+ * @param {number} lessonId - Database ID of the lesson
+ * @returns {Promise<Object|null>} Lesson with reading_contents and glossary_items
+ * @throws {Error} Database query error
+ */
 export async function fetchLessonWithReadingContent(lessonId: number) {
   try {
     const lesson = await prisma.lessons.findUnique({
@@ -132,8 +236,6 @@ export async function fetchLessonWithReadingContent(lessonId: number) {
 
     return lesson;
   } catch (error) {
-    console.error("Error fetching reading content:", error);
-    throw error;
+    handleFetchError("fetchLessonWithReadingContent", error as Error);
   }
 }
-

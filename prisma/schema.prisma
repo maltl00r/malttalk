@@ -1,110 +1,197 @@
+// ============================================================================
+// PRISMA SCHEMA CONFIGURATION
+// ============================================================================
+// This schema defines the complete data model for MaltTalk, an online language
+// learning platform. The schema supports multiple content types (video, reading,
+// flashcards, drag-drop) associated with lessons organized by topics and courses.
+// Database: PostgreSQL with UUID generation for lessons.
+// ============================================================================
+
+// Prisma Client Generator - Outputs to src/generated/prisma
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
 }
 
+// PostgreSQL datasource configuration
 datasource db {
   provider = "postgresql"
 }
 
+// ============================================================================
+// ENUM: Lesson Type
+// ============================================================================
+/// Defines the four content types available for language learning lessons.
+enum lesson_type {
+  video     // Video content with duration tracking
+  flashcards // Spaced repetition flashcard system
+  drag_drop  @map("drag-drop") // Drag and drop interactive exercises
+  reading   // Reading comprehension with glossary support
+}
+
+// ============================================================================
+// MODEL: courses
+// ============================================================================
+/// Represents a language course (e.g., "English", "Spanish").
+/// Primary key is the course slug for URL-friendly identifiers.
+/// Topics are organized within courses for curriculum structure.
 model courses {
-  slug        String   @id @db.VarChar(255)
-  id          Int      @default(autoincrement())
-  title       String   @db.VarChar(255)
-  description String?
-  topics      topics[]
+  slug        String   @id @db.VarChar(255) // URL-friendly identifier (e.g., "english")
+  id          Int      @default(autoincrement()) // Auto-increment ID for internal use
+  title       String   @db.VarChar(255) // Display name of the course
+  description String?  // Detailed course description
+  topics      topics[] // One-to-many relationship with topics
 }
 
-model drag_drop_contents {
-  id                     Int     @id @default(autoincrement())
-  lesson_id              Int
-  text                   String  @db.VarChar(255)
-  category               String  @db.VarChar(255)
-  feedback_message_wrong String?
-  lessons                lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_drag_drop")
-}
-
-model flashcard_contents {
-  id                 Int     @id @default(autoincrement())
-  lesson_id          Int
-  front_image        String? @db.VarChar(255)
-  back_title         String  @db.VarChar(255)
-  back_pronunciation String? @db.VarChar(255)
-  lang               String  @db.VarChar(10)
-  lessons            lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_flashcard")
-}
-
-model lesson_tag {
-  lesson_id Int
-  tag_id    Int
-  lessons   lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_tag_lesson")
-  tags      tags    @relation(fields: [tag_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_tag_tag")
-
-  @@id([lesson_id, tag_id])
-}
-
-model lessons {
-  id                 Int                  @id @default(autoincrement())
-  uuid               String?              @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  topic_id           Int
-  type               lesson_type
-  title              String               @db.VarChar(255)
-  description        String?              @db.Text
-  slug               String?              @db.VarChar(255)
-  drag_drop_contents drag_drop_contents[]
-  flashcard_contents flashcard_contents[]
-  lesson_tag         lesson_tag[]
-  reading_contents   reading_contents[]
-  topics             topics               @relation(fields: [topic_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_topic")
-  video_contents     video_contents[]
-}
-
-model tags {
-  id         Int          @id @default(autoincrement())
-  slug       String       @unique @db.VarChar(255)
-  name       String       @db.VarChar(255)
-  lesson_tag lesson_tag[]
-}
-
+// ============================================================================
+// MODEL: topics
+// ============================================================================
+/// Represents a learning module within a course (e.g., "Greetings", "Numbers").
+/// Topics contain lessons and organize curriculum hierarchically.
 model topics {
-  id          Int       @id @default(autoincrement())
-  slug        String    @unique @db.VarChar(255)
-  title       String    @db.VarChar(255)
-  course_slug String    @db.VarChar(255)
-  lessons     lessons[]
+  id          Int       @id @default(autoincrement()) // Primary key
+  slug        String    @unique @db.VarChar(255) // URL-friendly identifier
+  title       String    @db.VarChar(255) // Display name
+  course_slug String    @db.VarChar(255) // Foreign key to courses
+  lessons     lessons[] // One-to-many relationship with lessons
   courses     courses   @relation(fields: [course_slug], references: [slug], onDelete: Cascade, onUpdate: NoAction, map: "fk_course")
 }
 
+// ============================================================================
+// MODEL: lessons
+// ============================================================================
+/// Represents individual learning units. Each lesson has a type (video, 
+/// flashcards, drag_drop, reading) and associated content in related tables.
+/// The UUID field enables public lesson sharing via URL.
+model lessons {
+  id                 Int                  @id @default(autoincrement()) // Primary key
+  uuid               String?              @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid // Public identifier for sharing
+  topic_id           Int                  // Foreign key to topics
+  type               lesson_type          // Content type of this lesson
+  title              String               @db.VarChar(255) // Lesson display name
+  description        String?              @db.Text // Detailed lesson description
+  slug               String?              @db.VarChar(255) // URL-friendly identifier
+  
+  // Foreign key relationships
+  topics             topics               @relation(fields: [topic_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_topic")
+  
+  // Content relationships (one lesson has many content items based on type)
+  video_contents     video_contents[]
+  reading_contents   reading_contents[]
+  flashcard_contents flashcard_contents[]
+  drag_drop_contents drag_drop_contents[]
+  
+  // Tag relationship
+  lesson_tag         lesson_tag[]
+}
+
+// ============================================================================
+// MODEL: video_contents
+// ============================================================================
+/// Stores video lesson content with metadata.
+/// Duration is tracked in seconds with a default of 600s (10 minutes).
 model video_contents {
-  id          Int     @id @default(autoincrement())
-  lesson_id   Int
-  url         String  @db.VarChar(255)
-  description String?
-  duration    Int?    @default(600) // Duración en segundos, default 10 min
+  id          Int     @id @default(autoincrement()) // Primary key
+  lesson_id   Int     // Foreign key to lessons
+  url         String  @db.VarChar(255) // Video URL (external service or local)
+  description String? // Optional video description or transcript
+  duration    Int?    @default(600) // Duration in seconds (default: 10 minutes)
+  
+  // Foreign key relationship
   lessons     lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_video")
 }
 
-enum lesson_type {
-  video
-  flashcards
-  drag_drop  @map("drag-drop")
-  reading
-}
-
+// ============================================================================
+// MODEL: reading_contents
+// ============================================================================
+/// Stores reading comprehension lesson content with text and associated glossary.
 model reading_contents {
-  id            Int               @id @default(autoincrement())
-  lesson_id     Int
-  text          String            @db.Text
-  lessons       lessons           @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_reading")
+  id             Int               @id @default(autoincrement()) // Primary key
+  lesson_id      Int               // Foreign key to lessons
+  text           String            @db.Text // Full reading content
+  
+  // Foreign key relationship
+  lessons        lessons           @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_reading")
+  
+  // Glossary items for vocabulary support
   glossary_items glossary_items[]
 }
 
+// ============================================================================
+// MODEL: glossary_items
+// ============================================================================
+/// Dictionary entries for reading content, providing word definitions,
+/// translations, images, and synonyms for vocabulary learning.
 model glossary_items {
-  id              Int               @id @default(autoincrement())
-  reading_id      Int
-  word            String            @db.VarChar(255)
-  definition      String            @db.Text
-  image_url       String?           @db.VarChar(255)
-  synonym_english String?           @db.VarChar(255)
+  id              Int               @id @default(autoincrement()) // Primary key
+  reading_id      Int               // Foreign key to reading_contents
+  word            String            @db.VarChar(255) // Target word or phrase
+  definition      String            @db.Text // Word definition in learning language
+  image_url       String?           @db.VarChar(255) // Optional visual reference
+  synonym_english String?           @db.VarChar(255) // English equivalent for translation
+  
+  // Foreign key relationship
   reading_contents reading_contents  @relation(fields: [reading_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_reading_glossary")
+}
+
+// ============================================================================
+// MODEL: flashcard_contents
+// ============================================================================
+/// Implements spaced repetition flashcard system for vocabulary learning.
+/// Front can display an image, back displays text with pronunciation.
+model flashcard_contents {
+  id                 Int     @id @default(autoincrement()) // Primary key
+  lesson_id          Int     // Foreign key to lessons
+  front_image        String? @db.VarChar(255) // Optional image for card front
+  back_title         String  @db.VarChar(255) // Main word/phrase on card back
+  back_pronunciation String? @db.VarChar(255) // Phonetic pronunciation guide
+  lang               String  @db.VarChar(10) // Language code (e.g., "en", "es")
+  
+  // Foreign key relationship
+  lessons            lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_flashcard")
+}
+
+// ============================================================================
+// MODEL: drag_drop_contents
+// ============================================================================
+/// Interactive drag-and-drop exercise content for grammar and syntax practice.
+/// Supports categorized items with custom feedback for incorrect answers.
+model drag_drop_contents {
+  id                     Int     @id @default(autoincrement()) // Primary key
+  lesson_id              Int     // Foreign key to lessons
+  text                   String  @db.VarChar(255) // Item text to be dragged
+  category               String  @db.VarChar(255) // Target category for correct placement
+  feedback_message_wrong String? // Custom feedback message for incorrect placements
+  
+  // Foreign key relationship
+  lessons                lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_drag_drop")
+}
+
+// ============================================================================
+// MODEL: tags
+// ============================================================================
+/// Vocabulary tags for lesson categorization and search.
+/// Tags are linked to lessons via the lesson_tag junction table.
+model tags {
+  id         Int          @id @default(autoincrement()) // Primary key
+  slug       String       @unique @db.VarChar(255) // URL-friendly identifier
+  name       String       @db.VarChar(255) // Display name
+  lesson_tag lesson_tag[] // Many-to-many relationship with lessons
+}
+
+// ============================================================================
+// MODEL: lesson_tag (Junction Table)
+// ============================================================================
+/// Junction table implementing many-to-many relationship between lessons and tags.
+/// Uses composite primary key for efficient querying and referential integrity.
+model lesson_tag {
+  lesson_id Int     // Foreign key to lessons
+  tag_id    Int     // Foreign key to tags
+  
+  // Foreign key relationships
+  lessons   lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_tag_lesson")
+  tags      tags    @relation(fields: [tag_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_tag_tag")
+
+  // Composite primary key ensures one tag per lesson
+  @@id([lesson_id, tag_id])
 }
