@@ -1,6 +1,6 @@
 # 🌍 MaltTalk - Online Language Learning Platform
 
-An modern, free, and fully-featured language learning platform built with **Next.js 16**, **React 19**, **TypeScript**, **Prisma ORM**, and **Tailwind CSS**. Learn new languages through eight content types: videos, flashcards, interactive drag-drop exercises, reading comprehension with glossary support, audio-visual diagnostic quizzes, writing expression challenges, timed mental agility challenges, and unit closing exams.
+An modern, free, and fully-featured language learning platform built with **Next.js 16**, **React 19**, **TypeScript**, **Prisma ORM**, and **Tailwind CSS**. Learn new languages through eleven content types: videos, flashcards, interactive drag-drop exercises, reading comprehension with glossary support, audio-visual diagnostic quizzes, writing expression challenges, timed mental agility challenges, unit closing exams, grammar guides with color-coded schemas, listening comprehension, and icebreaker dynamics.
 
 ## 📋 Quick Overview
 
@@ -12,13 +12,16 @@ An modern, free, and fully-featured language learning platform built with **Next
 
 ### Core Features
 
-- ✅ **Eight Content Types** - Video, Flashcards, Drag-Drop Exercises, Reading Comprehension, Audio-Visual Quizzes, Writing Challenges, Mental Agility Games, Closing Exams
+- ✅ **Eleven Content Types** - Video, Flashcards, Drag-Drop Exercises, Reading Comprehension, Audio-Visual Quizzes, Writing Challenges, Mental Agility Games, Closing Exams, Grammar Guides, Listening, Icebreaker
 - ✅ **Interactive Glossary** - Click-to-define vocabulary with images
 - ✅ **Real-time Video Duration** - Actual duration tracking (not hardcoded)
 - ✅ **Audio-Visual Diagnostic System** - Associating sounds with visual elements (gestures/images)
 - ✅ **Writing Expression Challenges** - Text composition with vocabulary validation
+- ✅ **Grammar Guides** - Sentence structure visualization with color-coded schemas
+- ✅ **Listening Comprehension** - Audio exercises with image-based answer selection
+- ✅ **Icebreaker Dynamics** - Real-world expressions in contextual situations
 - ✅ **Modern UI/UX** - Light/dark mode, responsive design, gamification elements
-- ✅ **Complete Admin Panel** - CRUD operations for all content types (6 tabs)
+- ✅ **Complete Admin Panel** - CRUD operations for all content types (8+ tabs)
 - ✅ **Spaced Repetition** - Flashcard system for optimal vocabulary retention
 - ✅ **Progress Dashboard** - Visual progress tracking with statistics
 
@@ -64,7 +67,7 @@ malttalk/
 │   │   ├── cursos/
 │   │   │   └── page.tsx            # Courses listing page
 │   │   ├── api/
-│   │   │   ├── admin/              # Admin CRUD endpoints (14 routes)
+│   │   │   ├── admin/              # Admin CRUD endpoints (17 routes)
 │   │   │   │   ├── courses/
 │   │   │   │   ├── topics/
 │   │   │   │   ├── lessons/
@@ -76,6 +79,11 @@ malttalk/
 │   │   │   │   ├── drag-drop-contents/
 │   │   │   │   ├── visio-acoustic-contents/
 │   │   │   │   ├── writing-challenges/
+│   │   │   │   ├── mental-agility/
+│   │   │   │   ├── closing-exam/
+│   │   │   │   ├── grammar-guides/
+│   │   │   │   ├── listening-contents/
+│   │   │   │   ├── icebreaker-contents/
 │   │   │   │   ├── glossary-items/
 │   │   │   │   └── debug/
 │   │   │   ├── lessons/
@@ -115,8 +123,14 @@ malttalk/
 │   │       │   └── WritingChallengesDiv.tsx # Text composition exercises
 │   │       ├── mental-agility/
 │   │       │   └── MentalAgilityDiv.tsx # Timed mental agility challenges
-│   │       └── closing-exam/
+│   │       ├── closing-exam/
 │   │           └── ClosingExamDiv.tsx # Unit closing assessments
+│   │       ├── grammar-guides/
+│   │           └── GrammarGuidesDiv.tsx # Sentence structure with color-coded schemas
+│   │       ├── listening/
+│   │           └── ListeningDiv.tsx # Audio comprehension with image selection
+│   │       └── icebreaker/
+│   │           └── IcebreakerDiv.tsx # Real-world expressions in context
 │   ├── lib/
 │   │   └── prisma.ts               # Prisma singleton with PostgreSQL adapter
 │   ├── data/
@@ -145,11 +159,11 @@ malttalk/
 ```
 
 **Key Statistics**:
-- **Source Files**: ~70 custom source files (100+ total with generated)
-- **Components**: 24 React components with JSDoc comments (added MentalAgilityDiv, ClosingExamDiv)
-- **API Routes**: 16 REST endpoints with full documentation (added /mental-agility, /closing-exam)
-- **Database Models**: 14 Prisma models with comprehensive field documentation
-- **Content Types**: 8 unique learning content types (video, flashcards, drag-drop, reading, audio-visual, writing, mental-agility, closing-exam)
+- **Source Files**: ~75 custom source files (105+ total with generated)
+- **Components**: 27 React components with JSDoc comments
+- **API Routes**: 18 REST endpoints with full documentation
+- **Database Models**: 17 Prisma models with comprehensive field documentation
+- **Content Types**: 11 unique learning content types (video, flashcards, drag-drop, reading, audio-visual, writing, mental-agility, closing-exam, grammar-guides, listening, icebreaker)
 - **Code Coverage**: All source files optimized with English comments
 - **TypeScript**: 100% type-safe with strict mode enabled
 
@@ -157,7 +171,7 @@ malttalk/
 
 ### Overview
 
-MaltTalk uses PostgreSQL with **14 core models** and **1 junction table** for relationships. All models are fully documented in `prisma/schema.prisma`.
+MaltTalk uses PostgreSQL with **17 core models** and **1 junction table** for relationships. All models are fully documented in `prisma/schema.prisma`.
 
 ### Key Features Added (Latest)
 
@@ -177,6 +191,32 @@ MaltTalk uses PostgreSQL with **14 core models** and **1 junction table** for re
 - Per-question points allocation
 - Pass/fail status with detailed feedback
 - Sequential question progression
+
+#### Module 6: Grammar Guides 🎨
+- Sentence structure visualization with color-coded parts
+- Interactive example carousel with navigation
+- Difficulty levels (beginner, intermediate, advanced)
+- Progress tracking through multiple guides
+- Visual JSON-based schema system
+- Complete example sentences for each rule
+
+#### Module 7: Listening Comprehension 🎧
+- Audio-based comprehension exercises
+- Image-based multiple choice answers (4 options)
+- Real-time audio player with controls
+- Immediate feedback (correct/incorrect)
+- Score accumulation tracking
+- Completion screen with retry option
+- Audio URL and image option management
+
+#### Module 8: Icebreaker Dynamics 🤝
+- Real-world expression learning in context
+- Situation illustrations with descriptions
+- Mark-as-learned progress tracking
+- Expression carousel navigation
+- Visual progress indicators
+- Completion screen showing learned count
+- Contextual usage scenarios
 
 ### Data Models Documentation
 

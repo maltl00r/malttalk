@@ -17,7 +17,10 @@ export const lesson_type = {
   visio_acoustic: 'visio_acoustic',
   writing_challenges: 'writing_challenges',
   mental_agility: 'mental_agility',
-  closing_exam: 'closing_exam'
+  closing_exam: 'closing_exam',
+  grammar_guides: 'grammar_guides',
+  listening: 'listening',
+  icebreaker: 'icebreaker'
 } as const
 
 export type lesson_type = (typeof lesson_type)[keyof typeof lesson_type]

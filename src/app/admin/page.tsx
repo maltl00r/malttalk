@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 type Tab = "courses" | "tags" | "topics" | "lessons" | "glossary";
-type LessonType = "video" | "flashcards" | "drag_drop" | "reading";
+type LessonType = "video" | "flashcards" | "drag_drop" | "reading" | "visio_acoustic" | "writing_challenges" | "mental_agility" | "closing_exam" | "grammar_guides" | "listening" | "icebreaker";
 
 interface Course {
   slug: string;
@@ -54,6 +54,10 @@ const lessonTypeOptions: Array<{ value: LessonType; label: string }> = [
   { value: "flashcards", label: "Flashcards" },
   { value: "drag_drop", label: "Drag & Drop" },
   { value: "reading", label: "Lecturas Inmersivas" },
+  { value: "visio_acoustic", label: "Audio-Visual Diagnostic" },
+  { value: "writing_challenges", label: "Writing Challenges" },
+  { value: "mental_agility", label: "Mental Agility" },
+  { value: "closing_exam", label: "Closing Exam" },
 ];
 
 export default function AdminPage() {
@@ -70,11 +74,11 @@ export default function AdminPage() {
   const [tags, setTags] = useState<Tag[]>([]);
 
   // Topic Form & Data
-  const [topicForm, setTopicForm] = useState({ slug: "", title: "", course_slug: "", tag_ids: [] as number[] });
+  const [topicForm, setTopicForm] = useState({ slug: "", title: "", course_slug: "" });
   const [topics, setTopics] = useState<Topic[]>([]);
 
   // Lesson Form & Data
-  const [lessonForm, setLessonForm] = useState({ topic_id: "", type: "video" as LessonType, title: "" });
+  const [lessonForm, setLessonForm] = useState({ topic_id: "", type: "video" as LessonType, title: "", tag_ids: [] as number[] });
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [selectedLessonType, setSelectedLessonType] = useState<LessonType>("video");
 
@@ -122,10 +126,10 @@ export default function AdminPage() {
   const [editTagForm, setEditTagForm] = useState({ slug: "", name: "" });
 
   const [editingTopic, setEditingTopic] = useState<Topic | null>(null);
-  const [editTopicForm, setEditTopicForm] = useState({ slug: "", title: "", course_slug: "", tag_ids: [] as number[] });
+  const [editTopicForm, setEditTopicForm] = useState({ slug: "", title: "", course_slug: "" });
 
   const [editingLesson, setEditingLesson] = useState<Lesson | null>(null);
-  const [editLessonForm, setEditLessonForm] = useState({ topic_id: "", type: "video" as LessonType, title: "" });
+  const [editLessonForm, setEditLessonForm] = useState({ topic_id: "", type: "video" as LessonType, title: "", tag_ids: [] as number[] });
 
   // Load initial data
   useEffect(() => {
@@ -345,11 +349,13 @@ export default function AdminPage() {
           topic_id: parseInt(editLessonForm.topic_id),
           type: editLessonForm.type,
           title: editLessonForm.title,
+          tag_ids: editLessonForm.tag_ids,
         }),
       });
       if (res.ok) {
         showMessage("Lección actualizada exitosamente");
         setEditingLesson(null);
+        setEditLessonForm({ topic_id: "", type: "video", title: "", tag_ids: [] });
         loadLessons();
       } else {
         const error = await res.json();
@@ -486,13 +492,14 @@ export default function AdminPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...topicForm,
-          tag_ids: topicForm.tag_ids,
+          slug: topicForm.slug,
+          title: topicForm.title,
+          course_slug: topicForm.course_slug,
         }),
       });
       if (res.ok) {
         showMessage("Tema creado exitosamente");
-        setTopicForm({ slug: "", title: "", course_slug: "", tag_ids: [] });
+        setTopicForm({ slug: "", title: "", course_slug: "" });
         loadTopics(topicForm.course_slug);
       } else {
         const error = await res.json();
@@ -518,11 +525,12 @@ export default function AdminPage() {
           topic_id: Number(topicId),
           type: lessonForm.type,
           title: lessonForm.title.trim(),
+          tag_ids: lessonForm.tag_ids,
         }),
       });
       if (res.ok) {
         showMessage("Lección creada exitosamente");
-        setLessonForm({ topic_id: "", type: "video", title: "" });
+        setLessonForm({ topic_id: "", type: "video", title: "", tag_ids: [] });
         loadLessons(topicId);
       } else {
         const error = await res.json();
@@ -1127,34 +1135,6 @@ export default function AdminPage() {
                     required
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Etiquetas (selecciona una o más)
-                  </label>
-                  <div className="grid grid-cols-2 gap-2 p-3 bg-white dark:bg-slate-900/50 border-2 border-blue-300/50 dark:border-blue-600/50 rounded-lg max-h-40 overflow-y-auto">
-                    {tags.length > 0 ? (
-                      tags.map((tag) => (
-                        <label key={tag.id} className="flex items-center gap-2 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={topicForm.tag_ids.includes(tag.id)}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setTopicForm({ ...topicForm, tag_ids: [...topicForm.tag_ids, tag.id] });
-                              } else {
-                                setTopicForm({ ...topicForm, tag_ids: topicForm.tag_ids.filter(id => id !== tag.id) });
-                              }
-                            }}
-                            className="w-4 h-4"
-                          />
-                          <span className="text-gray-900 dark:text-white text-sm">{tag.name}</span>
-                        </label>
-                      ))
-                    ) : (
-                      <p className="text-gray-500 dark:text-gray-400 text-sm col-span-2">Crea etiquetas primero en la pestaña de Etiquetas</p>
-                    )}
-                  </div>
-                </div>
                 <button
                   type="submit"
                   disabled={loading}
@@ -1229,7 +1209,7 @@ export default function AdminPage() {
                           <button
                             onClick={() => {
                               setEditingTopic(topic);
-                              setEditTopicForm({ slug: topic.slug, title: topic.title, course_slug: topic.course_slug, tag_ids: [] });
+                              setEditTopicForm({ slug: topic.slug, title: topic.title, course_slug: topic.course_slug });
                             }}
                             className="px-3 py-1 bg-slate-700/50 hover:bg-slate-700 text-gray-700 dark:text-gray-300 text-sm rounded transition-colors"
                           >
@@ -1317,6 +1297,34 @@ export default function AdminPage() {
                       required
                     />
                   </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Etiquetas (selecciona una o más)
+                    </label>
+                    <div className="grid grid-cols-2 gap-2 p-3 bg-white dark:bg-slate-900/50 border-2 border-blue-300/50 dark:border-blue-600/50 rounded-lg max-h-40 overflow-y-auto">
+                      {tags.length > 0 ? (
+                        tags.map((tag) => (
+                          <label key={tag.id} className="flex items-center gap-2 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={lessonForm.tag_ids.includes(tag.id)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setLessonForm({ ...lessonForm, tag_ids: [...lessonForm.tag_ids, tag.id] });
+                                } else {
+                                  setLessonForm({ ...lessonForm, tag_ids: lessonForm.tag_ids.filter(id => id !== tag.id) });
+                                }
+                              }}
+                              className="w-4 h-4"
+                            />
+                            <span className="text-gray-900 dark:text-white text-sm">{tag.name}</span>
+                          </label>
+                        ))
+                      ) : (
+                        <p className="text-gray-500 dark:text-gray-400 text-sm col-span-2">Crea etiquetas primero en la pestaña de Etiquetas</p>
+                      )}
+                    </div>
+                  </div>
                   <button
                     type="submit"
                     disabled={loading}
@@ -1384,6 +1392,34 @@ export default function AdminPage() {
                               required
                             />
                           </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              Etiquetas (selecciona una o más)
+                            </label>
+                            <div className="grid grid-cols-2 gap-2 p-3 bg-white dark:bg-slate-900/50 border-2 border-blue-300/50 dark:border-blue-600/50 rounded-lg max-h-40 overflow-y-auto">
+                              {tags.length > 0 ? (
+                                tags.map((tag) => (
+                                  <label key={tag.id} className="flex items-center gap-2 cursor-pointer">
+                                    <input
+                                      type="checkbox"
+                                      checked={editLessonForm.tag_ids.includes(tag.id)}
+                                      onChange={(e) => {
+                                        if (e.target.checked) {
+                                          setEditLessonForm({ ...editLessonForm, tag_ids: [...editLessonForm.tag_ids, tag.id] });
+                                        } else {
+                                          setEditLessonForm({ ...editLessonForm, tag_ids: editLessonForm.tag_ids.filter(id => id !== tag.id) });
+                                        }
+                                      }}
+                                      className="w-4 h-4"
+                                    />
+                                    <span className="text-gray-900 dark:text-white text-sm">{tag.name}</span>
+                                  </label>
+                                ))
+                              ) : (
+                                <p className="text-gray-500 dark:text-gray-400 text-sm col-span-2">Crea etiquetas primero en la pestaña de Etiquetas</p>
+                              )}
+                            </div>
+                          </div>
                           <div className="flex gap-2">
                             <button
                               type="submit"
@@ -1414,7 +1450,7 @@ export default function AdminPage() {
                             <button
                               onClick={() => {
                                 setEditingLesson(lesson);
-                                setEditLessonForm({ topic_id: lesson.topic_id.toString(), type: lesson.type, title: lesson.title });
+                                setEditLessonForm({ topic_id: lesson.topic_id.toString(), type: lesson.type, title: lesson.title, tag_ids: [] });
                               }}
                               className="px-2 py-1 bg-slate-700/50 hover:bg-slate-700 text-gray-700 dark:text-gray-300 text-xs rounded transition-colors"
                             >
@@ -1891,6 +1927,8 @@ export default function AdminPage() {
               </div>
             </div>
           )}
+
+
         </div>
       </div>
     </div>

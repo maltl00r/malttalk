@@ -27,7 +27,7 @@ datasource db {
 // ============================================================================
 // ENUM: Lesson Type
 // ============================================================================
-/// Defines the eight content types available for language learning lessons.
+/// Defines the eleven content types available for language learning lessons.
 enum lesson_type {
   video              // Video content with duration tracking
   flashcards         // Spaced repetition flashcard system
@@ -37,6 +37,9 @@ enum lesson_type {
   writing_challenges @map("writing-challenges") // Writing expression challenges with vocabulary validation
   mental_agility     @map("mental-agility") // Timed mental agility challenges
   closing_exam       @map("closing-exam") // Unit closing assessment tests
+  grammar_guides     @map("grammar-guides") // Sentence structure guides with color-coded visual schemas
+  listening          // Audio comprehension with image selection exercises
+  icebreaker         // Icebreaker dynamics: match expressions with illustrations
 }
 
 // ============================================================================
@@ -94,6 +97,9 @@ model lessons {
   writing_challenge_contents writing_challenge_contents[]
   mental_agility_contents mental_agility_contents[]
   closing_exam_contents closing_exam_contents[]
+  grammar_guides_contents grammar_guides_contents[]
+  listening_contents listening_contents[]
+  icebreaker_contents icebreaker_contents[]
   
   // Tag relationship
   lesson_tag         lesson_tag[]
@@ -384,4 +390,118 @@ model closing_exam_contents {
   
   // Foreign key relationship
   lessons               lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_closing_exam")
+}
+
+// ============================================================================
+// MODEL: grammar_guides_contents
+// ============================================================================
+/// Stores sentence structure guides with color-coded visual schemas.
+/// Provides interactive visual representations of sentence construction with examples.
+model grammar_guides_contents {
+  id                    Int     @id @default(autoincrement()) // Primary key
+  lesson_id             Int     // Foreign key to lessons
+  
+  /// Guide title
+  title                 String  @db.VarChar(255) // Display title of the guide
+  
+  /// Guide description
+  description           String? @db.Text // Detailed explanation of the grammar rule
+  
+  /// Sentence structure (JSON with color-coded parts)
+  structure_schema      String  @db.Text // JSON representation of sentence structure with color codes
+  
+  /// Example sentences (JSON array)
+  example_sentences     String  @db.Text // JSON array of example sentences demonstrating the rule
+  
+  /// Illustration URL
+  image_url             String? @db.VarChar(255) // Visual diagram or illustration
+  
+  /// Difficulty level: beginner, intermediate, advanced
+  difficulty_level      String  @db.VarChar(50) @default("beginner") // Difficulty level
+  
+  /// Order of guides within the lesson
+  guide_order           Int     @default(0) // Order within the lesson
+  
+  // Foreign key relationship
+  lessons               lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_grammar_guides")
+}
+
+// ============================================================================
+// MODEL: listening_contents
+// ============================================================================
+/// Stores audio comprehension exercises with image-based answer selection.
+/// Includes audio clips and multiple choice image selections.
+model listening_contents {
+  id                    Int     @id @default(autoincrement()) // Primary key
+  lesson_id             Int     // Foreign key to lessons
+  
+  /// Exercise title
+  title                 String  @db.VarChar(255) // Display title of the listening exercise
+  
+  /// Exercise description
+  description           String? @db.Text // Details about the audio context
+  
+  /// Question or prompt
+  question              String  @db.Text // Question to answer based on the audio
+  
+  /// Audio clip URL
+  audio_url             String  @db.VarChar(255) // URL to the audio file
+  
+  /// Image options (JSON array with image URLs and descriptions)
+  image_options         String  @db.Text // JSON array of image options [{url, label}, ...]
+  
+  /// Correct answer index (position in image_options array)
+  correct_answer        Int     // Index of correct image option (0-based)
+  
+  /// Feedback for correct answer
+  feedback_correct      String? @db.Text // Positive feedback message
+  
+  /// Feedback for incorrect answers
+  feedback_incorrect    String? @db.Text // Negative feedback message
+  
+  /// Difficulty level: beginner, intermediate, advanced
+  difficulty_level      String  @db.VarChar(50) @default("beginner") // Difficulty level
+  
+  /// Order of questions within the lesson
+  question_order        Int     @default(0) // Order within the lesson
+  
+  // Foreign key relationship
+  lessons               lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_listening")
+}
+
+// ============================================================================
+// MODEL: icebreaker_contents
+// ============================================================================
+/// Stores icebreaker dynamics: matching expressions with situation illustrations.
+/// Teaches real-world communication in engaging visual context.
+model icebreaker_contents {
+  id                    Int     @id @default(autoincrement()) // Primary key
+  lesson_id             Int     // Foreign key to lessons
+  
+  /// Expression title
+  title                 String  @db.VarChar(255) // Display title of the icebreaker
+  
+  /// Expression description
+  description           String? @db.Text // Context for using this expression
+  
+  /// English expression
+  expression            String  @db.Text // The English phrase or expression to learn
+  
+  /// Illustration URL (situation context)
+  illustration_url      String  @db.VarChar(255) // Image depicting the real-world situation
+  
+  /// Description of the situation
+  situation_description String  @db.Text // Description of when/how to use the expression
+  
+  /// Pair ID (connects to matching expression)
+  pair_id               Int? // Reference to another icebreaker to pair with
+  
+  /// Difficulty level: beginner, intermediate, advanced
+  difficulty_level      String  @db.VarChar(50) @default("beginner") // Difficulty level
+  
+  /// Order within the lesson
+  pair_order            Int     @default(0) // Order for pairing activity
+  
+  // Foreign key relationship
+  lessons               lessons @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_icebreaker")
 }

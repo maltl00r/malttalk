@@ -104,3 +104,21 @@ export type mental_agility_contents = Prisma.mental_agility_contentsModel
  * Tests are chronometer-based evaluations given at the end of learning units.
  */
 export type closing_exam_contents = Prisma.closing_exam_contentsModel
+/**
+ * Model grammar_guides_contents
+ * Stores sentence structure guides with color-coded visual schemas.
+ * Provides interactive visual representations of sentence construction with examples.
+ */
+export type grammar_guides_contents = Prisma.grammar_guides_contentsModel
+/**
+ * Model listening_contents
+ * Stores audio comprehension exercises with image-based answer selection.
+ * Includes audio clips and multiple choice image selections.
+ */
+export type listening_contents = Prisma.listening_contentsModel
+/**
+ * Model icebreaker_contents
+ * Stores icebreaker dynamics: matching expressions with situation illustrations.
+ * Teaches real-world communication in engaging visual context.
+ */
+export type icebreaker_contents = Prisma.icebreaker_contentsModel

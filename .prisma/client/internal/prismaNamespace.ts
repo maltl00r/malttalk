@@ -397,7 +397,10 @@ export const ModelName = {
   visio_acoustic_contents: 'visio_acoustic_contents',
   writing_challenge_contents: 'writing_challenge_contents',
   mental_agility_contents: 'mental_agility_contents',
-  closing_exam_contents: 'closing_exam_contents'
+  closing_exam_contents: 'closing_exam_contents',
+  grammar_guides_contents: 'grammar_guides_contents',
+  listening_contents: 'listening_contents',
+  icebreaker_contents: 'icebreaker_contents'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -413,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "courses" | "topics" | "lessons" | "video_contents" | "reading_contents" | "glossary_items" | "flashcard_contents" | "drag_drop_contents" | "tags" | "lesson_tag" | "visio_acoustic_contents" | "writing_challenge_contents" | "mental_agility_contents" | "closing_exam_contents"
+    modelProps: "courses" | "topics" | "lessons" | "video_contents" | "reading_contents" | "glossary_items" | "flashcard_contents" | "drag_drop_contents" | "tags" | "lesson_tag" | "visio_acoustic_contents" | "writing_challenge_contents" | "mental_agility_contents" | "closing_exam_contents" | "grammar_guides_contents" | "listening_contents" | "icebreaker_contents"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1453,6 +1456,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    grammar_guides_contents: {
+      payload: Prisma.$grammar_guides_contentsPayload<ExtArgs>
+      fields: Prisma.grammar_guides_contentsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.grammar_guides_contentsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$grammar_guides_contentsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.grammar_guides_contentsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$grammar_guides_contentsPayload>
+        }
+        findFirst: {
+          args: Prisma.grammar_guides_contentsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$grammar_guides_contentsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.grammar_guides_contentsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$grammar_guides_contentsPayload>
+        }
+        findMany: {
+          args: Prisma.grammar_guides_contentsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$grammar_guides_contentsPayload>[]
+        }
+        create: {
+          args: Prisma.grammar_guides_contentsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$grammar_guides_contentsPayload>
+        }
+        createMany: {
+          args: Prisma.grammar_guides_contentsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.grammar_guides_contentsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$grammar_guides_contentsPayload>[]
+        }
+        delete: {
+          args: Prisma.grammar_guides_contentsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$grammar_guides_contentsPayload>
+        }
+        update: {
+          args: Prisma.grammar_guides_contentsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$grammar_guides_contentsPayload>
+        }
+        deleteMany: {
+          args: Prisma.grammar_guides_contentsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.grammar_guides_contentsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.grammar_guides_contentsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$grammar_guides_contentsPayload>[]
+        }
+        upsert: {
+          args: Prisma.grammar_guides_contentsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$grammar_guides_contentsPayload>
+        }
+        aggregate: {
+          args: Prisma.Grammar_guides_contentsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGrammar_guides_contents>
+        }
+        groupBy: {
+          args: Prisma.grammar_guides_contentsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Grammar_guides_contentsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.grammar_guides_contentsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Grammar_guides_contentsCountAggregateOutputType> | number
+        }
+      }
+    }
+    listening_contents: {
+      payload: Prisma.$listening_contentsPayload<ExtArgs>
+      fields: Prisma.listening_contentsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.listening_contentsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$listening_contentsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.listening_contentsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$listening_contentsPayload>
+        }
+        findFirst: {
+          args: Prisma.listening_contentsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$listening_contentsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.listening_contentsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$listening_contentsPayload>
+        }
+        findMany: {
+          args: Prisma.listening_contentsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$listening_contentsPayload>[]
+        }
+        create: {
+          args: Prisma.listening_contentsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$listening_contentsPayload>
+        }
+        createMany: {
+          args: Prisma.listening_contentsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.listening_contentsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$listening_contentsPayload>[]
+        }
+        delete: {
+          args: Prisma.listening_contentsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$listening_contentsPayload>
+        }
+        update: {
+          args: Prisma.listening_contentsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$listening_contentsPayload>
+        }
+        deleteMany: {
+          args: Prisma.listening_contentsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.listening_contentsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.listening_contentsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$listening_contentsPayload>[]
+        }
+        upsert: {
+          args: Prisma.listening_contentsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$listening_contentsPayload>
+        }
+        aggregate: {
+          args: Prisma.Listening_contentsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateListening_contents>
+        }
+        groupBy: {
+          args: Prisma.listening_contentsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Listening_contentsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.listening_contentsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Listening_contentsCountAggregateOutputType> | number
+        }
+      }
+    }
+    icebreaker_contents: {
+      payload: Prisma.$icebreaker_contentsPayload<ExtArgs>
+      fields: Prisma.icebreaker_contentsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.icebreaker_contentsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$icebreaker_contentsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.icebreaker_contentsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$icebreaker_contentsPayload>
+        }
+        findFirst: {
+          args: Prisma.icebreaker_contentsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$icebreaker_contentsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.icebreaker_contentsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$icebreaker_contentsPayload>
+        }
+        findMany: {
+          args: Prisma.icebreaker_contentsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$icebreaker_contentsPayload>[]
+        }
+        create: {
+          args: Prisma.icebreaker_contentsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$icebreaker_contentsPayload>
+        }
+        createMany: {
+          args: Prisma.icebreaker_contentsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.icebreaker_contentsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$icebreaker_contentsPayload>[]
+        }
+        delete: {
+          args: Prisma.icebreaker_contentsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$icebreaker_contentsPayload>
+        }
+        update: {
+          args: Prisma.icebreaker_contentsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$icebreaker_contentsPayload>
+        }
+        deleteMany: {
+          args: Prisma.icebreaker_contentsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.icebreaker_contentsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.icebreaker_contentsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$icebreaker_contentsPayload>[]
+        }
+        upsert: {
+          args: Prisma.icebreaker_contentsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$icebreaker_contentsPayload>
+        }
+        aggregate: {
+          args: Prisma.Icebreaker_contentsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateIcebreaker_contents>
+        }
+        groupBy: {
+          args: Prisma.icebreaker_contentsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Icebreaker_contentsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.icebreaker_contentsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Icebreaker_contentsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1677,6 +1902,55 @@ export const Closing_exam_contentsScalarFieldEnum = {
 export type Closing_exam_contentsScalarFieldEnum = (typeof Closing_exam_contentsScalarFieldEnum)[keyof typeof Closing_exam_contentsScalarFieldEnum]
 
 
+export const Grammar_guides_contentsScalarFieldEnum = {
+  id: 'id',
+  lesson_id: 'lesson_id',
+  title: 'title',
+  description: 'description',
+  structure_schema: 'structure_schema',
+  example_sentences: 'example_sentences',
+  image_url: 'image_url',
+  difficulty_level: 'difficulty_level',
+  guide_order: 'guide_order'
+} as const
+
+export type Grammar_guides_contentsScalarFieldEnum = (typeof Grammar_guides_contentsScalarFieldEnum)[keyof typeof Grammar_guides_contentsScalarFieldEnum]
+
+
+export const Listening_contentsScalarFieldEnum = {
+  id: 'id',
+  lesson_id: 'lesson_id',
+  title: 'title',
+  description: 'description',
+  question: 'question',
+  audio_url: 'audio_url',
+  image_options: 'image_options',
+  correct_answer: 'correct_answer',
+  feedback_correct: 'feedback_correct',
+  feedback_incorrect: 'feedback_incorrect',
+  difficulty_level: 'difficulty_level',
+  question_order: 'question_order'
+} as const
+
+export type Listening_contentsScalarFieldEnum = (typeof Listening_contentsScalarFieldEnum)[keyof typeof Listening_contentsScalarFieldEnum]
+
+
+export const Icebreaker_contentsScalarFieldEnum = {
+  id: 'id',
+  lesson_id: 'lesson_id',
+  title: 'title',
+  description: 'description',
+  expression: 'expression',
+  illustration_url: 'illustration_url',
+  situation_description: 'situation_description',
+  pair_id: 'pair_id',
+  difficulty_level: 'difficulty_level',
+  pair_order: 'pair_order'
+} as const
+
+export type Icebreaker_contentsScalarFieldEnum = (typeof Icebreaker_contentsScalarFieldEnum)[keyof typeof Icebreaker_contentsScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1886,6 +2160,9 @@ export type GlobalOmitConfig = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsOmit
   mental_agility_contents?: Prisma.mental_agility_contentsOmit
   closing_exam_contents?: Prisma.closing_exam_contentsOmit
+  grammar_guides_contents?: Prisma.grammar_guides_contentsOmit
+  listening_contents?: Prisma.listening_contentsOmit
+  icebreaker_contents?: Prisma.icebreaker_contentsOmit
 }
 
 /* Types for Logging */

@@ -38,6 +38,9 @@ const LESSON_ICONS: Record<string, string> = {
   writing_challenges: "✍️",
   mental_agility: "🧠",
   closing_exam: "📊",
+  grammar_guides: "🎨",
+  listening: "🎧",
+  icebreaker: "🤝",
 };
 
 const getThumbnailUrl = (url: string): string => {

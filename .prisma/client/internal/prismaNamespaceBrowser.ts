@@ -64,7 +64,10 @@ export const ModelName = {
   visio_acoustic_contents: 'visio_acoustic_contents',
   writing_challenge_contents: 'writing_challenge_contents',
   mental_agility_contents: 'mental_agility_contents',
-  closing_exam_contents: 'closing_exam_contents'
+  closing_exam_contents: 'closing_exam_contents',
+  grammar_guides_contents: 'grammar_guides_contents',
+  listening_contents: 'listening_contents',
+  icebreaker_contents: 'icebreaker_contents'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -266,6 +269,55 @@ export const Closing_exam_contentsScalarFieldEnum = {
 } as const
 
 export type Closing_exam_contentsScalarFieldEnum = (typeof Closing_exam_contentsScalarFieldEnum)[keyof typeof Closing_exam_contentsScalarFieldEnum]
+
+
+export const Grammar_guides_contentsScalarFieldEnum = {
+  id: 'id',
+  lesson_id: 'lesson_id',
+  title: 'title',
+  description: 'description',
+  structure_schema: 'structure_schema',
+  example_sentences: 'example_sentences',
+  image_url: 'image_url',
+  difficulty_level: 'difficulty_level',
+  guide_order: 'guide_order'
+} as const
+
+export type Grammar_guides_contentsScalarFieldEnum = (typeof Grammar_guides_contentsScalarFieldEnum)[keyof typeof Grammar_guides_contentsScalarFieldEnum]
+
+
+export const Listening_contentsScalarFieldEnum = {
+  id: 'id',
+  lesson_id: 'lesson_id',
+  title: 'title',
+  description: 'description',
+  question: 'question',
+  audio_url: 'audio_url',
+  image_options: 'image_options',
+  correct_answer: 'correct_answer',
+  feedback_correct: 'feedback_correct',
+  feedback_incorrect: 'feedback_incorrect',
+  difficulty_level: 'difficulty_level',
+  question_order: 'question_order'
+} as const
+
+export type Listening_contentsScalarFieldEnum = (typeof Listening_contentsScalarFieldEnum)[keyof typeof Listening_contentsScalarFieldEnum]
+
+
+export const Icebreaker_contentsScalarFieldEnum = {
+  id: 'id',
+  lesson_id: 'lesson_id',
+  title: 'title',
+  description: 'description',
+  expression: 'expression',
+  illustration_url: 'illustration_url',
+  situation_description: 'situation_description',
+  pair_id: 'pair_id',
+  difficulty_level: 'difficulty_level',
+  pair_order: 'pair_order'
+} as const
+
+export type Icebreaker_contentsScalarFieldEnum = (typeof Icebreaker_contentsScalarFieldEnum)[keyof typeof Icebreaker_contentsScalarFieldEnum]
 
 
 export const SortOrder = {

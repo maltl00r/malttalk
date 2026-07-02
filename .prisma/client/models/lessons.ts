@@ -247,6 +247,9 @@ export type lessonsWhereInput = {
   writing_challenge_contents?: Prisma.Writing_challenge_contentsListRelationFilter
   mental_agility_contents?: Prisma.Mental_agility_contentsListRelationFilter
   closing_exam_contents?: Prisma.Closing_exam_contentsListRelationFilter
+  grammar_guides_contents?: Prisma.Grammar_guides_contentsListRelationFilter
+  listening_contents?: Prisma.Listening_contentsListRelationFilter
+  icebreaker_contents?: Prisma.Icebreaker_contentsListRelationFilter
   lesson_tag?: Prisma.Lesson_tagListRelationFilter
 }
 
@@ -267,6 +270,9 @@ export type lessonsOrderByWithRelationInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsOrderByRelationAggregateInput
   mental_agility_contents?: Prisma.mental_agility_contentsOrderByRelationAggregateInput
   closing_exam_contents?: Prisma.closing_exam_contentsOrderByRelationAggregateInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsOrderByRelationAggregateInput
+  listening_contents?: Prisma.listening_contentsOrderByRelationAggregateInput
+  icebreaker_contents?: Prisma.icebreaker_contentsOrderByRelationAggregateInput
   lesson_tag?: Prisma.lesson_tagOrderByRelationAggregateInput
 }
 
@@ -290,6 +296,9 @@ export type lessonsWhereUniqueInput = Prisma.AtLeast<{
   writing_challenge_contents?: Prisma.Writing_challenge_contentsListRelationFilter
   mental_agility_contents?: Prisma.Mental_agility_contentsListRelationFilter
   closing_exam_contents?: Prisma.Closing_exam_contentsListRelationFilter
+  grammar_guides_contents?: Prisma.Grammar_guides_contentsListRelationFilter
+  listening_contents?: Prisma.Listening_contentsListRelationFilter
+  icebreaker_contents?: Prisma.Icebreaker_contentsListRelationFilter
   lesson_tag?: Prisma.Lesson_tagListRelationFilter
 }, "id" | "uuid">
 
@@ -336,6 +345,9 @@ export type lessonsCreateInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagCreateNestedManyWithoutLessonsInput
 }
 
@@ -355,6 +367,9 @@ export type lessonsUncheckedCreateInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagUncheckedCreateNestedManyWithoutLessonsInput
 }
 
@@ -373,6 +388,9 @@ export type lessonsUpdateInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUpdateManyWithoutLessonsNestedInput
 }
 
@@ -392,6 +410,9 @@ export type lessonsUncheckedUpdateInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUncheckedUpdateManyWithoutLessonsNestedInput
 }
 
@@ -650,6 +671,48 @@ export type lessonsUpdateOneRequiredWithoutClosing_exam_contentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.lessonsUpdateToOneWithWhereWithoutClosing_exam_contentsInput, Prisma.lessonsUpdateWithoutClosing_exam_contentsInput>, Prisma.lessonsUncheckedUpdateWithoutClosing_exam_contentsInput>
 }
 
+export type lessonsCreateNestedOneWithoutGrammar_guides_contentsInput = {
+  create?: Prisma.XOR<Prisma.lessonsCreateWithoutGrammar_guides_contentsInput, Prisma.lessonsUncheckedCreateWithoutGrammar_guides_contentsInput>
+  connectOrCreate?: Prisma.lessonsCreateOrConnectWithoutGrammar_guides_contentsInput
+  connect?: Prisma.lessonsWhereUniqueInput
+}
+
+export type lessonsUpdateOneRequiredWithoutGrammar_guides_contentsNestedInput = {
+  create?: Prisma.XOR<Prisma.lessonsCreateWithoutGrammar_guides_contentsInput, Prisma.lessonsUncheckedCreateWithoutGrammar_guides_contentsInput>
+  connectOrCreate?: Prisma.lessonsCreateOrConnectWithoutGrammar_guides_contentsInput
+  upsert?: Prisma.lessonsUpsertWithoutGrammar_guides_contentsInput
+  connect?: Prisma.lessonsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.lessonsUpdateToOneWithWhereWithoutGrammar_guides_contentsInput, Prisma.lessonsUpdateWithoutGrammar_guides_contentsInput>, Prisma.lessonsUncheckedUpdateWithoutGrammar_guides_contentsInput>
+}
+
+export type lessonsCreateNestedOneWithoutListening_contentsInput = {
+  create?: Prisma.XOR<Prisma.lessonsCreateWithoutListening_contentsInput, Prisma.lessonsUncheckedCreateWithoutListening_contentsInput>
+  connectOrCreate?: Prisma.lessonsCreateOrConnectWithoutListening_contentsInput
+  connect?: Prisma.lessonsWhereUniqueInput
+}
+
+export type lessonsUpdateOneRequiredWithoutListening_contentsNestedInput = {
+  create?: Prisma.XOR<Prisma.lessonsCreateWithoutListening_contentsInput, Prisma.lessonsUncheckedCreateWithoutListening_contentsInput>
+  connectOrCreate?: Prisma.lessonsCreateOrConnectWithoutListening_contentsInput
+  upsert?: Prisma.lessonsUpsertWithoutListening_contentsInput
+  connect?: Prisma.lessonsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.lessonsUpdateToOneWithWhereWithoutListening_contentsInput, Prisma.lessonsUpdateWithoutListening_contentsInput>, Prisma.lessonsUncheckedUpdateWithoutListening_contentsInput>
+}
+
+export type lessonsCreateNestedOneWithoutIcebreaker_contentsInput = {
+  create?: Prisma.XOR<Prisma.lessonsCreateWithoutIcebreaker_contentsInput, Prisma.lessonsUncheckedCreateWithoutIcebreaker_contentsInput>
+  connectOrCreate?: Prisma.lessonsCreateOrConnectWithoutIcebreaker_contentsInput
+  connect?: Prisma.lessonsWhereUniqueInput
+}
+
+export type lessonsUpdateOneRequiredWithoutIcebreaker_contentsNestedInput = {
+  create?: Prisma.XOR<Prisma.lessonsCreateWithoutIcebreaker_contentsInput, Prisma.lessonsUncheckedCreateWithoutIcebreaker_contentsInput>
+  connectOrCreate?: Prisma.lessonsCreateOrConnectWithoutIcebreaker_contentsInput
+  upsert?: Prisma.lessonsUpsertWithoutIcebreaker_contentsInput
+  connect?: Prisma.lessonsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.lessonsUpdateToOneWithWhereWithoutIcebreaker_contentsInput, Prisma.lessonsUpdateWithoutIcebreaker_contentsInput>, Prisma.lessonsUncheckedUpdateWithoutIcebreaker_contentsInput>
+}
+
 export type lessonsCreateWithoutTopicsInput = {
   uuid?: string | null
   type: $Enums.lesson_type
@@ -664,6 +727,9 @@ export type lessonsCreateWithoutTopicsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagCreateNestedManyWithoutLessonsInput
 }
 
@@ -682,6 +748,9 @@ export type lessonsUncheckedCreateWithoutTopicsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagUncheckedCreateNestedManyWithoutLessonsInput
 }
 
@@ -738,6 +807,9 @@ export type lessonsCreateWithoutVideo_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagCreateNestedManyWithoutLessonsInput
 }
 
@@ -756,6 +828,9 @@ export type lessonsUncheckedCreateWithoutVideo_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagUncheckedCreateNestedManyWithoutLessonsInput
 }
 
@@ -789,6 +864,9 @@ export type lessonsUpdateWithoutVideo_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUpdateManyWithoutLessonsNestedInput
 }
 
@@ -807,6 +885,9 @@ export type lessonsUncheckedUpdateWithoutVideo_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUncheckedUpdateManyWithoutLessonsNestedInput
 }
 
@@ -824,6 +905,9 @@ export type lessonsCreateWithoutReading_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagCreateNestedManyWithoutLessonsInput
 }
 
@@ -842,6 +926,9 @@ export type lessonsUncheckedCreateWithoutReading_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagUncheckedCreateNestedManyWithoutLessonsInput
 }
 
@@ -875,6 +962,9 @@ export type lessonsUpdateWithoutReading_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUpdateManyWithoutLessonsNestedInput
 }
 
@@ -893,6 +983,9 @@ export type lessonsUncheckedUpdateWithoutReading_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUncheckedUpdateManyWithoutLessonsNestedInput
 }
 
@@ -910,6 +1003,9 @@ export type lessonsCreateWithoutFlashcard_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagCreateNestedManyWithoutLessonsInput
 }
 
@@ -928,6 +1024,9 @@ export type lessonsUncheckedCreateWithoutFlashcard_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagUncheckedCreateNestedManyWithoutLessonsInput
 }
 
@@ -961,6 +1060,9 @@ export type lessonsUpdateWithoutFlashcard_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUpdateManyWithoutLessonsNestedInput
 }
 
@@ -979,6 +1081,9 @@ export type lessonsUncheckedUpdateWithoutFlashcard_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUncheckedUpdateManyWithoutLessonsNestedInput
 }
 
@@ -996,6 +1101,9 @@ export type lessonsCreateWithoutDrag_drop_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagCreateNestedManyWithoutLessonsInput
 }
 
@@ -1014,6 +1122,9 @@ export type lessonsUncheckedCreateWithoutDrag_drop_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagUncheckedCreateNestedManyWithoutLessonsInput
 }
 
@@ -1047,6 +1158,9 @@ export type lessonsUpdateWithoutDrag_drop_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUpdateManyWithoutLessonsNestedInput
 }
 
@@ -1065,6 +1179,9 @@ export type lessonsUncheckedUpdateWithoutDrag_drop_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUncheckedUpdateManyWithoutLessonsNestedInput
 }
 
@@ -1083,6 +1200,9 @@ export type lessonsCreateWithoutLesson_tagInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsCreateNestedManyWithoutLessonsInput
 }
 
 export type lessonsUncheckedCreateWithoutLesson_tagInput = {
@@ -1101,6 +1221,9 @@ export type lessonsUncheckedCreateWithoutLesson_tagInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedCreateNestedManyWithoutLessonsInput
 }
 
 export type lessonsCreateOrConnectWithoutLesson_tagInput = {
@@ -1134,6 +1257,9 @@ export type lessonsUpdateWithoutLesson_tagInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUpdateManyWithoutLessonsNestedInput
 }
 
 export type lessonsUncheckedUpdateWithoutLesson_tagInput = {
@@ -1152,6 +1278,9 @@ export type lessonsUncheckedUpdateWithoutLesson_tagInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedUpdateManyWithoutLessonsNestedInput
 }
 
 export type lessonsCreateWithoutVisio_acoustic_contentsInput = {
@@ -1168,6 +1297,9 @@ export type lessonsCreateWithoutVisio_acoustic_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagCreateNestedManyWithoutLessonsInput
 }
 
@@ -1186,6 +1318,9 @@ export type lessonsUncheckedCreateWithoutVisio_acoustic_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagUncheckedCreateNestedManyWithoutLessonsInput
 }
 
@@ -1219,6 +1354,9 @@ export type lessonsUpdateWithoutVisio_acoustic_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUpdateManyWithoutLessonsNestedInput
 }
 
@@ -1237,6 +1375,9 @@ export type lessonsUncheckedUpdateWithoutVisio_acoustic_contentsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUncheckedUpdateManyWithoutLessonsNestedInput
 }
 
@@ -1254,6 +1395,9 @@ export type lessonsCreateWithoutWriting_challenge_contentsInput = {
   visio_acoustic_contents?: Prisma.visio_acoustic_contentsCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagCreateNestedManyWithoutLessonsInput
 }
 
@@ -1272,6 +1416,9 @@ export type lessonsUncheckedCreateWithoutWriting_challenge_contentsInput = {
   visio_acoustic_contents?: Prisma.visio_acoustic_contentsUncheckedCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagUncheckedCreateNestedManyWithoutLessonsInput
 }
 
@@ -1305,6 +1452,9 @@ export type lessonsUpdateWithoutWriting_challenge_contentsInput = {
   visio_acoustic_contents?: Prisma.visio_acoustic_contentsUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUpdateManyWithoutLessonsNestedInput
 }
 
@@ -1323,6 +1473,9 @@ export type lessonsUncheckedUpdateWithoutWriting_challenge_contentsInput = {
   visio_acoustic_contents?: Prisma.visio_acoustic_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUncheckedUpdateManyWithoutLessonsNestedInput
 }
 
@@ -1340,6 +1493,9 @@ export type lessonsCreateWithoutMental_agility_contentsInput = {
   visio_acoustic_contents?: Prisma.visio_acoustic_contentsCreateNestedManyWithoutLessonsInput
   writing_challenge_contents?: Prisma.writing_challenge_contentsCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagCreateNestedManyWithoutLessonsInput
 }
 
@@ -1358,6 +1514,9 @@ export type lessonsUncheckedCreateWithoutMental_agility_contentsInput = {
   visio_acoustic_contents?: Prisma.visio_acoustic_contentsUncheckedCreateNestedManyWithoutLessonsInput
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedCreateNestedManyWithoutLessonsInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagUncheckedCreateNestedManyWithoutLessonsInput
 }
 
@@ -1391,6 +1550,9 @@ export type lessonsUpdateWithoutMental_agility_contentsInput = {
   visio_acoustic_contents?: Prisma.visio_acoustic_contentsUpdateManyWithoutLessonsNestedInput
   writing_challenge_contents?: Prisma.writing_challenge_contentsUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUpdateManyWithoutLessonsNestedInput
 }
 
@@ -1409,6 +1571,9 @@ export type lessonsUncheckedUpdateWithoutMental_agility_contentsInput = {
   visio_acoustic_contents?: Prisma.visio_acoustic_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUncheckedUpdateManyWithoutLessonsNestedInput
 }
 
@@ -1426,6 +1591,9 @@ export type lessonsCreateWithoutClosing_exam_contentsInput = {
   visio_acoustic_contents?: Prisma.visio_acoustic_contentsCreateNestedManyWithoutLessonsInput
   writing_challenge_contents?: Prisma.writing_challenge_contentsCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagCreateNestedManyWithoutLessonsInput
 }
 
@@ -1444,6 +1612,9 @@ export type lessonsUncheckedCreateWithoutClosing_exam_contentsInput = {
   visio_acoustic_contents?: Prisma.visio_acoustic_contentsUncheckedCreateNestedManyWithoutLessonsInput
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedCreateNestedManyWithoutLessonsInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedCreateNestedManyWithoutLessonsInput
   lesson_tag?: Prisma.lesson_tagUncheckedCreateNestedManyWithoutLessonsInput
 }
 
@@ -1477,6 +1648,9 @@ export type lessonsUpdateWithoutClosing_exam_contentsInput = {
   visio_acoustic_contents?: Prisma.visio_acoustic_contentsUpdateManyWithoutLessonsNestedInput
   writing_challenge_contents?: Prisma.writing_challenge_contentsUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUpdateManyWithoutLessonsNestedInput
 }
 
@@ -1495,6 +1669,303 @@ export type lessonsUncheckedUpdateWithoutClosing_exam_contentsInput = {
   visio_acoustic_contents?: Prisma.visio_acoustic_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  lesson_tag?: Prisma.lesson_tagUncheckedUpdateManyWithoutLessonsNestedInput
+}
+
+export type lessonsCreateWithoutGrammar_guides_contentsInput = {
+  uuid?: string | null
+  type: $Enums.lesson_type
+  title: string
+  description?: string | null
+  slug?: string | null
+  topics: Prisma.topicsCreateNestedOneWithoutLessonsInput
+  video_contents?: Prisma.video_contentsCreateNestedManyWithoutLessonsInput
+  reading_contents?: Prisma.reading_contentsCreateNestedManyWithoutLessonsInput
+  flashcard_contents?: Prisma.flashcard_contentsCreateNestedManyWithoutLessonsInput
+  drag_drop_contents?: Prisma.drag_drop_contentsCreateNestedManyWithoutLessonsInput
+  visio_acoustic_contents?: Prisma.visio_acoustic_contentsCreateNestedManyWithoutLessonsInput
+  writing_challenge_contents?: Prisma.writing_challenge_contentsCreateNestedManyWithoutLessonsInput
+  mental_agility_contents?: Prisma.mental_agility_contentsCreateNestedManyWithoutLessonsInput
+  closing_exam_contents?: Prisma.closing_exam_contentsCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsCreateNestedManyWithoutLessonsInput
+  lesson_tag?: Prisma.lesson_tagCreateNestedManyWithoutLessonsInput
+}
+
+export type lessonsUncheckedCreateWithoutGrammar_guides_contentsInput = {
+  id?: number
+  uuid?: string | null
+  topic_id: number
+  type: $Enums.lesson_type
+  title: string
+  description?: string | null
+  slug?: string | null
+  video_contents?: Prisma.video_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  reading_contents?: Prisma.reading_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  flashcard_contents?: Prisma.flashcard_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  drag_drop_contents?: Prisma.drag_drop_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  visio_acoustic_contents?: Prisma.visio_acoustic_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  mental_agility_contents?: Prisma.mental_agility_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  closing_exam_contents?: Prisma.closing_exam_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  lesson_tag?: Prisma.lesson_tagUncheckedCreateNestedManyWithoutLessonsInput
+}
+
+export type lessonsCreateOrConnectWithoutGrammar_guides_contentsInput = {
+  where: Prisma.lessonsWhereUniqueInput
+  create: Prisma.XOR<Prisma.lessonsCreateWithoutGrammar_guides_contentsInput, Prisma.lessonsUncheckedCreateWithoutGrammar_guides_contentsInput>
+}
+
+export type lessonsUpsertWithoutGrammar_guides_contentsInput = {
+  update: Prisma.XOR<Prisma.lessonsUpdateWithoutGrammar_guides_contentsInput, Prisma.lessonsUncheckedUpdateWithoutGrammar_guides_contentsInput>
+  create: Prisma.XOR<Prisma.lessonsCreateWithoutGrammar_guides_contentsInput, Prisma.lessonsUncheckedCreateWithoutGrammar_guides_contentsInput>
+  where?: Prisma.lessonsWhereInput
+}
+
+export type lessonsUpdateToOneWithWhereWithoutGrammar_guides_contentsInput = {
+  where?: Prisma.lessonsWhereInput
+  data: Prisma.XOR<Prisma.lessonsUpdateWithoutGrammar_guides_contentsInput, Prisma.lessonsUncheckedUpdateWithoutGrammar_guides_contentsInput>
+}
+
+export type lessonsUpdateWithoutGrammar_guides_contentsInput = {
+  uuid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.Enumlesson_typeFieldUpdateOperationsInput | $Enums.lesson_type
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topics?: Prisma.topicsUpdateOneRequiredWithoutLessonsNestedInput
+  video_contents?: Prisma.video_contentsUpdateManyWithoutLessonsNestedInput
+  reading_contents?: Prisma.reading_contentsUpdateManyWithoutLessonsNestedInput
+  flashcard_contents?: Prisma.flashcard_contentsUpdateManyWithoutLessonsNestedInput
+  drag_drop_contents?: Prisma.drag_drop_contentsUpdateManyWithoutLessonsNestedInput
+  visio_acoustic_contents?: Prisma.visio_acoustic_contentsUpdateManyWithoutLessonsNestedInput
+  writing_challenge_contents?: Prisma.writing_challenge_contentsUpdateManyWithoutLessonsNestedInput
+  mental_agility_contents?: Prisma.mental_agility_contentsUpdateManyWithoutLessonsNestedInput
+  closing_exam_contents?: Prisma.closing_exam_contentsUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUpdateManyWithoutLessonsNestedInput
+  lesson_tag?: Prisma.lesson_tagUpdateManyWithoutLessonsNestedInput
+}
+
+export type lessonsUncheckedUpdateWithoutGrammar_guides_contentsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topic_id?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.Enumlesson_typeFieldUpdateOperationsInput | $Enums.lesson_type
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  video_contents?: Prisma.video_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  reading_contents?: Prisma.reading_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  flashcard_contents?: Prisma.flashcard_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  drag_drop_contents?: Prisma.drag_drop_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  visio_acoustic_contents?: Prisma.visio_acoustic_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  mental_agility_contents?: Prisma.mental_agility_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  closing_exam_contents?: Prisma.closing_exam_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  lesson_tag?: Prisma.lesson_tagUncheckedUpdateManyWithoutLessonsNestedInput
+}
+
+export type lessonsCreateWithoutListening_contentsInput = {
+  uuid?: string | null
+  type: $Enums.lesson_type
+  title: string
+  description?: string | null
+  slug?: string | null
+  topics: Prisma.topicsCreateNestedOneWithoutLessonsInput
+  video_contents?: Prisma.video_contentsCreateNestedManyWithoutLessonsInput
+  reading_contents?: Prisma.reading_contentsCreateNestedManyWithoutLessonsInput
+  flashcard_contents?: Prisma.flashcard_contentsCreateNestedManyWithoutLessonsInput
+  drag_drop_contents?: Prisma.drag_drop_contentsCreateNestedManyWithoutLessonsInput
+  visio_acoustic_contents?: Prisma.visio_acoustic_contentsCreateNestedManyWithoutLessonsInput
+  writing_challenge_contents?: Prisma.writing_challenge_contentsCreateNestedManyWithoutLessonsInput
+  mental_agility_contents?: Prisma.mental_agility_contentsCreateNestedManyWithoutLessonsInput
+  closing_exam_contents?: Prisma.closing_exam_contentsCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsCreateNestedManyWithoutLessonsInput
+  lesson_tag?: Prisma.lesson_tagCreateNestedManyWithoutLessonsInput
+}
+
+export type lessonsUncheckedCreateWithoutListening_contentsInput = {
+  id?: number
+  uuid?: string | null
+  topic_id: number
+  type: $Enums.lesson_type
+  title: string
+  description?: string | null
+  slug?: string | null
+  video_contents?: Prisma.video_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  reading_contents?: Prisma.reading_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  flashcard_contents?: Prisma.flashcard_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  drag_drop_contents?: Prisma.drag_drop_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  visio_acoustic_contents?: Prisma.visio_acoustic_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  mental_agility_contents?: Prisma.mental_agility_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  closing_exam_contents?: Prisma.closing_exam_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  lesson_tag?: Prisma.lesson_tagUncheckedCreateNestedManyWithoutLessonsInput
+}
+
+export type lessonsCreateOrConnectWithoutListening_contentsInput = {
+  where: Prisma.lessonsWhereUniqueInput
+  create: Prisma.XOR<Prisma.lessonsCreateWithoutListening_contentsInput, Prisma.lessonsUncheckedCreateWithoutListening_contentsInput>
+}
+
+export type lessonsUpsertWithoutListening_contentsInput = {
+  update: Prisma.XOR<Prisma.lessonsUpdateWithoutListening_contentsInput, Prisma.lessonsUncheckedUpdateWithoutListening_contentsInput>
+  create: Prisma.XOR<Prisma.lessonsCreateWithoutListening_contentsInput, Prisma.lessonsUncheckedCreateWithoutListening_contentsInput>
+  where?: Prisma.lessonsWhereInput
+}
+
+export type lessonsUpdateToOneWithWhereWithoutListening_contentsInput = {
+  where?: Prisma.lessonsWhereInput
+  data: Prisma.XOR<Prisma.lessonsUpdateWithoutListening_contentsInput, Prisma.lessonsUncheckedUpdateWithoutListening_contentsInput>
+}
+
+export type lessonsUpdateWithoutListening_contentsInput = {
+  uuid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.Enumlesson_typeFieldUpdateOperationsInput | $Enums.lesson_type
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topics?: Prisma.topicsUpdateOneRequiredWithoutLessonsNestedInput
+  video_contents?: Prisma.video_contentsUpdateManyWithoutLessonsNestedInput
+  reading_contents?: Prisma.reading_contentsUpdateManyWithoutLessonsNestedInput
+  flashcard_contents?: Prisma.flashcard_contentsUpdateManyWithoutLessonsNestedInput
+  drag_drop_contents?: Prisma.drag_drop_contentsUpdateManyWithoutLessonsNestedInput
+  visio_acoustic_contents?: Prisma.visio_acoustic_contentsUpdateManyWithoutLessonsNestedInput
+  writing_challenge_contents?: Prisma.writing_challenge_contentsUpdateManyWithoutLessonsNestedInput
+  mental_agility_contents?: Prisma.mental_agility_contentsUpdateManyWithoutLessonsNestedInput
+  closing_exam_contents?: Prisma.closing_exam_contentsUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUpdateManyWithoutLessonsNestedInput
+  lesson_tag?: Prisma.lesson_tagUpdateManyWithoutLessonsNestedInput
+}
+
+export type lessonsUncheckedUpdateWithoutListening_contentsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topic_id?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.Enumlesson_typeFieldUpdateOperationsInput | $Enums.lesson_type
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  video_contents?: Prisma.video_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  reading_contents?: Prisma.reading_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  flashcard_contents?: Prisma.flashcard_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  drag_drop_contents?: Prisma.drag_drop_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  visio_acoustic_contents?: Prisma.visio_acoustic_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  mental_agility_contents?: Prisma.mental_agility_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  closing_exam_contents?: Prisma.closing_exam_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  lesson_tag?: Prisma.lesson_tagUncheckedUpdateManyWithoutLessonsNestedInput
+}
+
+export type lessonsCreateWithoutIcebreaker_contentsInput = {
+  uuid?: string | null
+  type: $Enums.lesson_type
+  title: string
+  description?: string | null
+  slug?: string | null
+  topics: Prisma.topicsCreateNestedOneWithoutLessonsInput
+  video_contents?: Prisma.video_contentsCreateNestedManyWithoutLessonsInput
+  reading_contents?: Prisma.reading_contentsCreateNestedManyWithoutLessonsInput
+  flashcard_contents?: Prisma.flashcard_contentsCreateNestedManyWithoutLessonsInput
+  drag_drop_contents?: Prisma.drag_drop_contentsCreateNestedManyWithoutLessonsInput
+  visio_acoustic_contents?: Prisma.visio_acoustic_contentsCreateNestedManyWithoutLessonsInput
+  writing_challenge_contents?: Prisma.writing_challenge_contentsCreateNestedManyWithoutLessonsInput
+  mental_agility_contents?: Prisma.mental_agility_contentsCreateNestedManyWithoutLessonsInput
+  closing_exam_contents?: Prisma.closing_exam_contentsCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsCreateNestedManyWithoutLessonsInput
+  lesson_tag?: Prisma.lesson_tagCreateNestedManyWithoutLessonsInput
+}
+
+export type lessonsUncheckedCreateWithoutIcebreaker_contentsInput = {
+  id?: number
+  uuid?: string | null
+  topic_id: number
+  type: $Enums.lesson_type
+  title: string
+  description?: string | null
+  slug?: string | null
+  video_contents?: Prisma.video_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  reading_contents?: Prisma.reading_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  flashcard_contents?: Prisma.flashcard_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  drag_drop_contents?: Prisma.drag_drop_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  visio_acoustic_contents?: Prisma.visio_acoustic_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  mental_agility_contents?: Prisma.mental_agility_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  closing_exam_contents?: Prisma.closing_exam_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  listening_contents?: Prisma.listening_contentsUncheckedCreateNestedManyWithoutLessonsInput
+  lesson_tag?: Prisma.lesson_tagUncheckedCreateNestedManyWithoutLessonsInput
+}
+
+export type lessonsCreateOrConnectWithoutIcebreaker_contentsInput = {
+  where: Prisma.lessonsWhereUniqueInput
+  create: Prisma.XOR<Prisma.lessonsCreateWithoutIcebreaker_contentsInput, Prisma.lessonsUncheckedCreateWithoutIcebreaker_contentsInput>
+}
+
+export type lessonsUpsertWithoutIcebreaker_contentsInput = {
+  update: Prisma.XOR<Prisma.lessonsUpdateWithoutIcebreaker_contentsInput, Prisma.lessonsUncheckedUpdateWithoutIcebreaker_contentsInput>
+  create: Prisma.XOR<Prisma.lessonsCreateWithoutIcebreaker_contentsInput, Prisma.lessonsUncheckedCreateWithoutIcebreaker_contentsInput>
+  where?: Prisma.lessonsWhereInput
+}
+
+export type lessonsUpdateToOneWithWhereWithoutIcebreaker_contentsInput = {
+  where?: Prisma.lessonsWhereInput
+  data: Prisma.XOR<Prisma.lessonsUpdateWithoutIcebreaker_contentsInput, Prisma.lessonsUncheckedUpdateWithoutIcebreaker_contentsInput>
+}
+
+export type lessonsUpdateWithoutIcebreaker_contentsInput = {
+  uuid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.Enumlesson_typeFieldUpdateOperationsInput | $Enums.lesson_type
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topics?: Prisma.topicsUpdateOneRequiredWithoutLessonsNestedInput
+  video_contents?: Prisma.video_contentsUpdateManyWithoutLessonsNestedInput
+  reading_contents?: Prisma.reading_contentsUpdateManyWithoutLessonsNestedInput
+  flashcard_contents?: Prisma.flashcard_contentsUpdateManyWithoutLessonsNestedInput
+  drag_drop_contents?: Prisma.drag_drop_contentsUpdateManyWithoutLessonsNestedInput
+  visio_acoustic_contents?: Prisma.visio_acoustic_contentsUpdateManyWithoutLessonsNestedInput
+  writing_challenge_contents?: Prisma.writing_challenge_contentsUpdateManyWithoutLessonsNestedInput
+  mental_agility_contents?: Prisma.mental_agility_contentsUpdateManyWithoutLessonsNestedInput
+  closing_exam_contents?: Prisma.closing_exam_contentsUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUpdateManyWithoutLessonsNestedInput
+  lesson_tag?: Prisma.lesson_tagUpdateManyWithoutLessonsNestedInput
+}
+
+export type lessonsUncheckedUpdateWithoutIcebreaker_contentsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  topic_id?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.Enumlesson_typeFieldUpdateOperationsInput | $Enums.lesson_type
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  video_contents?: Prisma.video_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  reading_contents?: Prisma.reading_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  flashcard_contents?: Prisma.flashcard_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  drag_drop_contents?: Prisma.drag_drop_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  visio_acoustic_contents?: Prisma.visio_acoustic_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  mental_agility_contents?: Prisma.mental_agility_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  closing_exam_contents?: Prisma.closing_exam_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUncheckedUpdateManyWithoutLessonsNestedInput
 }
 
@@ -1521,6 +1992,9 @@ export type lessonsUpdateWithoutTopicsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUpdateManyWithoutLessonsNestedInput
 }
 
@@ -1539,6 +2013,9 @@ export type lessonsUncheckedUpdateWithoutTopicsInput = {
   writing_challenge_contents?: Prisma.writing_challenge_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   mental_agility_contents?: Prisma.mental_agility_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   closing_exam_contents?: Prisma.closing_exam_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  grammar_guides_contents?: Prisma.grammar_guides_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  listening_contents?: Prisma.listening_contentsUncheckedUpdateManyWithoutLessonsNestedInput
+  icebreaker_contents?: Prisma.icebreaker_contentsUncheckedUpdateManyWithoutLessonsNestedInput
   lesson_tag?: Prisma.lesson_tagUncheckedUpdateManyWithoutLessonsNestedInput
 }
 
@@ -1565,6 +2042,9 @@ export type LessonsCountOutputType = {
   writing_challenge_contents: number
   mental_agility_contents: number
   closing_exam_contents: number
+  grammar_guides_contents: number
+  listening_contents: number
+  icebreaker_contents: number
   lesson_tag: number
 }
 
@@ -1577,6 +2057,9 @@ export type LessonsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   writing_challenge_contents?: boolean | LessonsCountOutputTypeCountWriting_challenge_contentsArgs
   mental_agility_contents?: boolean | LessonsCountOutputTypeCountMental_agility_contentsArgs
   closing_exam_contents?: boolean | LessonsCountOutputTypeCountClosing_exam_contentsArgs
+  grammar_guides_contents?: boolean | LessonsCountOutputTypeCountGrammar_guides_contentsArgs
+  listening_contents?: boolean | LessonsCountOutputTypeCountListening_contentsArgs
+  icebreaker_contents?: boolean | LessonsCountOutputTypeCountIcebreaker_contentsArgs
   lesson_tag?: boolean | LessonsCountOutputTypeCountLesson_tagArgs
 }
 
@@ -1649,6 +2132,27 @@ export type LessonsCountOutputTypeCountClosing_exam_contentsArgs<ExtArgs extends
 /**
  * LessonsCountOutputType without action
  */
+export type LessonsCountOutputTypeCountGrammar_guides_contentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.grammar_guides_contentsWhereInput
+}
+
+/**
+ * LessonsCountOutputType without action
+ */
+export type LessonsCountOutputTypeCountListening_contentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.listening_contentsWhereInput
+}
+
+/**
+ * LessonsCountOutputType without action
+ */
+export type LessonsCountOutputTypeCountIcebreaker_contentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.icebreaker_contentsWhereInput
+}
+
+/**
+ * LessonsCountOutputType without action
+ */
 export type LessonsCountOutputTypeCountLesson_tagArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.lesson_tagWhereInput
 }
@@ -1671,6 +2175,9 @@ export type lessonsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   writing_challenge_contents?: boolean | Prisma.lessons$writing_challenge_contentsArgs<ExtArgs>
   mental_agility_contents?: boolean | Prisma.lessons$mental_agility_contentsArgs<ExtArgs>
   closing_exam_contents?: boolean | Prisma.lessons$closing_exam_contentsArgs<ExtArgs>
+  grammar_guides_contents?: boolean | Prisma.lessons$grammar_guides_contentsArgs<ExtArgs>
+  listening_contents?: boolean | Prisma.lessons$listening_contentsArgs<ExtArgs>
+  icebreaker_contents?: boolean | Prisma.lessons$icebreaker_contentsArgs<ExtArgs>
   lesson_tag?: boolean | Prisma.lessons$lesson_tagArgs<ExtArgs>
   _count?: boolean | Prisma.LessonsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lessons"]>
@@ -1718,6 +2225,9 @@ export type lessonsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   writing_challenge_contents?: boolean | Prisma.lessons$writing_challenge_contentsArgs<ExtArgs>
   mental_agility_contents?: boolean | Prisma.lessons$mental_agility_contentsArgs<ExtArgs>
   closing_exam_contents?: boolean | Prisma.lessons$closing_exam_contentsArgs<ExtArgs>
+  grammar_guides_contents?: boolean | Prisma.lessons$grammar_guides_contentsArgs<ExtArgs>
+  listening_contents?: boolean | Prisma.lessons$listening_contentsArgs<ExtArgs>
+  icebreaker_contents?: boolean | Prisma.lessons$icebreaker_contentsArgs<ExtArgs>
   lesson_tag?: boolean | Prisma.lessons$lesson_tagArgs<ExtArgs>
   _count?: boolean | Prisma.LessonsCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1740,6 +2250,9 @@ export type $lessonsPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     writing_challenge_contents: Prisma.$writing_challenge_contentsPayload<ExtArgs>[]
     mental_agility_contents: Prisma.$mental_agility_contentsPayload<ExtArgs>[]
     closing_exam_contents: Prisma.$closing_exam_contentsPayload<ExtArgs>[]
+    grammar_guides_contents: Prisma.$grammar_guides_contentsPayload<ExtArgs>[]
+    listening_contents: Prisma.$listening_contentsPayload<ExtArgs>[]
+    icebreaker_contents: Prisma.$icebreaker_contentsPayload<ExtArgs>[]
     lesson_tag: Prisma.$lesson_tagPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -2153,6 +2666,9 @@ export interface Prisma__lessonsClient<T, Null = never, ExtArgs extends runtime.
   writing_challenge_contents<T extends Prisma.lessons$writing_challenge_contentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.lessons$writing_challenge_contentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$writing_challenge_contentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   mental_agility_contents<T extends Prisma.lessons$mental_agility_contentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.lessons$mental_agility_contentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$mental_agility_contentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   closing_exam_contents<T extends Prisma.lessons$closing_exam_contentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.lessons$closing_exam_contentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$closing_exam_contentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  grammar_guides_contents<T extends Prisma.lessons$grammar_guides_contentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.lessons$grammar_guides_contentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$grammar_guides_contentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  listening_contents<T extends Prisma.lessons$listening_contentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.lessons$listening_contentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$listening_contentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  icebreaker_contents<T extends Prisma.lessons$icebreaker_contentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.lessons$icebreaker_contentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$icebreaker_contentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lesson_tag<T extends Prisma.lessons$lesson_tagArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.lessons$lesson_tagArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$lesson_tagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2780,6 +3296,78 @@ export type lessons$closing_exam_contentsArgs<ExtArgs extends runtime.Types.Exte
   take?: number
   skip?: number
   distinct?: Prisma.Closing_exam_contentsScalarFieldEnum | Prisma.Closing_exam_contentsScalarFieldEnum[]
+}
+
+/**
+ * lessons.grammar_guides_contents
+ */
+export type lessons$grammar_guides_contentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the grammar_guides_contents
+   */
+  select?: Prisma.grammar_guides_contentsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the grammar_guides_contents
+   */
+  omit?: Prisma.grammar_guides_contentsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.grammar_guides_contentsInclude<ExtArgs> | null
+  where?: Prisma.grammar_guides_contentsWhereInput
+  orderBy?: Prisma.grammar_guides_contentsOrderByWithRelationInput | Prisma.grammar_guides_contentsOrderByWithRelationInput[]
+  cursor?: Prisma.grammar_guides_contentsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Grammar_guides_contentsScalarFieldEnum | Prisma.Grammar_guides_contentsScalarFieldEnum[]
+}
+
+/**
+ * lessons.listening_contents
+ */
+export type lessons$listening_contentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the listening_contents
+   */
+  select?: Prisma.listening_contentsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the listening_contents
+   */
+  omit?: Prisma.listening_contentsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.listening_contentsInclude<ExtArgs> | null
+  where?: Prisma.listening_contentsWhereInput
+  orderBy?: Prisma.listening_contentsOrderByWithRelationInput | Prisma.listening_contentsOrderByWithRelationInput[]
+  cursor?: Prisma.listening_contentsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Listening_contentsScalarFieldEnum | Prisma.Listening_contentsScalarFieldEnum[]
+}
+
+/**
+ * lessons.icebreaker_contents
+ */
+export type lessons$icebreaker_contentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the icebreaker_contents
+   */
+  select?: Prisma.icebreaker_contentsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the icebreaker_contents
+   */
+  omit?: Prisma.icebreaker_contentsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.icebreaker_contentsInclude<ExtArgs> | null
+  where?: Prisma.icebreaker_contentsWhereInput
+  orderBy?: Prisma.icebreaker_contentsOrderByWithRelationInput | Prisma.icebreaker_contentsOrderByWithRelationInput[]
+  cursor?: Prisma.icebreaker_contentsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Icebreaker_contentsScalarFieldEnum | Prisma.Icebreaker_contentsScalarFieldEnum[]
 }
 
 /**

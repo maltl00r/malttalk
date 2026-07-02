@@ -61,6 +61,9 @@ export async function GET(
         writing_challenge_contents: true,
         mental_agility_contents: true,
         closing_exam_contents: true,
+        grammar_guides_contents: true,
+        listening_contents: true,
+        icebreaker_contents: true,
       },
     });
 

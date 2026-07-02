@@ -8,6 +8,9 @@ import VisioAcousticDiv from "../../../components/visio-acoustic/VisioAcousticDi
 import WritingChallengesDiv from "../../../components/writing-challenges/WritingChallengesDiv";
 import MentalAgilityDiv from "../../../components/mental-agility/MentalAgilityDiv";
 import ClosingExamDiv from "../../../components/closing-exam/ClosingExamDiv";
+import GrammarGuidesDiv from "../../../components/grammar-guides/GrammarGuidesDiv";
+import ListeningDiv from "../../../components/listening/ListeningDiv";
+import IcebreakerDiv from "../../../components/icebreaker/IcebreakerDiv";
 import SidebarModuleToggle from "../../../components/ui/SidebarModuleToggle";
 import ModuleList from "../../../components/ui/ModuleList";
 import { notFound } from "next/navigation";
@@ -134,6 +137,18 @@ export default function ModulePage({ params, searchParams }: PageProps) {
 
         {lesson === "closing-exam" && (
           <ClosingExamDiv lessonId={lessonData.id}/>
+        )}
+
+        {lesson === "grammar-guides" && (
+          <GrammarGuidesDiv lessonId={lessonData.id}/>
+        )}
+
+        {lesson === "listening" && (
+          <ListeningDiv lessonId={lessonData.id}/>
+        )}
+
+        {lesson === "icebreaker" && (
+          <IcebreakerDiv lessonId={lessonData.id}/>
         )}
       </div>
 

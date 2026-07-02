@@ -127,6 +127,9 @@ export async function fetchModulesForCourse(courseSlug: string) {
             writing_challenge_contents: true,
             mental_agility_contents: true,
             closing_exam_contents: true,
+            grammar_guides_contents: true,
+            listening_contents: true,
+            icebreaker_contents: true,
           },
           orderBy: {
             id: "asc",
@@ -361,5 +364,95 @@ export async function fetchLessonWithClosingExam(lessonId: number) {
     return lesson;
   } catch (error) {
     handleFetchError("fetchLessonWithClosingExam", error as Error);
+  }
+}
+
+/**
+ * Fetches a lesson with its associated grammar guides content.
+ * Retrieves all grammar guides sorted by guide order.
+ *
+ * @async
+ * @param {number} lessonId - The lesson ID to fetch
+ * @returns {Promise<Object|null>} Lesson object with grammar_guides_contents array, or null if not found
+ * @throws {Error} Database connection or query error
+ *
+ * @example
+ * const lesson = await fetchLessonWithGrammarGuides(9);
+ * console.log(lesson.grammar_guides_contents); // Array of grammar guides
+ */
+export async function fetchLessonWithGrammarGuides(lessonId: number) {
+  try {
+    const lesson = await prisma.lessons.findUnique({
+      where: { id: lessonId },
+      include: {
+        grammar_guides_contents: {
+          orderBy: { guide_order: "asc" },
+        },
+      },
+    });
+
+    return lesson;
+  } catch (error) {
+    handleFetchError("fetchLessonWithGrammarGuides", error as Error);
+  }
+}
+
+/**
+ * Fetches a lesson with its associated listening content.
+ * Retrieves all listening exercises sorted by question order.
+ *
+ * @async
+ * @param {number} lessonId - The lesson ID to fetch
+ * @returns {Promise<Object|null>} Lesson object with listening_contents array, or null if not found
+ * @throws {Error} Database connection or query error
+ *
+ * @example
+ * const lesson = await fetchLessonWithListening(10);
+ * console.log(lesson.listening_contents); // Array of listening exercises
+ */
+export async function fetchLessonWithListening(lessonId: number) {
+  try {
+    const lesson = await prisma.lessons.findUnique({
+      where: { id: lessonId },
+      include: {
+        listening_contents: {
+          orderBy: { question_order: "asc" },
+        },
+      },
+    });
+
+    return lesson;
+  } catch (error) {
+    handleFetchError("fetchLessonWithListening", error as Error);
+  }
+}
+
+/**
+ * Fetches a lesson with its associated icebreaker content.
+ * Retrieves all icebreaker expressions sorted by pair order.
+ *
+ * @async
+ * @param {number} lessonId - The lesson ID to fetch
+ * @returns {Promise<Object|null>} Lesson object with icebreaker_contents array, or null if not found
+ * @throws {Error} Database connection or query error
+ *
+ * @example
+ * const lesson = await fetchLessonWithIcebreaker(11);
+ * console.log(lesson.icebreaker_contents); // Array of icebreaker expressions
+ */
+export async function fetchLessonWithIcebreaker(lessonId: number) {
+  try {
+    const lesson = await prisma.lessons.findUnique({
+      where: { id: lessonId },
+      include: {
+        icebreaker_contents: {
+          orderBy: { pair_order: "asc" },
+        },
+      },
+    });
+
+    return lesson;
+  } catch (error) {
+    handleFetchError("fetchLessonWithIcebreaker", error as Error);
   }
 }

@@ -16,6 +16,9 @@ const LESSON_ICONS = {
   writing_challenges: "✍️",
   mental_agility: "🧠",
   closing_exam: "📊",
+  grammar_guides: "🎨",
+  listening: "🎧",
+  icebreaker: "🤝",
 };
 
 // Convertir tipo de lección de DB format (underscore) a URL format (hyphen)
@@ -72,6 +75,24 @@ const LESSON_COLORS = {
     light: "from-purple-100 to-blue-200",
     text: "text-purple-700",
     badge: "bg-purple-100 text-purple-700",
+  },
+  grammar_guides: {
+    bg: "from-teal-600 to-cyan-700",
+    light: "from-teal-100 to-cyan-200",
+    text: "text-teal-700",
+    badge: "bg-teal-100 text-teal-700",
+  },
+  listening: {
+    bg: "from-lime-600 to-green-700",
+    light: "from-lime-100 to-green-200",
+    text: "text-lime-700",
+    badge: "bg-lime-100 text-lime-700",
+  },
+  icebreaker: {
+    bg: "from-fuchsia-600 to-pink-700",
+    light: "from-fuchsia-100 to-pink-200",
+    text: "text-fuchsia-700",
+    badge: "bg-fuchsia-100 text-fuchsia-700",
   },
 };
 
