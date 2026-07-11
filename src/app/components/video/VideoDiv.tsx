@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { fetchLessonWithVideoContent } from "@/app/actions/modules";
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from "remark-gfm";
 import type { lessons, video_contents } from "@/generated/prisma/client";
 
 interface VideoDivProps {
@@ -83,7 +84,7 @@ export default function VideoDiv({ lessonId }: VideoDivProps) {
         <h2 className="text-xl font-bold text-white mb-3">{data.lesson.title}</h2>
         {videoContent?.description && (
           <article className="prose prose-zinc prose-invert max-w-none p-4 bg-[#0F0F21] rounded-md border border-slate-700">
-            <ReactMarkdown>{videoContent.description}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{videoContent.description}</ReactMarkdown>
           </article>
         )}
       </div>
