@@ -99,7 +99,7 @@ export default function FlashcardsDiv({ lessonId }: FlashcardsDivProps) {
     );
   }
 
-  const cards = lesson.flashcard_contents;
+  const cards = [...lesson.flashcard_contents].sort((a, b) => a.id - b.id);
 
   return (
     <div className="flex flex-col items-center gap-6 w-full px-4">
