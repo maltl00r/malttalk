@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { fetchLessonWithMentalAgility } from "@/app/actions/modules";
 import type { lessons, mental_agility_contents } from "@/generated/prisma/client";
 
@@ -80,6 +80,29 @@ export default function MentalAgilityDiv({ lessonId }: MentalAgilityDivProps) {
     }
   }, [timeRemaining, answered]);
 
+  const challenges = data.lesson?.mental_agility_contents || [];
+  const currentChallenge = challenges[currentChallengeIndex] || null;
+  const answerOptions = useMemo(() => {
+    if (!currentChallenge) return [];
+
+    const options = [
+      currentChallenge.correct_answer,
+      currentChallenge.option_b,
+      currentChallenge.option_c,
+      ...(currentChallenge.option_d ? [currentChallenge.option_d] : []),
+    ];
+
+    for (let i = options.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+
+    return options.map((value, index) => ({
+      label: String.fromCharCode(65 + index),
+      value,
+    }));
+  }, [currentChallenge]);
+
   if (data.isLoading) {
     return (
       <div className="p-4 bg-blue-900/50 text-blue-200 border border-blue-800 rounded-md">
@@ -96,7 +119,6 @@ export default function MentalAgilityDiv({ lessonId }: MentalAgilityDivProps) {
     );
   }
 
-  const challenges = data.lesson.mental_agility_contents || [];
   if (challenges.length === 0) {
     return (
       <div className="p-4 bg-yellow-900/50 text-yellow-200 border border-yellow-800 rounded-md">
@@ -135,7 +157,6 @@ export default function MentalAgilityDiv({ lessonId }: MentalAgilityDivProps) {
     );
   }
 
-  const currentChallenge = challenges[currentChallengeIndex];
   const isAnswerCorrect = selectedAnswer === currentChallenge.correct_answer;
 
   return (
@@ -210,16 +231,9 @@ export default function MentalAgilityDiv({ lessonId }: MentalAgilityDivProps) {
         <div className="space-y-3 mt-8">
           <p className="text-sm text-gray-300 font-semibold">Select the correct answer:</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {[
-              { label: "A", value: currentChallenge.correct_answer },
-              { label: "B", value: currentChallenge.option_b },
-              { label: "C", value: currentChallenge.option_c },
-              ...(currentChallenge.option_d
-                ? [{ label: "D", value: currentChallenge.option_d }]
-                : []),
-            ].map((option) => (
+            {answerOptions.map((option, index) => (
               <button
-                key={option.label}
+                key={`${option.label}-${index}`}
                 disabled={answered}
                 onClick={() => {
                   setSelectedAnswer(option.value);

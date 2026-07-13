@@ -157,7 +157,7 @@ export default function ReadingDiv({ lessonId }: ReadingDivProps) {
           onClick={() => setSelectedWord(null)}
         >
           <div
-            className="bg-slate-900 rounded-lg border border-cyan-500/30 p-6 max-w-sm shadow-2xl"
+            className="bg-slate-900 rounded-lg border border-cyan-500/30 p-6 w-full max-w-3xl shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -179,7 +179,7 @@ export default function ReadingDiv({ lessonId }: ReadingDivProps) {
                 <img
                   src={selectedWord.image_url}
                   alt={selectedWord.word}
-                  className="w-full h-40 object-cover rounded-lg"
+                  className="w-full aspect-video object-cover rounded-lg"
                   onError={(e) => {
                     e.currentTarget.style.display = "none";
                   }}

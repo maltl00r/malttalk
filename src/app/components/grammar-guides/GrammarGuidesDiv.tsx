@@ -14,6 +14,56 @@ interface LessonData {
   error: string | null;
 }
 
+interface StructureData {
+  parts?: Array<{ text?: string; label?: string; color?: string }>;
+  explanation?: string;
+}
+
+const parseStructureSchema = (raw: string): StructureData => {
+  if (!raw || typeof raw !== "string") {
+    return { parts: [] };
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object") {
+      return parsed as StructureData;
+    }
+  } catch {
+    // Fall back to plain text representation below.
+  }
+
+  return {
+    parts: [{ text: raw.trim() || "Estructura no disponible", color: "#3b82f6" }],
+  };
+};
+
+const parseExampleSentences = (raw: string): string[] => {
+  if (!raw || typeof raw !== "string") {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      return parsed.map((item) => String(item)).filter(Boolean);
+    }
+    if (typeof parsed === "string") {
+      return parsed
+        .split(/\r?\n|\s*\|\s*|\s*;\s*/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+    }
+  } catch {
+    // Fall back to plain text splitting below.
+  }
+
+  return raw
+    .split(/\r?\n|\s*\|\s*|\s*;\s*/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+};
+
 /**
  * GRAMMAR GUIDES COMPONENT
  * 
@@ -84,20 +134,8 @@ export default function GrammarGuidesDiv({ lessonId }: GrammarGuidesDivProps) {
   }
 
   const currentGuide = guides[currentGuideIndex];
-  let structureData: any = { parts: [] };
-  let examplesData: string[] = [];
-
-  try {
-    structureData = JSON.parse(currentGuide.structure_schema);
-  } catch (e) {
-    console.error("Error parsing structure schema:", e);
-  }
-
-  try {
-    examplesData = JSON.parse(currentGuide.example_sentences);
-  } catch (e) {
-    console.error("Error parsing examples:", e);
-  }
+  const structureData = parseStructureSchema(currentGuide.structure_schema);
+  const examplesData = parseExampleSentences(currentGuide.example_sentences);
 
   const handleNext = () => {
     if (currentGuideIndex < guides.length - 1) {
@@ -148,7 +186,7 @@ export default function GrammarGuidesDiv({ lessonId }: GrammarGuidesDivProps) {
           {/* Color-coded parts */}
           <div className="flex flex-wrap gap-2 mb-4">
             {structureData.parts && Array.isArray(structureData.parts) ? (
-              structureData.parts.map((part: any, idx: number) => (
+              structureData.parts.map((part, idx) => (
                 <div
                   key={idx}
                   className="px-4 py-2 rounded-lg font-medium text-white"
