@@ -14,6 +14,16 @@ interface LessonData {
   error: string | null;
 }
 
+// Función auxiliar para mezclar (barajar) el array de opciones
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 /**
  * CLOSING EXAM COMPONENT
  * 
@@ -27,6 +37,7 @@ interface LessonData {
  * - Passing score requirements
  * - Points per question
  * - Progress indication
+ * - Randomized answer options
  * 
  * @component
  * @param {ClosingExamDivProps} props - Component props
@@ -46,6 +57,9 @@ export default function ClosingExamDiv({ lessonId }: ClosingExamDivProps) {
   const [score, setScore] = useState(0);
   const [totalPoints, setTotalPoints] = useState(0);
   const [completed, setCompleted] = useState(false);
+  
+  // Nuevo estado para guardar las opciones mezcladas de la pregunta actual
+  const [shuffledOptions, setShuffledOptions] = useState<{ value: string; isCorrect: boolean }[]>([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -68,6 +82,22 @@ export default function ClosingExamDiv({ lessonId }: ClosingExamDivProps) {
 
     loadData();
   }, [lessonId]);
+
+  // Efecto para mezclar las opciones cada vez que cambia la pregunta actual
+  useEffect(() => {
+    if (data.lesson?.closing_exam_contents) {
+      const currentQ = data.lesson.closing_exam_contents[currentQuestionIndex];
+      if (currentQ) {
+        const options = [
+          { value: currentQ.correct_answer, isCorrect: true },
+          { value: currentQ.option_b, isCorrect: false },
+          { value: currentQ.option_c, isCorrect: false },
+          ...(currentQ.option_d ? [{ value: currentQ.option_d, isCorrect: false }] : []),
+        ];
+        setShuffledOptions(shuffleArray(options));
+      }
+    }
+  }, [currentQuestionIndex, data.lesson]);
 
   // Timer countdown
   useEffect(() => {
@@ -218,37 +248,33 @@ export default function ClosingExamDiv({ lessonId }: ClosingExamDivProps) {
         <div className="space-y-3 mt-8">
           <p className="text-sm text-gray-300 font-semibold">Select your answer:</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {[
-              { label: "A", value: currentQuestion.correct_answer },
-              { label: "B", value: currentQuestion.option_b },
-              { label: "C", value: currentQuestion.option_c },
-              ...(currentQuestion.option_d
-                ? [{ label: "D", value: currentQuestion.option_d }]
-                : []),
-            ].map((option) => (
-              <button
-                key={option.label}
-                disabled={answered}
-                onClick={() => {
-                  setSelectedAnswer(option.value);
-                  setAnswered(true);
-                  if (option.value === currentQuestion.correct_answer) {
-                    setScore((prev) => prev + currentQuestion.points_value);
-                  }
-                }}
-                className={`p-4 rounded-lg text-left font-semibold transition ${
-                  selectedAnswer === option.value
-                    ? isAnswerCorrect
-                      ? "bg-green-600/80 text-white border-2 border-green-400"
-                      : "bg-red-600/80 text-white border-2 border-red-400"
-                    : answered && option.value === currentQuestion.correct_answer
-                      ? "bg-green-600/40 text-green-100 border-2 border-green-500"
-                      : "bg-slate-700 text-slate-100 border-2 border-slate-600 hover:border-purple-500 cursor-pointer"
-                }`}
-              >
-                <span className="font-bold text-lg">{option.label}.</span> {option.value}
-              </button>
-            ))}
+            {shuffledOptions.map((option, index) => {
+              const label = String.fromCharCode(65 + index); // A, B, C, D dinámicamente
+              return (
+                <button
+                  key={index}
+                  disabled={answered}
+                  onClick={() => {
+                    setSelectedAnswer(option.value);
+                    setAnswered(true);
+                    if (option.isCorrect) {
+                      setScore((prev) => prev + currentQuestion.points_value);
+                    }
+                  }}
+                  className={`p-4 rounded-lg text-left font-semibold transition ${
+                    selectedAnswer === option.value
+                      ? option.isCorrect
+                        ? "bg-green-600/80 text-white border-2 border-green-400"
+                        : "bg-red-600/80 text-white border-2 border-red-400"
+                      : answered && option.isCorrect
+                        ? "bg-green-600/40 text-green-100 border-2 border-green-500"
+                        : "bg-slate-700 text-slate-100 border-2 border-slate-600 hover:border-purple-500 cursor-pointer"
+                  }`}
+                >
+                  <span className="font-bold text-lg">{label}.</span> {option.value}
+                </button>
+              );
+            })}
           </div>
         </div>
 
