@@ -14,6 +14,16 @@ interface LessonData {
   error: string | null;
 }
 
+// Función auxiliar para mezclar (barajar) el array de opciones
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 /**
  * LISTENING COMPREHENSION COMPONENT
  * 
@@ -27,6 +37,7 @@ interface LessonData {
  * - Difficulty level indicators
  * - Progress tracking through exercises
  * - Answer replay capability
+ * - Randomized image options
  * 
  * @component
  * @param {ListeningDivProps} props - Component props
@@ -45,6 +56,9 @@ export default function ListeningDiv({ lessonId }: ListeningDivProps) {
   const [correct, setCorrect] = useState(false);
   const [score, setScore] = useState(0);
   const [completed, setCompleted] = useState(false);
+  
+  // Nuevo estado para las opciones de imágenes barajadas
+  const [shuffledOptions, setShuffledOptions] = useState<any[]>([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -62,6 +76,33 @@ export default function ListeningDiv({ lessonId }: ListeningDivProps) {
 
     loadData();
   }, [lessonId]);
+
+  // Efecto para procesar y mezclar las imágenes cada vez que cambia la pregunta
+  useEffect(() => {
+    if (data.lesson?.listening_contents) {
+      const currentExercise = data.lesson.listening_contents[currentQuestionIndex];
+      if (currentExercise) {
+        try {
+          // Parseamos el JSON original
+          const parsedOptions = JSON.parse(currentExercise.image_options);
+          
+          // Mapeamos para guardar qué opción es la correcta ANTES de mezclar
+          // basándonos en el índice original (currentExercise.correct_answer)
+          const optionsWithCorrectness = parsedOptions.map((opt: any, index: number) => ({
+            ...opt,
+            isCorrect: index === currentExercise.correct_answer,
+            originalIndex: index
+          }));
+
+          // Mezclamos el nuevo array y lo guardamos en el estado
+          setShuffledOptions(shuffleArray(optionsWithCorrectness));
+        } catch (e) {
+          console.error("Error parsing image options:", e);
+          setShuffledOptions([]);
+        }
+      }
+    }
+  }, [currentQuestionIndex, data.lesson]);
 
   if (data.isLoading) {
     return (
@@ -114,13 +155,6 @@ export default function ListeningDiv({ lessonId }: ListeningDivProps) {
   }
 
   const currentExercise = exercises[currentQuestionIndex];
-  let imageOptions: any[] = [];
-
-  try {
-    imageOptions = JSON.parse(currentExercise.image_options);
-  } catch (e) {
-    console.error("Error parsing image options:", e);
-  }
 
   const handleSelectImage = (index: number) => {
     if (answered) return;
@@ -128,10 +162,11 @@ export default function ListeningDiv({ lessonId }: ListeningDivProps) {
     setSelectedImageIndex(index);
     setAnswered(true);
     
-    const isCorrect = index === currentExercise.correct_answer;
-    setCorrect(isCorrect);
+    // Verificamos si es correcta usando la propiedad que agregamos al barajar
+    const isAnswerCorrect = shuffledOptions[index].isCorrect;
+    setCorrect(isAnswerCorrect);
     
-    if (isCorrect) {
+    if (isAnswerCorrect) {
       setScore(score + 1);
     }
   };
@@ -182,8 +217,8 @@ export default function ListeningDiv({ lessonId }: ListeningDivProps) {
 
       {/* Image Options */}
       <div className="grid grid-cols-2 gap-4 mb-6">
-        {imageOptions && Array.isArray(imageOptions) && imageOptions.length > 0 ? (
-          imageOptions.map((option, idx) => (
+        {shuffledOptions && shuffledOptions.length > 0 ? (
+          shuffledOptions.map((option, idx) => (
             <button
               key={idx}
               onClick={() => handleSelectImage(idx)}

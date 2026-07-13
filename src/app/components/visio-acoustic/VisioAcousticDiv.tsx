@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { fetchLessonWithVisioAcousticContent } from "@/app/actions/modules";
 import type { lessons, visio_acoustic_contents } from "@/generated/prisma/client";
 
@@ -20,6 +20,16 @@ interface LessonData {
   error: string | null;
 }
 
+// Función auxiliar para mezclar (barajar) el array de opciones
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 /**
  * VISIO-ACOUSTIC DIAGNOSTIC QUIZ COMPONENT
  * 
@@ -35,6 +45,7 @@ interface LessonData {
  * - Score tracking and feedback
  * - Progress indication
  * - Difficulty level display
+ * - Randomized answer options
  * 
  * @component
  * @param {VisioAcousticDivProps} props - Component props
@@ -135,6 +146,25 @@ export default function VisioAcousticDiv({ lessonId }: VisioAcousticDivProps) {
   const currentQuestion = questions[currentQuestionIndex];
   const isAnswerCorrect = selectedAnswer === currentQuestion.correct_answer;
 
+  // Mezclar las opciones de respuesta cada vez que cambia la pregunta actual
+  const answerOptions = useMemo(() => {
+    if (!currentQuestion) return [];
+
+    const options = [
+      currentQuestion.correct_answer,
+      currentQuestion.option_b,
+      currentQuestion.option_c,
+      ...(currentQuestion.option_d ? [currentQuestion.option_d] : []),
+    ];
+
+    const shuffled = shuffleArray(options);
+
+    return shuffled.map((value, index) => ({
+      label: String.fromCharCode(65 + index), // A, B, C, D
+      value,
+    }));
+  }, [currentQuestion]);
+
   return (
     <div className="max-w-4xl mx-auto space-y-6 p-6">
       {/* Header with progress */}
@@ -185,6 +215,7 @@ export default function VisioAcousticDiv({ lessonId }: VisioAcousticDivProps) {
             controls
             className="w-full rounded-lg bg-slate-900 accent-blue-500"
             controlsList="nodownload"
+            key={currentQuestion.sound_url} // Asegura que el reproductor recargue el audio si cambia la URL
           >
             <source src={currentQuestion.sound_url} />
             Your browser does not support the audio element.
@@ -211,16 +242,9 @@ export default function VisioAcousticDiv({ lessonId }: VisioAcousticDivProps) {
         <div className="space-y-3 mt-8">
           <p className="text-sm text-gray-300 font-semibold">Select your answer:</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {[
-              { label: "A", value: currentQuestion.correct_answer },
-              { label: "B", value: currentQuestion.option_b },
-              { label: "C", value: currentQuestion.option_c },
-              ...(currentQuestion.option_d
-                ? [{ label: "D", value: currentQuestion.option_d }]
-                : []),
-            ].map((option) => (
+            {answerOptions.map((option, index) => (
               <button
-                key={option.label}
+                key={`${option.label}-${index}`}
                 disabled={answered}
                 onClick={() => {
                   setSelectedAnswer(option.value);

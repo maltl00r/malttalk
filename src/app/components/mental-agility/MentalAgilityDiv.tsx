@@ -14,6 +14,16 @@ interface LessonData {
   error: string | null;
 }
 
+// Función auxiliar para mezclar (barajar) el array de opciones de forma consistente
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 /**
  * MENTAL AGILITY CHALLENGES COMPONENT
  * 
@@ -27,6 +37,7 @@ interface LessonData {
  * - Score tracking
  * - Time-based feedback
  * - Progress indication
+ * - Randomized answer options
  * 
  * @component
  * @param {MentalAgilityDivProps} props - Component props
@@ -82,6 +93,8 @@ export default function MentalAgilityDiv({ lessonId }: MentalAgilityDivProps) {
 
   const challenges = data.lesson?.mental_agility_contents || [];
   const currentChallenge = challenges[currentChallengeIndex] || null;
+  
+  // Utilizamos la función auxiliar shuffleArray en lugar del bucle for manual
   const answerOptions = useMemo(() => {
     if (!currentChallenge) return [];
 
@@ -92,13 +105,10 @@ export default function MentalAgilityDiv({ lessonId }: MentalAgilityDivProps) {
       ...(currentChallenge.option_d ? [currentChallenge.option_d] : []),
     ];
 
-    for (let i = options.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [options[i], options[j]] = [options[j], options[i]];
-    }
+    const shuffled = shuffleArray(options);
 
-    return options.map((value, index) => ({
-      label: String.fromCharCode(65 + index),
+    return shuffled.map((value, index) => ({
+      label: String.fromCharCode(65 + index), // A, B, C, D
       value,
     }));
   }, [currentChallenge]);
