@@ -207,6 +207,7 @@ export default function ListeningDiv({ lessonId }: ListeningDivProps) {
         {/* Audio Player */}
         <div className="bg-slate-700/50 p-4 rounded-lg mb-4 border border-pink-600/20">
           <audio
+            key={currentExercise.audio_url}
             controls
             src={currentExercise.audio_url}
             className="w-full focus:outline-none"
