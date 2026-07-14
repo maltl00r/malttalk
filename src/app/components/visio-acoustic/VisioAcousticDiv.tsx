@@ -32,24 +32,6 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 
 /**
  * VISIO-ACOUSTIC DIAGNOSTIC QUIZ COMPONENT
- * 
- * Renders an interactive quiz system for audio-visual association exercises.
- * Students listen to audio (pronunciation/sound) and associate it with visual
- * elements (gestures or images). Questions are presented one at a time with
- * multiple-choice answer options.
- * 
- * Features:
- * - Audio playback using HTML5 audio element
- * - Visual display of reference image/gesture
- * - Multiple choice options (A, B, C, D)
- * - Score tracking and feedback
- * - Progress indication
- * - Difficulty level display
- * - Randomized answer options
- * 
- * @component
- * @param {VisioAcousticDivProps} props - Component props
- * @returns {JSX.Element} Rendered quiz interface
  */
 export default function VisioAcousticDiv({ lessonId }: VisioAcousticDivProps) {
   const [data, setData] = useState<LessonData>({
@@ -86,6 +68,32 @@ export default function VisioAcousticDiv({ lessonId }: VisioAcousticDivProps) {
     loadData();
   }, [lessonId]);
 
+  // ¡CORRECCIÓN!: Preparamos los datos ANTES de cualquier `return` (regla de los Hooks)
+  const questions = data.lesson?.visio_acoustic_contents || [];
+  const currentQuestion = questions[currentQuestionIndex] || null;
+
+  // Mezclar las opciones de respuesta cada vez que cambia la pregunta actual
+  const answerOptions = useMemo(() => {
+    if (!currentQuestion) return [];
+
+    const options = [
+      currentQuestion.correct_answer,
+      currentQuestion.option_b,
+      currentQuestion.option_c,
+      ...(currentQuestion.option_d ? [currentQuestion.option_d] : []),
+    ];
+
+    const shuffled = shuffleArray(options);
+
+    return shuffled.map((value, index) => ({
+      label: String.fromCharCode(65 + index), // A, B, C, D
+      value,
+    }));
+  }, [currentQuestion]);
+
+
+  // ---- A partir de aquí ya podemos usar early returns ----
+
   // Show loading state
   if (data.isLoading) {
     return (
@@ -104,7 +112,6 @@ export default function VisioAcousticDiv({ lessonId }: VisioAcousticDivProps) {
     );
   }
 
-  const questions = data.lesson.visio_acoustic_contents || [];
   if (questions.length === 0) {
     return (
       <div className="p-4 bg-yellow-900/50 text-yellow-200 border border-yellow-800 rounded-md">
@@ -143,27 +150,7 @@ export default function VisioAcousticDiv({ lessonId }: VisioAcousticDivProps) {
     );
   }
 
-  const currentQuestion = questions[currentQuestionIndex];
   const isAnswerCorrect = selectedAnswer === currentQuestion.correct_answer;
-
-  // Mezclar las opciones de respuesta cada vez que cambia la pregunta actual
-  const answerOptions = useMemo(() => {
-    if (!currentQuestion) return [];
-
-    const options = [
-      currentQuestion.correct_answer,
-      currentQuestion.option_b,
-      currentQuestion.option_c,
-      ...(currentQuestion.option_d ? [currentQuestion.option_d] : []),
-    ];
-
-    const shuffled = shuffleArray(options);
-
-    return shuffled.map((value, index) => ({
-      label: String.fromCharCode(65 + index), // A, B, C, D
-      value,
-    }));
-  }, [currentQuestion]);
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 p-6">
@@ -215,7 +202,7 @@ export default function VisioAcousticDiv({ lessonId }: VisioAcousticDivProps) {
             controls
             className="w-full rounded-lg bg-slate-900 accent-blue-500"
             controlsList="nodownload"
-            key={currentQuestion.sound_url} // Asegura que el reproductor recargue el audio si cambia la URL
+            key={currentQuestion.sound_url}
           >
             <source src={currentQuestion.sound_url} />
             Your browser does not support the audio element.
