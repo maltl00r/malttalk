@@ -2,6 +2,8 @@
 
 An modern, free, and fully-featured language learning platform built with **Next.js 16**, **React 19**, **TypeScript**, **Prisma ORM**, and **Tailwind CSS**. Learn new languages through eleven content types: videos, flashcards, interactive drag-drop exercises, reading comprehension with glossary support, audio-visual diagnostic quizzes, writing expression challenges, timed mental agility challenges, unit closing exams, grammar guides with color-coded schemas, listening comprehension, and icebreaker dynamics.
 
+This repository is open source and distributed under the terms described in the [LICENSE](LICENSE) file.
+
 ## 📋 Quick Overview
 
 **MaltTalk** is a comprehensive language learning platform implementing proven pedagogical frameworks:
